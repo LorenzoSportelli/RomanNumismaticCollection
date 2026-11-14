@@ -1104,7 +1104,7 @@ const STEPS = [
   [207,207,207],[121,160,211],[128,172,160],[171,197,132],[236,213,120],[239,201,96],[243,184,75],[242,171,61],
   [241,157,52],[238,143,46],[234,127,41],[229,111,38],[223,96,35],[218,79,31],[214,61,28],[211,44,25]
 ];
-var coins = JSON.parse(localStorage.getItem('numismatica_v2') || '[]');
+var coins = [];
 var nextId = parseInt(localStorage.getItem('numismatica_nid') || '1');
 var editId = null;
 var deleteId = null;
@@ -2608,6 +2608,7 @@ makeDraggable(document.getElementById('detail-box'), document.getElementById('de
 
   window.confirmLogout = function() {
     document.getElementById('logout-confirm-modal').style.display = 'none';
+    localStorage.removeItem('numismatica_v2');
     signOut(auth);
   };
 
@@ -2773,6 +2774,8 @@ makeDraggable(document.getElementById('detail-box'), document.getElementById('de
       if (info) info.remove();
       coins = [];
       renderList();
+      updateMap();
+      if (typeof renderMints === 'function') renderMints();
     }
   });
 
