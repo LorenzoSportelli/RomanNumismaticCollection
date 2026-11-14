@@ -1609,7 +1609,17 @@ function provSyncHierarchy(){
     if (s.region && geoSel.regions.indexOf(s.region) < 0) geoSel.regions.push(s.region);
   });
 }
-
+function clearProvGeography(){
+  geoSel.provs = [];
+  geoSel.provExclusions = [];
+  geoSel.regions = [];
+  geoSel.subs = [];
+  geoSel.cities = [];
+  document.querySelectorAll('#pk-provs .pk-in, #pk-regions .pk-in, #pk-subs .pk-in, #pk-cities .pk-in')
+    .forEach(function(i){ i.value = ''; });
+  pkRenderAll();
+  previewHighlight();
+}
 var impGeoSel = { regions: [], subs: [], subsubs: [], cities: [] };
 var impAuthSel = [];
 var impIssuerSel = [];
@@ -1832,7 +1842,8 @@ var PICKERS = {
       var list = isProvMode() ? facet('c',provSelection()).map(cityById) : CITIES;
       return list.filter(Boolean).map(function(c){
         var s=c.sub?subById(c.sub):null;
-        return {id:c.id,label:c.name,small:s?s.name:''};
+        var reg = (s && s.region) || c.region || '';
+        return {id:c.id,label:c.name,small:reg};
       }).sort(byLabel);
     },
     get:function(){ return geoSel.cities; }, set:function(v){ geoSel.cities=v; },
