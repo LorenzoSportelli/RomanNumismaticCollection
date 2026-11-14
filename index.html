@@ -259,7 +259,6 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
   box-shadow: 0 2px 5px rgba(0,0,0,0.4);
 }
 
-
 #auth-screen {
   position: fixed; inset: 0; background: var(--bg); z-index: 999999;
   display: flex; align-items: center; justify-content: center;
@@ -283,8 +282,6 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 #user-info { display: flex; align-items: center; gap: 10px; font-size: .75rem; font-family: 'Inter', sans-serif; margin-right: 15px; }
 #btn-logout { background: transparent; border: 1px solid var(--border); padding: 3px 8px; cursor: pointer; font-size: .65rem; }
 #btn-logout:hover { background: var(--red); color: white; border-color: var(--red); }
-
-  
 </style>
 </head>
 <body>
@@ -983,7 +980,6 @@ Promise.all([
   setProvHint('CSV not loaded ('+e.message+'). Open the page through a local web server.');
 });
 
-
 var IMP_AUTHORITIES = ["Aemilian","Allectus","Amandus","Anonymous","Anthemius","Antoninus Pius","Arcadius","Augustus","Aurelian","Aureolus","Avitus","Balbinus","Basiliscus","Bonosus","Burgundians or Franks","Caracalla","Carausius","Carinus","Carus","Claudius","Claudius II Gothicus","Clodius Albinus","Clodius Macer","Commodus","Constans","Constantine I","Constantine II","Constantine III","Constantius Chlorus","Constantius II","Diadumenian","Didius Julianus","Diocletian","Domitian","Domitian II","Domitius Alexander","Dryantilla","Elagabalus","Eugenius","Flavius Marcus","Florianus","Gaius/Caligula","Galba","Galerius","Gallienus","Geta","Glycerius","Gordian I","Gordian II","Gordian III","Gratian","Hadrian","Honorius","Hostilian","Joannes","Jotapianus","Jovianus","Jovinus","Julian of Pannonia","Julian the Apostate","Julius Nepos","Laelianus","Leo I","Leo II","Leontius","Libius Severus","Licinius","Macrianus Minor","Macrinus","Magnentius","Magnus Maximus","Majorian","Mar. Silbannacus","Marcian","Marcus Aurelius","Marius","Maxentius","Maximian","Maximinus Daia","Maximinus Thrax","Maximus","Maximus of Barcelona","Nero","Nerva","Non-imperial African coinages","Numerian","Odoacer","Olybrius","Otho","Pacatianus","Pertinax","Pescennius Niger","Petronius Maximus","Philip the Arab","Postumus","Priscus Attalus","Probus","Procopius","Pupienus","Quietus","Quintillus","Regalianus","Romulus Augustulus","Saturninus","Septimius Severus","Severus Alexander","Severus II","Sponsianus","Suevi","Tacitus","Tetricus I","Theodosius I","Theodosius II","Tiberius","Titus","Trajan","Trajan Decius","Trebonianus Gallus","Uranius Antoninus","Vabalathus","Valens","Valentinian I","Valentinian II","Valentinian III","Valerian","Vespasian","Victorinus","Visigoths","Vitellius","Volusian","Zeno","Zenobia"];
 var IMP_ISSUERS = ["A. Licinius Nerva Silianus","Apronius","C. Annius Pollio","C. Antistius Reginus","C. Antistius Vetus","C. Asinius Gallus","C. Cassius Celer","C. Gallius Lupercus","C. Marcius Censorinus","C. Marius C F Tro","C. Naevius Capella","C. Plotius Rufus","C. Rubellius Blandus","C. Sulpicius Platorinus","Claudius Pulcher","Cn. PISO Cn.F","Cossus Cornelius Lentulus","Galus","L. Aelius Lamia","L. Aquillius Florus","L. Caninius Gallus","L. Lentulus","L. Mescinius Rufus","L. Naevius Surdinus","L. Valerius Catullus","L. Vinicius","Livineius Regulus","M. Durmius","M. Maecilius Tullus","M. Salvius Otho","M. Sanquinius","Messalla","P. Betilienus Bassus","P. Carisius","P. Licinius Stolo","P. Lurius Agrippa","P. Petronius Turpilianus","P. Silius P.","Q. Aelius Lamia","Q. Rustius","Sex. Nonius Quinctilianus","Sisenna","Statilius Taurus","T. Quinctius Crispinus Sulpicianus","Ti. Sempronius Graccus","Volusus Valerius Messalla"];
 var IMP_CITIES = ["Rome","Constantinople","Alexandria","Ambianum","Antioch of Pisidia","Antioch, Syria","Aquileia","Arelate","Arelate comitatensian mint","Barcino","Caesaraugusta","Caesarea in Cappadocia","Camulodunum","Carnuntum","Carthage","Cologne","Colonia Patricia","Comitatensian","Cyrene","Cyzicus","Eastern Mint","Emerita","Emisa","Ephesus","Heraclea","Laodicea ad Mare","Londinium","Lugdunum","Mainz","Mediolanum","Narbo","Nemausus","Nicaea (Gallia)","Nicomedia","Ostia","Pergamum","Ravenna","Ravenna comitatensian mint","Rotomagus","Samos","Serdica","Sirmium","Siscia","Southern Gallic Mint","Tarraco","Thessalonica","Ticinum","Trier","Tripolis","Uncertain value","Vienne","Viminacium"];
@@ -1074,7 +1070,6 @@ fetchFirst(['issuer.csv'])
     rebuildMintTypeIndex();
   })
   .catch(e => console.warn("issuer.csv non caricato:", e));
-
 
 function subById(id){ if(!id) return null; return PDB.subById[id]||PDB.subById[LEGACY_SUB_IDS[id]]||null; }
 function cityById(id){ if(!id) return null; return PDB.cityById[id]||null; }
@@ -1496,7 +1491,6 @@ function provSelection(){
     r: reignSel ? [reignSel] : [],
     m: magSel.slice(),
     c: geoSel.cities.slice(),
-    provs: geoSel.provs.slice(),
     regions: geoSel.regions.slice(),
     subs: geoSel.subs.slice()
   };
@@ -1505,12 +1499,6 @@ function tupleOk(t, sel, skip){
   if(skip!=='r' && sel.r.length && sel.r.indexOf(t.r)<0) return false;
   if(skip!=='m' && sel.m.length && sel.m.indexOf(t.m)<0) return false;
   if(skip!=='c' && sel.c.length && sel.c.indexOf(t.c)<0) return false;
-  if(sel.provs && sel.provs.length && t.c){
-    var provs = provsForCity(t.c);
-    var okProv = false;
-    for(var i=0;i<provs.length;i++){ if(sel.provs.indexOf(provs[i])>=0){ okProv=true; break; } }
-    if(!okProv) return false;
-  }
   if(sel.regions && sel.regions.length && t.g && sel.regions.indexOf(t.g)<0) return false;
   if(sel.subs && sel.subs.length && t.s && sel.subs.indexOf(t.s)<0) return false;
   return true;
@@ -1559,7 +1547,7 @@ function updateProvHint(){
   if(PDB.error) return;
   if(!isProvMode()){ setProvHint(''); return; }
   var sel=provSelection();
-  var any=DIMS.some(function(k){ return sel[k].length; }) || sel.provs.length || sel.regions.length || sel.subs.length;
+  var any=DIMS.some(function(k){ return sel[k].length; }) || sel.regions.length || sel.subs.length;
   if(!any){
     setProvHint(PDB.reigns.length+' reigns · '+PDB.mags.length+' magistrates · '+PDB.cities.length+' cities');
     return;
@@ -1602,7 +1590,6 @@ function provGeoRemove(key, id){
     else { geoSel.provExclusions = geoSel.provExclusions.filter(function(p){ return p !== id; }); }
   }
 }
-function provSyncProvinces(){}
 function provSyncHierarchy(){
   geoSel.cities.forEach(function(cid){
     var c = cityById(cid); if(!c) return;
@@ -1809,6 +1796,7 @@ var PICKERS = {
     single:true,
     items:function(){
       if(!PDB.ready) return [];
+      if (isProvMode() && reignSel) return [];
       var list = isProvMode() ? facet('r',provSelection()) : PDB.reigns.slice();
       return list.map(function(r){ return {id:r,label:reignLabel(r),small:isClientKing(r)?'client king':''}; }).sort(byLabel);
     },
@@ -2683,7 +2671,6 @@ makeDraggable(document.getElementById('detail-box'), document.getElementById('de
     }
   };
 
-  
   onAuthStateChanged(auth, async (user) => {
     if (user) {
       window.currentUser = user;
