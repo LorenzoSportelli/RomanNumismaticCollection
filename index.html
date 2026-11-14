@@ -259,6 +259,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
   box-shadow: 0 2px 5px rgba(0,0,0,0.4);
 }
 
+
 #auth-screen {
   position: fixed; inset: 0; background: var(--bg); z-index: 999999;
   display: flex; align-items: center; justify-content: center;
@@ -282,6 +283,8 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 #user-info { display: flex; align-items: center; gap: 10px; font-size: .75rem; font-family: 'Inter', sans-serif; margin-right: 15px; }
 #btn-logout { background: transparent; border: 1px solid var(--border); padding: 3px 8px; cursor: pointer; font-size: .65rem; }
 #btn-logout:hover { background: var(--red); color: white; border-color: var(--red); }
+
+  
 </style>
 </head>
 <body>
@@ -948,6 +951,15 @@ function buildProvDB(magRows, cityRows){
   });
   PDB.cities.forEach(function(c){ if(!withMag[c.id]) PDB.tuples.push({r:null,m:null,c:c.id,g:c.region,s:c.sub||null}); });
 
+  var existRC = {};
+  PDB.tuples.forEach(function(t){ if(t.r && t.c) existRC[t.r+'|'+t.c]=true; });
+  PDB.cities.forEach(function(c){
+    Object.keys(PDB.reignInfo).forEach(function(r){
+      if(existRC[r+'|'+c.id]) return;
+      PDB.tuples.push({r:r, m:null, c:c.id, g:c.region, s:c.sub||null});
+    });
+  });
+
   PDB.ready=true;
   applyProvDB();
 }
@@ -979,6 +991,7 @@ Promise.all([
   console.error('Errore caricamento CSV:', e);
   setProvHint('CSV not loaded ('+e.message+'). Open the page through a local web server.');
 });
+
 
 var IMP_AUTHORITIES = ["Aemilian","Allectus","Amandus","Anonymous","Anthemius","Antoninus Pius","Arcadius","Augustus","Aurelian","Aureolus","Avitus","Balbinus","Basiliscus","Bonosus","Burgundians or Franks","Caracalla","Carausius","Carinus","Carus","Claudius","Claudius II Gothicus","Clodius Albinus","Clodius Macer","Commodus","Constans","Constantine I","Constantine II","Constantine III","Constantius Chlorus","Constantius II","Diadumenian","Didius Julianus","Diocletian","Domitian","Domitian II","Domitius Alexander","Dryantilla","Elagabalus","Eugenius","Flavius Marcus","Florianus","Gaius/Caligula","Galba","Galerius","Gallienus","Geta","Glycerius","Gordian I","Gordian II","Gordian III","Gratian","Hadrian","Honorius","Hostilian","Joannes","Jotapianus","Jovianus","Jovinus","Julian of Pannonia","Julian the Apostate","Julius Nepos","Laelianus","Leo I","Leo II","Leontius","Libius Severus","Licinius","Macrianus Minor","Macrinus","Magnentius","Magnus Maximus","Majorian","Mar. Silbannacus","Marcian","Marcus Aurelius","Marius","Maxentius","Maximian","Maximinus Daia","Maximinus Thrax","Maximus","Maximus of Barcelona","Nero","Nerva","Non-imperial African coinages","Numerian","Odoacer","Olybrius","Otho","Pacatianus","Pertinax","Pescennius Niger","Petronius Maximus","Philip the Arab","Postumus","Priscus Attalus","Probus","Procopius","Pupienus","Quietus","Quintillus","Regalianus","Romulus Augustulus","Saturninus","Septimius Severus","Severus Alexander","Severus II","Sponsianus","Suevi","Tacitus","Tetricus I","Theodosius I","Theodosius II","Tiberius","Titus","Trajan","Trajan Decius","Trebonianus Gallus","Uranius Antoninus","Vabalathus","Valens","Valentinian I","Valentinian II","Valentinian III","Valerian","Vespasian","Victorinus","Visigoths","Vitellius","Volusian","Zeno","Zenobia"];
 var IMP_ISSUERS = ["A. Licinius Nerva Silianus","Apronius","C. Annius Pollio","C. Antistius Reginus","C. Antistius Vetus","C. Asinius Gallus","C. Cassius Celer","C. Gallius Lupercus","C. Marcius Censorinus","C. Marius C F Tro","C. Naevius Capella","C. Plotius Rufus","C. Rubellius Blandus","C. Sulpicius Platorinus","Claudius Pulcher","Cn. PISO Cn.F","Cossus Cornelius Lentulus","Galus","L. Aelius Lamia","L. Aquillius Florus","L. Caninius Gallus","L. Lentulus","L. Mescinius Rufus","L. Naevius Surdinus","L. Valerius Catullus","L. Vinicius","Livineius Regulus","M. Durmius","M. Maecilius Tullus","M. Salvius Otho","M. Sanquinius","Messalla","P. Betilienus Bassus","P. Carisius","P. Licinius Stolo","P. Lurius Agrippa","P. Petronius Turpilianus","P. Silius P.","Q. Aelius Lamia","Q. Rustius","Sex. Nonius Quinctilianus","Sisenna","Statilius Taurus","T. Quinctius Crispinus Sulpicianus","Ti. Sempronius Graccus","Volusus Valerius Messalla"];
@@ -1012,13 +1025,12 @@ var IMP_CITY_TO_SUBSUB = {
 };
 var IMP_MAP_TO_PROVS = {
   "Europe": ["Britannia","Dalmatia","Lugdunensis","Belgica","Aquitania","Narbonensis","Germania Superior","Germania Inferior","Tarraconensis","Baetica","Lusitania","Italia","Macedonia","Pannonia Superior","Pannonia Inferior","Achaia","Thracia","Moesia Superior","Moesia Inferior"],
-  "Italy": ["Italia"],"Asia": ["Asia","Bithynia et Pontus","Galatia et Cappadocia","Syria","Iudaea"],
-  "Britannia": ["Britannia"],"Dalmatia": ["Dalmatia"],"Gallia": ["Lugdunensis","Belgica","Aquitania","Narbonensis"],"Germania": ["Germania Superior","Germania Inferior"],"Hispania": ["Tarraconensis","Baetica","Lusitania"],"Macedon": ["Macedonia"],"Pannonia": ["Pannonia Superior","Pannonia Inferior"],"Peloponnesus": ["Achaia"],"Thrace": ["Thracia","Moesia Superior","Moesia Inferior"],"Bithynia": ["Bithynia et Pontus"],"Cappadocia": ["Galatia et Cappadocia"],"Ionia": ["Asia"],"Mysia": ["Asia"],"Pisidia": ["Galatia et Cappadocia"],"Syria": ["Syria","Iudaea"],"Cyrenaica": ["Creta et Cyrene"],"Egypt": ["Aegyptus"],
+  "Italy": ["Italia"],"Asia": ["Asia","Bithynia et Pontus","Galatia et Cappadocia","Syria","Iudaea"],"Africa": ["Africa Proconsularis","Creta et Cyrene","Aegyptus"],
+  "Britannia": ["Britannia"],"Dalmatia": ["Dalmatia"],"Gallia": ["Lugdunensis","Belgica","Aquitania","Narbonensis"],"Germania": ["Germania Superior","Germania Inferior"],"Hispania": ["Tarraconensis","Baetica","Lusitania"],"Macedon": ["Macedonia"],"Pannonia": ["Pannonia Superior","Pannonia Inferior"],"Peloponnesus": ["Achaia"],"Thrace": ["Thracia","Moesia Superior","Moesia Inferior"],"Bithynia": ["Bithynia et Pontus"],"Cappadocia": ["Galatia et Cappadocia"],"Ionia": ["Asia"],"Mysia": ["Asia"],"Pisidia": ["Galatia et Cappadocia"],"Syria": ["Syria","Iudaea"],"Africa": ["Africa Proconsularis"],"Cyrenaica": ["Creta et Cyrene"],"Egypt": ["Aegyptus"],
   "Gallia Cisalpina": ["Italia"],"Gallia Transalpina": ["Narbonensis","Lugdunensis"],"Hispania Citerior": ["Tarraconensis"],"Hispania Ulterior": ["Baetica","Lusitania"],
   "Italia — Regio I — Latium et Campania": ["Italia"],"Italia — Regio II — Apulia et Calabria": ["Italia"],"Italia — Regio III — Lucania et Bruttii": ["Italia"],"Italia — Regio IV — Samnium": ["Italia"],"Italia — Regio V — Picenum": ["Italia"],"Italia — Regio VI — Umbria et Ager Gallicus": ["Italia"],"Italia — Regio VII — Etruria": ["Italia"],"Italia — Regio VIII — Aemilia": ["Italia"],"Italia — Regio IX — Liguria": ["Italia"],"Italia — Regio X — Venetia et Histria": ["Italia"],"Italia — Regio XI — Transpadana": ["Italia"],
   "Bisaltian District": ["Macedonia"],"Inland Cities of Thrace": ["Thracia"],"The European Coast of the Propontis": ["Thracia"],"Asia Minor": ["Asia"],"Islands off Ionia": ["Asia"],"Commagene": ["Syria"],"Judaea": ["Iudaea"],"Phoenicia": ["Syria"],"Seleucis and Pieria": ["Syria"],"Zeugitana": ["Africa Proconsularis"],
-  "Rome": ["Italia"], "Ostia": ["Italia"], "Ravenna": ["Italia"], "Ravenna comitatensian mint": ["Italia"],"Mediolanum": ["Italia"], "Aquileia": ["Italia"], "Ticinum": ["Italia"],"Constantinople": ["Thracia"], "Serdica": ["Thracia"], "Thessalonica": ["Macedonia"],"Sirmium": ["Pannonia Inferior"], "Siscia": ["Pannonia Superior"], "Viminacium": ["Moesia Superior"], "Carnuntum": ["Pannonia Superior"],"Alexandria": ["Aegyptus"], "Cyrene": ["Creta et Cyrene"], "Carthage": ["Africa Proconsularis"],"Antioch, Syria": ["Syria"], "Emisa": ["Syria"], "Laodicea ad Mare": ["Syria"],"Tripolis": ["Syria"], "Caesarea in Cappadocia": ["Galatia et Cappadocia"],"Antioch of Pisidia": ["Galatia et Cappadocia"], "Ephesus": ["Asia"], "Pergamum": ["Asia"],"Samos": ["Asia"], "Cyzicus": ["Asia"], "Nicomedia": ["Bithynia et Pontus"], "Heraclea": ["Bithynia et Pontus"],"Lugdunum": ["Lugdunensis"], "Arelate": ["Narbonensis"], "Arelate comitatensian mint": ["Narbonensis"],"Narbo": ["Narbonensis"], "Vienne": ["Narbonensis"], "Ambianum": ["Belgica"],"Rotomagus": ["Lugdunensis"], "Nemausus": ["Narbonensis"], "Nicaea (Gallia)": ["Alpes Maritimae"],"Trier": ["Belgica"], "Cologne": ["Germania Inferior"], "Mainz": ["Germania Superior"],"Londinium": ["Britannia"], "Camulodunum": ["Britannia"],"Tarraco": ["Tarraconensis"], "Emerita": ["Lusitania"], "Colonia Patricia": ["Baetica"],"Barcino": ["Tarraconensis"], "Caesaraugusta": ["Tarraconensis"],
-  "Africa": ["Africa Proconsularis"]
+  "Rome": ["Italia"], "Ostia": ["Italia"], "Ravenna": ["Italia"], "Ravenna comitatensian mint": ["Italia"],"Mediolanum": ["Italia"], "Aquileia": ["Italia"], "Ticinum": ["Italia"],"Constantinople": ["Thracia"], "Serdica": ["Thracia"], "Thessalonica": ["Macedonia"],"Sirmium": ["Pannonia Inferior"], "Siscia": ["Pannonia Superior"], "Viminacium": ["Moesia Superior"], "Carnuntum": ["Pannonia Superior"],"Alexandria": ["Aegyptus"], "Cyrene": ["Creta et Cyrene"], "Carthage": ["Africa Proconsularis"],"Antioch, Syria": ["Syria"], "Emisa": ["Syria"], "Laodicea ad Mare": ["Syria"],"Tripolis": ["Syria"], "Caesarea in Cappadocia": ["Galatia et Cappadocia"],"Antioch of Pisidia": ["Galatia et Cappadocia"], "Ephesus": ["Asia"], "Pergamum": ["Asia"],"Samos": ["Asia"], "Cyzicus": ["Asia"], "Nicomedia": ["Bithynia et Pontus"], "Heraclea": ["Bithynia et Pontus"],"Lugdunum": ["Lugdunensis"], "Arelate": ["Narbonensis"], "Arelate comitatensian mint": ["Narbonensis"],"Narbo": ["Narbonensis"], "Vienne": ["Narbonensis"], "Ambianum": ["Belgica"],"Rotomagus": ["Lugdunensis"], "Nemausus": ["Narbonensis"], "Nicaea (Gallia)": ["Alpes Maritimae"],"Trier": ["Belgica"], "Cologne": ["Germania Inferior"], "Mainz": ["Germania Superior"],"Londinium": ["Britannia"], "Camulodunum": ["Britannia"],"Tarraco": ["Tarraconensis"], "Emerita": ["Lusitania"], "Colonia Patricia": ["Baetica"],"Barcino": ["Tarraconensis"], "Caesaraugusta": ["Tarraconensis"]
 };
 
 var IDB = { ready: true, authorities: IMP_AUTHORITIES, issuers: IMP_ISSUERS, cities: IMP_CITIES, tree: IMP_GEO_TREE, cityToSub: IMP_CITY_TO_SUB, cityToSubsub: IMP_CITY_TO_SUBSUB, tuples: [] };
@@ -1047,11 +1059,10 @@ var REP_CITY_TO_SUBSUB = {
 };
 var REP_MAP_TO_PROVS = {
   "Europe": ["Britannia","Dalmatia","Lugdunensis","Belgica","Aquitania","Narbonensis","Germania Superior","Germania Inferior","Tarraconensis","Baetica","Lusitania","Italia","Macedonia","Pannonia Superior","Pannonia Inferior","Achaia","Thracia","Moesia Superior","Moesia Inferior"],
-  "Asia": ["Asia","Bithynia et Pontus","Galatia et Cappadocia","Syria","Iudaea"],"Britannia": ["Britannia"], "Dalmatia": ["Dalmatia"], "Gallia": ["Lugdunensis","Belgica","Aquitania","Narbonensis"],"Germania": ["Germania Superior","Germania Inferior"], "Hispania": ["Tarraconensis","Baetica","Lusitania"],"Macedon": ["Macedonia"], "Pannonia": ["Pannonia Superior","Pannonia Inferior"], "Peloponnesus": ["Achaia"],"Thrace": ["Thracia","Moesia Superior","Moesia Inferior"], "Bithynia": ["Bithynia et Pontus"],"Cappadocia": ["Galatia et Cappadocia"], "Ionia": ["Asia"], "Mysia": ["Asia"], "Pisidia": ["Galatia et Cappadocia"],"Syria": ["Syria","Iudaea"], "Cyrenaica": ["Creta et Cyrene"], "Egypt": ["Aegyptus"],
+  "Africa": ["Africa Proconsularis","Creta et Cyrene","Aegyptus"],"Asia": ["Asia","Bithynia et Pontus","Galatia et Cappadocia","Syria","Iudaea"],"Britannia": ["Britannia"], "Dalmatia": ["Dalmatia"], "Gallia": ["Lugdunensis","Belgica","Aquitania","Narbonensis"],"Germania": ["Germania Superior","Germania Inferior"], "Hispania": ["Tarraconensis","Baetica","Lusitania"],"Macedon": ["Macedonia"], "Pannonia": ["Pannonia Superior","Pannonia Inferior"], "Peloponnesus": ["Achaia"],"Thrace": ["Thracia","Moesia Superior","Moesia Inferior"], "Bithynia": ["Bithynia et Pontus"],"Cappadocia": ["Galatia et Cappadocia"], "Ionia": ["Asia"], "Mysia": ["Asia"], "Pisidia": ["Galatia et Cappadocia"],"Syria": ["Syria","Iudaea"], "Africa": ["Africa Proconsularis"], "Cyrenaica": ["Creta et Cyrene"], "Egypt": ["Aegyptus"],
   "Italia — Regio I — Latium et Campania": ["Italia"],"Italia — Regio II — Apulia et Calabria": ["Italia"],"Italia — Regio III — Lucania et Bruttii": ["Italia"],"Italia — Regio IV — Samnium": ["Italia"],"Italia — Regio V — Picenum": ["Italia"],"Italia — Regio VI — Umbria et Ager Gallicus": ["Italia"],"Italia — Regio VII — Etruria": ["Italia"],"Italia — Regio VIII — Aemilia": ["Italia"],"Italia — Regio IX — Liguria": ["Italia"],"Italia — Regio X — Venetia et Histria": ["Italia"],"Italia — Regio XI — Transpadana": ["Italia"],"Sardinia": ["Sardinia et Corsica"], "Sicily": ["Sicilia"],
   "Gallia Cisalpina": ["Italia"], "Gallia Transalpina": ["Narbonensis","Lugdunensis"],"Hispania Citerior": ["Tarraconensis"], "Hispania Ulterior": ["Baetica","Lusitania"],"Bisaltian District": ["Macedonia"], "Inland Cities of Thrace": ["Thracia"], "The European Coast of the Propontis": ["Thracia"],"Asia Minor": ["Asia"], "Islands off Ionia": ["Asia"], "Commagene": ["Syria"], "Judaea": ["Iudaea"], "Phoenicia": ["Syria"], "Seleucis and Pieria": ["Syria"], "Zeugitana": ["Africa Proconsularis"],
-  "Rome": ["Italia"], "Canusium": ["Italia"], "Luceria": ["Italia"], "Neapolis": ["Italia"], "Metapontum": ["Italia"], "Messana": ["Sicilia"],"Osca": ["Tarraconensis"], "Salpesa": ["Baetica"], "Massalia": ["Narbonensis"], "Lugdunum": ["Lugdunensis"], "Narbo": ["Narbonensis"],"Antioch, Syria": ["Syria"], "Laodiceia ad Lycum": ["Asia"], "Apollonia, Illyria": ["Macedonia"], "Corcyra": ["Macedonia"],"Sicily 1": ["Sicilia"], "Sicily 2": ["Sicilia"],"Italy (Central)": ["Italia"], "Italy (North)": ["Italia"], "Italy (South)": ["Italia"], "Italy (Southeast)": ["Italia"],"Eastern Roman Mint": ["Asia"], "Uncertain value": ["Italia"],
-  "Africa": ["Africa Proconsularis"]
+  "Rome": ["Italia"], "Canusium": ["Italia"], "Luceria": ["Italia"], "Neapolis": ["Italia"], "Metapontum": ["Italia"], "Messana": ["Sicilia"],"Osca": ["Tarraconensis"], "Salpesa": ["Baetica"], "Massalia": ["Narbonensis"], "Lugdunum": ["Lugdunensis"], "Narbo": ["Narbonensis"],"Antioch, Syria": ["Syria"], "Laodiceia ad Lycum": ["Asia"], "Apollonia, Illyria": ["Macedonia"], "Corcyra": ["Macedonia"],"Sicily 1": ["Sicilia"], "Sicily 2": ["Sicilia"],"Italy (Central)": ["Italia"], "Italy (North)": ["Italia"], "Italy (South)": ["Italia"], "Italy (Southeast)": ["Italia"],"Eastern Roman Mint": ["Asia"], "Uncertain value": ["Italia"]
 };
 var REP_ISSUERS = [];
 var RDB = { ready: true, issuers: [], cities: REP_CITIES, tree: REP_GEO_TREE, cityToSub: REP_CITY_TO_SUB, cityToSubsub: REP_CITY_TO_SUBSUB, tuples: [] };
@@ -1070,6 +1081,7 @@ fetchFirst(['issuer.csv'])
     rebuildMintTypeIndex();
   })
   .catch(e => console.warn("issuer.csv non caricato:", e));
+
 
 function subById(id){ if(!id) return null; return PDB.subById[id]||PDB.subById[LEGACY_SUB_IDS[id]]||null; }
 function cityById(id){ if(!id) return null; return PDB.cityById[id]||null; }
@@ -1138,17 +1150,21 @@ function initTagMenu(){
 function save(){
   localStorage.setItem('numismatica_v2', JSON.stringify(coins));
   localStorage.setItem('numismatica_nid', String(nextId));
-}
-function saveCoinToFirebase(c){
-  if (!window.currentUser) return;
-  import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js").then(({ getFirestore, doc, setDoc }) => {
-    import("https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js").then(({ getApps }) => {
-      const db = getFirestore(getApps()[0]);
-      const coinData = { ...c, userId: window.currentUser.uid };
-      setDoc(doc(db, "coins", String(c.id)), coinData)
-        .catch((error) => console.error("Errore salvataggio Firebase:", error));
+  
+  if (window.currentUser) {
+    const currentCoin = coins[coins.length - 1]; 
+    
+    import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js").then(({ getFirestore, doc, setDoc }) => {
+      import("https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js").then(({ getApps }) => {
+        const db = getFirestore(getApps()[0]);
+        
+        const coinData = { ...currentCoin, userId: window.currentUser.uid };
+        
+        setDoc(doc(db, "coins", String(currentCoin.id)), coinData)
+          .catch((error) => console.error("Errore salvataggio Firebase:", error));
+      });
     });
-  });
+  }
 }
 function val2color(v, mx) {
   if (!v || !mx) return "rgb(" + STEPS[0].join(",") + ")";
@@ -1386,7 +1402,8 @@ fetch('mints.json')
     allMintsData = data;
     MINT_GEO_CACHE = {};
     rebuildMintTypeIndex();
-    if (!allMintsData.length) { setMintMode('none'); setCoinFilter('all'); }
+    setMintMode('none');
+    setCoinFilter('all');
   })
   .catch(err => console.error("Errore caricamento mints.json:", err));
 
@@ -1474,8 +1491,10 @@ function setPeriod(p){
   document.getElementById('block-imp-geography').style.display=isImp?'':'none';
   document.getElementById('block-main-geography').style.display=isRep?'':'none';
   if(modalOpen()){
+    if(isProv) provEnforce();
     if(isImp) impEnforce();
     if(isRep) repEnforce();
+    if(isProv) rebuildReignPicker();
     pkRenderAll();
     previewHighlight();
   }
@@ -1487,20 +1506,16 @@ var reignSel = '';
 var DIMS = ['r','m','c'];
 
 function provSelection(){
-  return {
-    r: reignSel ? [reignSel] : [],
-    m: magSel.slice(),
-    c: geoSel.cities.slice(),
-    regions: geoSel.regions.slice(),
-    subs: geoSel.subs.slice()
-  };
+  return { r: reignSel ? [reignSel] : [], m: magSel.slice(), c: geoSel.cities.slice() };
 }
 function tupleOk(t, sel, skip){
   if(skip!=='r' && sel.r.length && sel.r.indexOf(t.r)<0) return false;
   if(skip!=='m' && sel.m.length && sel.m.indexOf(t.m)<0) return false;
   if(skip!=='c' && sel.c.length && sel.c.indexOf(t.c)<0) return false;
-  if(sel.regions && sel.regions.length && t.g && sel.regions.indexOf(t.g)<0) return false;
-  if(sel.subs && sel.subs.length && t.s && sel.subs.indexOf(t.s)<0) return false;
+  if(t.c){
+    if(geoSel.regions.length && t.g && geoSel.regions.indexOf(t.g)<0) return false;
+    if(geoSel.subs.length && t.s && geoSel.subs.indexOf(t.s)<0) return false;
+  }
   return true;
 }
 function facet(k, sel){
@@ -1533,6 +1548,7 @@ function provEnforce(){
   rebuildReignPicker();
   updateProvHint();
 }
+function reignSort(a,b){ return PDB.reigns.indexOf(a)-PDB.reigns.indexOf(b); }
 function rebuildReignPicker(){
   if(PDB.ready && isProvMode()){
     var compatible = facet('r', provSelection());
@@ -1547,8 +1563,8 @@ function updateProvHint(){
   if(PDB.error) return;
   if(!isProvMode()){ setProvHint(''); return; }
   var sel=provSelection();
-  var any=DIMS.some(function(k){ return sel[k].length; }) || sel.regions.length || sel.subs.length;
-  if(!any){
+  var any=DIMS.some(function(k){ return sel[k].length; });
+  if(!any && !geoSel.regions.length && !geoSel.subs.length){
     setProvHint(PDB.reigns.length+' reigns · '+PDB.mags.length+' magistrates · '+PDB.cities.length+' cities');
     return;
   }
@@ -1589,6 +1605,13 @@ function provGeoRemove(key, id){
     if (derived) { if (geoSel.provExclusions.indexOf(id) < 0) geoSel.provExclusions.push(id); }
     else { geoSel.provExclusions = geoSel.provExclusions.filter(function(p){ return p !== id; }); }
   }
+}
+function provSyncProvinces(){
+  var derived = resolveProvinces({ provs: [], regions: geoSel.regions, subs: geoSel.subs, cities: geoSel.cities }, '');
+  derived.forEach(function(p){
+    if (geoSel.provs.indexOf(p) < 0) geoSel.provs.push(p);
+    geoSel.provExclusions = geoSel.provExclusions.filter(function(x){ return x !== p; });
+  });
 }
 function provSyncHierarchy(){
   geoSel.cities.forEach(function(cid){
@@ -1796,7 +1819,6 @@ var PICKERS = {
     single:true,
     items:function(){
       if(!PDB.ready) return [];
-      if (isProvMode() && reignSel) return [];
       var list = isProvMode() ? facet('r',provSelection()) : PDB.reigns.slice();
       return list.map(function(r){ return {id:r,label:reignLabel(r),small:isClientKing(r)?'client king':''}; }).sort(byLabel);
     },
@@ -1805,7 +1827,7 @@ var PICKERS = {
     label:function(id){ return reignLabel(id); } },
   provs:{ el:'pk-provs',
     items:function(){ return PROVS.map(function(p){ return {id:p,label:p}; }); },
-    get:function(){ return geoSel.provs; },
+    get:function(){ return resolveProvinces(geoSel, ''); },
     set:function(v){ geoSel.provs=v; },
     label:function(id){ return id; } },
   regions:{ el:'pk-regions',
@@ -1968,9 +1990,8 @@ function pkRender(key){
     return '<span class="pk-chip"><span title="'+esc(P.label(id))+'">'+esc(P.label(id))+'</span><b data-id="'+esc(id)+'">&#215;</b></span>';
   }).join('');
   var q=norm(inp.value);
-  var allItems=P.items();
-  var items=allItems.filter(function(it){ return sel.indexOf(it.id)<0 && (!q || norm(it.label+' '+(it.small||'')).indexOf(q)>=0); });
-  if(!items.length){ list.innerHTML='<div class="pk-none">'+(allItems.length?'No match':'No options available')+'</div>'; return; }
+  var items=P.items().filter(function(it){ return sel.indexOf(it.id)<0 && (!q || norm(it.label+' '+(it.small||'')).indexOf(q)>=0); });
+  if(!items.length){ list.innerHTML='<div class="pk-none">'+(P.items().length?'No match':'No options available')+'</div>'; return; }
   list.innerHTML=items.slice(0,300).map(function(it){
     return '<div class="pk-item" data-id="'+esc(it.id)+'">'+esc(it.label)+(it.small?'<small>'+esc(it.small)+'</small>':'')+'</div>';
   }).join('')+(items.length>300?'<div class="pk-none">…'+(items.length-300)+' more — refine the search</div>':'');
@@ -2022,6 +2043,7 @@ function pkAfterChange(key){
   else {
     provSyncHierarchy();
     provEnforce();
+    provSyncProvinces();
   }
   pkRenderAll(); previewHighlight();
 }
@@ -2153,12 +2175,6 @@ function saveCoin(){
     var cityObj = cityById(geoSel.cities[0]);
     if (cityObj) provMint = cityObj.name;
   }
-  var provsDerived = isProv ? resolveProvinces({ provs: [], regions: geoSel.regions, subs: geoSel.subs, cities: geoSel.cities }, '') : [];
-  var geoToSave = normGeo(geoSel);
-  provsDerived.forEach(function(p){
-    if (geoToSave.provs.indexOf(p) < 0) geoToSave.provs.push(p);
-    geoToSave.provExclusions = geoToSave.provExclusions.filter(function(x){ return x !== p; });
-  });
   var c={
     id: editId!=null ? editId : nextId++,
     period: currentPeriod,
@@ -2175,7 +2191,7 @@ function saveCoin(){
     mags: isProv ? magSel.slice() : [],
     magNames: isProv ? magSel.map(id => magLabel(PDB.magById[id])) : [],
     metal:$v('f-metal'), denom:$v('f-denom'), date:$v('f-date'), desc:$v('f-desc'), notes:$v('f-notes'),
-    geo: isProv ? geoToSave : emptyGeo(),
+    geo: isProv ? normGeo(geoSel) : emptyGeo(),
     impRegions: isImp ? impGeoSel.regions.slice() : [],
     impSubs: isImp ? impGeoSel.subs.slice() : [],
     impSubsubs: isImp ? impGeoSel.subsubs.slice() : [],
@@ -2193,8 +2209,10 @@ function saveCoin(){
     coins.push(c);
   }
 
+  coins = coins.filter(function(x){ return x.id !== c.id; });
+  coins.push(c);
+
   save();
-  saveCoinToFirebase(c);
   
   closeModal();
   renderList();
@@ -2255,7 +2273,8 @@ function renderList(){
     var tags = '';
     var gn = coinGeoNames(c);
     if(visibleTags.includes('province')){
-      gn.provs.forEach(function(p){ tags += '<span class="ctag ct-prov-name">'+esc(p)+'</span>'; });
+      var provinces = c.period === 'prov' ? gn.provs : (c.period === 'imp' ? gn.provs : (c.period === 'rep' ? gn.provs : (c.prov ? [c.prov] : [])));
+      provinces.forEach(function(p){ tags += '<span class="ctag ct-prov-name">'+esc(p)+'</span>'; });
     }
     if(visibleTags.includes('region') && (c.period === 'prov' || c.period === 'imp' || c.period === 'rep')){
       gn.regions.forEach(function(r){ tags += '<span class="ctag ct-region">'+esc(r)+'</span>'; });
@@ -2566,20 +2585,20 @@ makeDraggable(document.getElementById('detail-box'), document.getElementById('de
       document.getElementById('new-email').value = '';
       document.getElementById('current-password').value = '';
       document.getElementById('new-password').value = '';
-      switchSettingsTab('email', null);
+      switchSettingsTab('email');
     }
   };
 
-  window.switchSettingsTab = function(tab, btn) {
+  window.switchSettingsTab = function(tab) {
     document.getElementById('settings-email-panel').style.display = tab === 'email' ? 'block' : 'none';
     document.getElementById('settings-password-panel').style.display = tab === 'password' ? 'block' : 'none';
     document.getElementById('settings-2fa-panel').style.display = tab === '2fa' ? 'block' : 'none';
     
-    document.querySelectorAll('.settings-tab').forEach(function(b) {
-      b.style.borderBottom = 'none';
-      b.style.color = 'var(--text2)';
+    document.querySelectorAll('.settings-tab').forEach(function(btn) {
+      btn.style.borderBottom = 'none';
+      btn.style.color = 'var(--text2)';
     });
-    const activeBtn = btn || (typeof event !== 'undefined' && event.currentTarget ? event.currentTarget : null);
+    const activeBtn = event.currentTarget;
     if (activeBtn) {
         activeBtn.style.borderBottom = '2px solid var(--text)';
         activeBtn.style.color = 'var(--text)';
@@ -2671,6 +2690,7 @@ makeDraggable(document.getElementById('detail-box'), document.getElementById('de
     }
   };
 
+  
   onAuthStateChanged(auth, async (user) => {
     if (user) {
       window.currentUser = user;
@@ -2735,10 +2755,6 @@ makeDraggable(document.getElementById('detail-box'), document.getElementById('de
     querySnapshot.forEach((doc) => {
       coins.push(doc.data());
     });
-    coins.forEach(function(c){
-      if(typeof c.id === 'number' && c.id >= nextId) nextId = c.id + 1;
-    });
-    localStorage.setItem('numismatica_nid', String(nextId));
     renderList();
     updateMap();
     if (typeof renderMints === 'function') renderMints();
@@ -2759,9 +2775,9 @@ makeDraggable(document.getElementById('detail-box'), document.getElementById('de
     </div>
     
     <div style="display:flex; gap:10px; margin-bottom:20px; border-bottom:1px solid var(--border); padding-bottom:10px;">
-      <button class="settings-tab active" onclick="switchSettingsTab('email', this)" style="background:none; border:none; cursor:pointer; font-size:0.8rem; padding:5px; color:var(--text); border-bottom:2px solid var(--text);">Email</button>
-      <button class="settings-tab" onclick="switchSettingsTab('password', this)" style="background:none; border:none; cursor:pointer; font-size:0.8rem; padding:5px; color:var(--text2);">Password</button>
-      <button class="settings-tab" onclick="switchSettingsTab('2fa', this)" style="background:none; border:none; cursor:pointer; font-size:0.8rem; padding:5px; color:var(--text2);">2FA</button>
+      <button class="settings-tab active" onclick="switchSettingsTab('email')" style="background:none; border:none; cursor:pointer; font-size:0.8rem; padding:5px; color:var(--text); border-bottom:2px solid var(--text);">Email</button>
+      <button class="settings-tab" onclick="switchSettingsTab('password')" style="background:none; border:none; cursor:pointer; font-size:0.8rem; padding:5px; color:var(--text2);">Password</button>
+      <button class="settings-tab" onclick="switchSettingsTab('2fa')" style="background:none; border:none; cursor:pointer; font-size:0.8rem; padding:5px; color:var(--text2);">2FA</button>
     </div>
 
     <div id="settings-email-panel">
