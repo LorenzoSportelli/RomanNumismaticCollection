@@ -1479,10 +1479,8 @@ function setPeriod(p){
   document.getElementById('block-imp-geography').style.display=isImp?'':'none';
   document.getElementById('block-main-geography').style.display=isRep?'':'none';
   if(modalOpen()){
-    if(isProv) provEnforce();
     if(isImp) impEnforce();
     if(isRep) repEnforce();
-    if(isProv) rebuildReignPicker();
     pkRenderAll();
     previewHighlight();
   }
@@ -1507,9 +1505,8 @@ function tupleOk(t, sel, skip){
   if(skip!=='r' && sel.r.length && sel.r.indexOf(t.r)<0) return false;
   if(skip!=='m' && sel.m.length && sel.m.indexOf(t.m)<0) return false;
   if(skip!=='c' && sel.c.length && sel.c.indexOf(t.c)<0) return false;
-  var c = t.c ? cityById(t.c) : null;
-  if(sel.provs && sel.provs.length){
-    var provs = c ? provsForCity(t.c) : [];
+  if(sel.provs && sel.provs.length && t.c){
+    var provs = provsForCity(t.c);
     var okProv = false;
     for(var i=0;i<provs.length;i++){ if(sel.provs.indexOf(provs[i])>=0){ okProv=true; break; } }
     if(!okProv) return false;
@@ -1605,13 +1602,7 @@ function provGeoRemove(key, id){
     else { geoSel.provExclusions = geoSel.provExclusions.filter(function(p){ return p !== id; }); }
   }
 }
-function provSyncProvinces(){
-  var derived = resolveProvinces({ provs: [], regions: geoSel.regions, subs: geoSel.subs, cities: geoSel.cities }, '');
-  derived.forEach(function(p){
-    if (geoSel.provs.indexOf(p) < 0) geoSel.provs.push(p);
-    geoSel.provExclusions = geoSel.provExclusions.filter(function(x){ return x !== p; });
-  });
-}
+function provSyncProvinces(){}
 function provSyncHierarchy(){
   geoSel.cities.forEach(function(cid){
     var c = cityById(cid); if(!c) return;
@@ -2043,7 +2034,6 @@ function pkAfterChange(key){
   else {
     provSyncHierarchy();
     provEnforce();
-    provSyncProvinces();
   }
   pkRenderAll(); previewHighlight();
 }
@@ -2175,6 +2165,12 @@ function saveCoin(){
     var cityObj = cityById(geoSel.cities[0]);
     if (cityObj) provMint = cityObj.name;
   }
+  var provsDerived = isProv ? resolveProvinces({ provs: [], regions: geoSel.regions, subs: geoSel.subs, cities: geoSel.cities }, '') : [];
+  var geoToSave = normGeo(geoSel);
+  provsDerived.forEach(function(p){
+    if (geoToSave.provs.indexOf(p) < 0) geoToSave.provs.push(p);
+    geoToSave.provExclusions = geoToSave.provExclusions.filter(function(x){ return x !== p; });
+  });
   var c={
     id: editId!=null ? editId : nextId++,
     period: currentPeriod,
@@ -2191,7 +2187,7 @@ function saveCoin(){
     mags: isProv ? magSel.slice() : [],
     magNames: isProv ? magSel.map(id => magLabel(PDB.magById[id])) : [],
     metal:$v('f-metal'), denom:$v('f-denom'), date:$v('f-date'), desc:$v('f-desc'), notes:$v('f-notes'),
-    geo: isProv ? normGeo(geoSel) : emptyGeo(),
+    geo: isProv ? geoToSave : emptyGeo(),
     impRegions: isImp ? impGeoSel.regions.slice() : [],
     impSubs: isImp ? impGeoSel.subs.slice() : [],
     impSubsubs: isImp ? impGeoSel.subsubs.slice() : [],
@@ -2582,20 +2578,20 @@ makeDraggable(document.getElementById('detail-box'), document.getElementById('de
       document.getElementById('new-email').value = '';
       document.getElementById('current-password').value = '';
       document.getElementById('new-password').value = '';
-      switchSettingsTab('email');
+      switchSettingsTab('email', null);
     }
   };
 
-  window.switchSettingsTab = function(tab) {
+  window.switchSettingsTab = function(tab, btn) {
     document.getElementById('settings-email-panel').style.display = tab === 'email' ? 'block' : 'none';
     document.getElementById('settings-password-panel').style.display = tab === 'password' ? 'block' : 'none';
     document.getElementById('settings-2fa-panel').style.display = tab === '2fa' ? 'block' : 'none';
     
-    document.querySelectorAll('.settings-tab').forEach(function(btn) {
-      btn.style.borderBottom = 'none';
-      btn.style.color = 'var(--text2)';
+    document.querySelectorAll('.settings-tab').forEach(function(b) {
+      b.style.borderBottom = 'none';
+      b.style.color = 'var(--text2)';
     });
-    const activeBtn = event.currentTarget;
+    const activeBtn = btn || (typeof event !== 'undefined' && event.currentTarget ? event.currentTarget : null);
     if (activeBtn) {
         activeBtn.style.borderBottom = '2px solid var(--text)';
         activeBtn.style.color = 'var(--text)';
@@ -2776,9 +2772,9 @@ makeDraggable(document.getElementById('detail-box'), document.getElementById('de
     </div>
     
     <div style="display:flex; gap:10px; margin-bottom:20px; border-bottom:1px solid var(--border); padding-bottom:10px;">
-      <button class="settings-tab active" onclick="switchSettingsTab('email')" style="background:none; border:none; cursor:pointer; font-size:0.8rem; padding:5px; color:var(--text); border-bottom:2px solid var(--text);">Email</button>
-      <button class="settings-tab" onclick="switchSettingsTab('password')" style="background:none; border:none; cursor:pointer; font-size:0.8rem; padding:5px; color:var(--text2);">Password</button>
-      <button class="settings-tab" onclick="switchSettingsTab('2fa')" style="background:none; border:none; cursor:pointer; font-size:0.8rem; padding:5px; color:var(--text2);">2FA</button>
+      <button class="settings-tab active" onclick="switchSettingsTab('email', this)" style="background:none; border:none; cursor:pointer; font-size:0.8rem; padding:5px; color:var(--text); border-bottom:2px solid var(--text);">Email</button>
+      <button class="settings-tab" onclick="switchSettingsTab('password', this)" style="background:none; border:none; cursor:pointer; font-size:0.8rem; padding:5px; color:var(--text2);">Password</button>
+      <button class="settings-tab" onclick="switchSettingsTab('2fa', this)" style="background:none; border:none; cursor:pointer; font-size:0.8rem; padding:5px; color:var(--text2);">2FA</button>
     </div>
 
     <div id="settings-email-panel">
