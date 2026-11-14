@@ -452,10 +452,12 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
       <div class="pk-hint" id="prov-hint"></div>
     </div>
 
-    <div id="block-prov-geography">
+    <div id="block-prov-geography" style="position:relative;">
+      <button type="button" class="btn" onclick="clearProvGeography()" style="position:absolute; top:8px; right:0; padding:2px 10px; font-size:0.55rem; border-color:var(--border); background:var(--bg2); cursor:pointer; letter-spacing:0.05em; z-index:10;">CLEAR</button>
+      
       <div class="fsep"><div class="fsep-label">GEOGRAPHY</div></div>
       <div class="frow">
-        <label>PROVINCES / REGIONS</label>
+        <label>PROVINCE</label>
         <div class="picker" id="pk-provs">
           <div class="pk-chips"></div>
           <input class="pk-in" type="text" placeholder="Search province…" autocomplete="off">
@@ -950,15 +952,6 @@ function buildProvDB(magRows, cityRows){
     }); });
   });
   PDB.cities.forEach(function(c){ if(!withMag[c.id]) PDB.tuples.push({r:null,m:null,c:c.id,g:c.region,s:c.sub||null}); });
-
-  var existRC = {};
-  PDB.tuples.forEach(function(t){ if(t.r && t.c) existRC[t.r+'|'+t.c]=true; });
-  PDB.cities.forEach(function(c){
-    Object.keys(PDB.reignInfo).forEach(function(r){
-      if(existRC[r+'|'+c.id]) return;
-      PDB.tuples.push({r:r, m:null, c:c.id, g:c.region, s:c.sub||null});
-    });
-  });
 
   PDB.ready=true;
   applyProvDB();
@@ -1506,7 +1499,7 @@ var reignSel = '';
 var DIMS = ['r','m','c'];
 
 function provSelection(){
-  return { r: reignSel ? [reignSel] : [], m: magSel.slice(), c: geoSel.cities.slice() };
+  return { r: [], m: magSel.slice(), c: geoSel.cities.slice() };
 }
 function tupleOk(t, sel, skip){
   if(skip!=='r' && sel.r.length && sel.r.indexOf(t.r)<0) return false;
@@ -1549,15 +1542,7 @@ function provEnforce(){
   updateProvHint();
 }
 function reignSort(a,b){ return PDB.reigns.indexOf(a)-PDB.reigns.indexOf(b); }
-function rebuildReignPicker(){
-  if(PDB.ready && isProvMode()){
-    var compatible = facet('r', provSelection());
-    if(reignSel && compatible.indexOf(reignSel) < 0 && PDB.reigns.indexOf(reignSel) >= 0){
-      reignSel = '';
-    }
-  }
-  pkRender('reign');
-}
+function rebuildReignPicker(){ pkRender('reign'); }
 function onReignChange(){ provEnforce(); pkRenderAll(); previewHighlight(); }
 function updateProvHint(){
   if(PDB.error) return;
@@ -1568,7 +1553,7 @@ function updateProvHint(){
     setProvHint(PDB.reigns.length+' reigns · '+PDB.mags.length+' magistrates · '+PDB.cities.length+' cities');
     return;
   }
-  setProvHint('Compatible: '+facet('r',sel).length+' reigns · '+facet('m',sel).length+' magistrates · '+facet('c',sel).length+' cities');
+  setProvHint('Compatible: '+facet('m',sel).length+' magistrates · '+facet('c',sel).length+' cities');
 }
 
 function provGeoAdd(key, id){
@@ -1626,7 +1611,17 @@ function provSyncHierarchy(){
     if (s.region && geoSel.regions.indexOf(s.region) < 0) geoSel.regions.push(s.region);
   });
 }
-
+function clearProvGeography(){
+  geoSel.provs = [];
+  geoSel.provExclusions = [];
+  geoSel.regions = [];
+  geoSel.subs = [];
+  geoSel.cities = [];
+  document.querySelectorAll('#pk-provs .pk-in, #pk-regions .pk-in, #pk-subs .pk-in, #pk-cities .pk-in')
+    .forEach(function(i){ i.value = ''; });
+  pkRenderAll();
+  previewHighlight();
+}
 var impGeoSel = { regions: [], subs: [], subsubs: [], cities: [] };
 var impAuthSel = [];
 var impIssuerSel = [];
@@ -1819,7 +1814,7 @@ var PICKERS = {
     single:true,
     items:function(){
       if(!PDB.ready) return [];
-      var list = isProvMode() ? facet('r',provSelection()) : PDB.reigns.slice();
+      var list = PDB.reigns.slice();
       return list.map(function(r){ return {id:r,label:reignLabel(r),small:isClientKing(r)?'client king':''}; }).sort(byLabel);
     },
     get:function(){ return reignSel ? [reignSel] : []; },
@@ -1849,7 +1844,8 @@ var PICKERS = {
       var list = isProvMode() ? facet('c',provSelection()).map(cityById) : CITIES;
       return list.filter(Boolean).map(function(c){
         var s=c.sub?subById(c.sub):null;
-        return {id:c.id,label:c.name,small:s?s.name:''};
+        var reg = (s && s.region) || c.region || '';
+        return {id:c.id,label:c.name,small:reg};
       }).sort(byLabel);
     },
     get:function(){ return geoSel.cities; }, set:function(v){ geoSel.cities=v; },
@@ -2103,6 +2099,13 @@ function previewHighlight(){
   }
   setHighlight(provinces);
   updateGeoHint();
+  
+  var clearBtn = document.querySelector('#block-prov-geography button[onclick="clearProvGeography()"]');
+  if (clearBtn) {
+    var hasGeo = geoSel.provs.length > 0 || geoSel.regions.length > 0 || geoSel.subs.length > 0 || geoSel.cities.length > 0;
+    clearBtn.style.opacity = hasGeo ? '1' : '0.3';
+    clearBtn.style.pointerEvents = hasGeo ? 'auto' : 'none';
+  }
 }
 function resetForm(){
   ['f-ref','f-prov-imp','f-prov-auth','f-rep-auth','f-denom','f-date','f-desc','f-notes'].forEach(function(id){ $set(id,''); });
@@ -2324,7 +2327,7 @@ function openDetail(id){
   var geoAny=(c.period==='prov' || c.period==='rep') && (gn.provs.length||gn.regions.length||gn.subs.length||gn.cities.length);
   var geoAnyImp=c.period==='imp' && (gn.provs.length||gn.regions.length||gn.cities.length);
   if(geoAny){
-    h+='<div class="dsep"></div><div class="dgrid">'+drow('PROVINCES / REGIONS',gn.provs.join('\n'))+drow('REGION',gn.regions.join('\n'))+drow('SUBREGION',gn.subs.join('\n'))+drow('CITY / MINT',gn.cities.join('\n'))+'</div>';
+    h+='<div class="dsep"></div><div class="dgrid">'+drow('PROVINCE',gn.provs.join('\n'))+drow('REGION',gn.regions.join('\n'))+drow('SUBREGION',gn.subs.join('\n'))+drow('CITY / MINT',gn.cities.join('\n'))+'</div>';
   } else if (geoAnyImp || c.period==='rep') {
     h+='<div class="dsep"></div><div class="dgrid">'+drow('SUBSUBREGION',gn.provs.join('\n'))+drow('REGION',gn.regions.join('\n'))+drow('CITY / MINT',gn.cities.join('\n'))+'</div>';
   }
