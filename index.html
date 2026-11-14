@@ -453,7 +453,12 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
     </div>
 
     <div id="block-prov-geography">
-      <div class="fsep"><div class="fsep-label">GEOGRAPHY</div></div>
+      <div class="fsep">
+        <div class="fsep-label" style="display:flex; align-items:center; justify-content:space-between; width:240px; transform:translateX(-50%) translateY(-50%);">
+          <span>GEOGRAPHY</span>
+          <button type="button" class="btn" onclick="clearProvGeography()" style="padding:2px 8px; font-size:0.55rem; border-color:var(--border); background:var(--bg2); cursor:pointer; letter-spacing:0.05em;">CLEAR</button>
+        </div>
+      </div>
       <div class="frow">
         <label>PROVINCE</label>
         <div class="picker" id="pk-provs">
@@ -2097,6 +2102,12 @@ function previewHighlight(){
   }
   setHighlight(provinces);
   updateGeoHint();
+  var clearBtn = document.querySelector('#block-prov-geography button[onclick="clearProvGeography()"]');
+  if (clearBtn) {
+    var hasGeo = geoSel.provs.length > 0 || geoSel.regions.length > 0 || geoSel.subs.length > 0 || geoSel.cities.length > 0;
+    clearBtn.style.opacity = hasGeo ? '1' : '0.3';
+    clearBtn.style.pointerEvents = hasGeo ? 'auto' : 'none';
+  }
 }
 function resetForm(){
   ['f-ref','f-prov-imp','f-prov-auth','f-rep-auth','f-denom','f-date','f-desc','f-notes'].forEach(function(id){ $set(id,''); });
