@@ -2107,15 +2107,6 @@ function previewHighlight(){
     clearBtn.style.pointerEvents = hasGeo ? 'auto' : 'none';
   }
 }
-  setHighlight(provinces);
-  updateGeoHint();
-  var clearBtn = document.querySelector('#block-prov-geography button[onclick="clearProvGeography()"]');
-  if (clearBtn) {
-    var hasGeo = geoSel.provs.length > 0 || geoSel.regions.length > 0 || geoSel.subs.length > 0 || geoSel.cities.length > 0;
-    clearBtn.style.opacity = hasGeo ? '1' : '0.3';
-    clearBtn.style.pointerEvents = hasGeo ? 'auto' : 'none';
-  }
-}
 function resetForm(){
   ['f-ref','f-prov-imp','f-prov-auth','f-rep-auth','f-denom','f-date','f-desc','f-notes'].forEach(function(id){ $set(id,''); });
   $set('f-metal','');
