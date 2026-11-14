@@ -455,7 +455,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
     <div id="block-prov-geography">
       <div class="fsep"><div class="fsep-label">GEOGRAPHY</div></div>
       <div class="frow">
-        <label>PROVINCES / REGIONS</label>
+        <label>PROVINCE</label>
         <div class="picker" id="pk-provs">
           <div class="pk-chips"></div>
           <input class="pk-in" type="text" placeholder="Search province…" autocomplete="off">
@@ -2307,7 +2307,7 @@ function openDetail(id){
   var geoAny=(c.period==='prov' || c.period==='rep') && (gn.provs.length||gn.regions.length||gn.subs.length||gn.cities.length);
   var geoAnyImp=c.period==='imp' && (gn.provs.length||gn.regions.length||gn.cities.length);
   if(geoAny){
-    h+='<div class="dsep"></div><div class="dgrid">'+drow('PROVINCES / REGIONS',gn.provs.join('\n'))+drow('REGION',gn.regions.join('\n'))+drow('SUBREGION',gn.subs.join('\n'))+drow('CITY / MINT',gn.cities.join('\n'))+'</div>';
+    h+='<div class="dsep"></div><div class="dgrid">'+drow('PROVINCE',gn.provs.join('\n'))+drow('REGION',gn.regions.join('\n'))+drow('SUBREGION',gn.subs.join('\n'))+drow('CITY / MINT',gn.cities.join('\n'))+'</div>';
   } else if (geoAnyImp || c.period==='rep') {
     h+='<div class="dsep"></div><div class="dgrid">'+drow('SUBSUBREGION',gn.provs.join('\n'))+drow('REGION',gn.regions.join('\n'))+drow('CITY / MINT',gn.cities.join('\n'))+'</div>';
   }
