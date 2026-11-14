@@ -260,7 +260,6 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 }
 
 
-/* --- STILI PER LOGIN E LOGOUT --- */
 #auth-screen {
   position: fixed; inset: 0; background: var(--bg); z-index: 999999;
   display: flex; align-items: center; justify-content: center;
@@ -654,9 +653,6 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
 <script>
-/* =====================================================================
-   1. COSTANTI E STATO GLOBALE
-   ===================================================================== */
 var PROVS = [
   "Achaia","Aegyptus","Africa Proconsularis","Alpes Cottiae","Alpes Graiae et Poeninae","Alpes Maritimae",
   "Aquitania","Arabia","Armenia Mesopotamia","Asia","Baetica","Belgica","Bithynia et Pontus","Britannia",
@@ -731,17 +727,14 @@ var PDB = {
   tuples:[]
 };
 
-/* Mints — dichiarati QUI, prima di qualsiasi funzione che li usa */
 var allMintsData = [];
 var currentMintMode = 'none';
-var mintsLayer = null; /* inizializzato dopo la mappa */
+var mintsLayer = null;
 var MINT_TYPES = {};
 var MINT_GEO_CACHE = {};
 
-/* REIGN_ORDER popolato dinamicamente da reigns.csv */
 var REIGN_ORDER = [];
 
-/* Utility */
 function slug(s){ return String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,''); }
 function norm(s){ return String(s||'').trim().replace(/\s+/g,' ').toLowerCase(); }
 function normMint(s){
@@ -792,9 +785,6 @@ var MINT_COORD_OVERRIDES = {
   'Antioch, Syria':          [36.2, 36.15]
 };
 
-/* =====================================================================
-   2. PARSING CSV
-   ===================================================================== */
 function parseCSV(text){
   if(!text) return [];
   if(text.charCodeAt(0)===0xFEFF) text=text.slice(1);
@@ -849,9 +839,7 @@ function fetchFirst(paths){
     });
   }, Promise.reject(new Error('no path')));
 }
-/* =====================================================================
-   3. COSTRUZIONE DEL DATABASE PROVINCIALE
-   ===================================================================== */
+
 function pdbAddCity(name, region, sub, rpc){
   var key=norm(name)+'|'+norm(region);
   if(PDB.cityByKey[key]) return PDB.cityByKey[key];
@@ -944,8 +932,6 @@ function buildProvDB(magRows, cityRows){
   var regSet={}, reignSet={};
   PDB.cities.forEach(function(c){ if(c.region) regSet[c.region]=true; });
   PDB.mags.forEach(function(m){ m.reigns.forEach(function(r){ reignSet[r]=true; }); });
-  /* Aggiungi TUTTI i regni di reigns.csv, così le città senza magistrati
-     non restano con 0 regni compatibili */
   Object.keys(PDB.reignInfo).forEach(function(r){ reignSet[r]=true; });
   PDB.regions=Object.keys(regSet).sort();
   PDB.reigns=Object.keys(reignSet).sort(function(a,b){
@@ -965,8 +951,6 @@ function buildProvDB(magRows, cityRows){
   });
   PDB.cities.forEach(function(c){ if(!withMag[c.id]) PDB.tuples.push({r:null,m:null,c:c.id,g:c.region,s:c.sub||null}); });
 
-  /* Per ogni città, aggiungi un tuple per OGNI reign di reigns.csv
-     (anche se la città non ha magistrati per quel reign). */
   var existRC = {};
   PDB.tuples.forEach(function(t){ if(t.r && t.c) existRC[t.r+'|'+t.c]=true; });
   PDB.cities.forEach(function(c){
@@ -992,9 +976,6 @@ function applyProvDB(){
 }
 function setProvHint(t){ document.getElementById('prov-hint').textContent=t; }
 
-/* =====================================================================
-   4. CARICAMENTO CSV
-   ===================================================================== */
 setProvHint('Loading CSV data…');
 Promise.all([
   fetchFirst(['magistrati.csv','magistrates.csv']).catch(function(e){ console.error('magistrati:', e); return ''; }),
@@ -1012,9 +993,6 @@ Promise.all([
 });
 
 
-/* =====================================================================
-   5. IMPERIAL DATA
-   ===================================================================== */
 var IMP_AUTHORITIES = ["Aemilian","Allectus","Amandus","Anonymous","Anthemius","Antoninus Pius","Arcadius","Augustus","Aurelian","Aureolus","Avitus","Balbinus","Basiliscus","Bonosus","Burgundians or Franks","Caracalla","Carausius","Carinus","Carus","Claudius","Claudius II Gothicus","Clodius Albinus","Clodius Macer","Commodus","Constans","Constantine I","Constantine II","Constantine III","Constantius Chlorus","Constantius II","Diadumenian","Didius Julianus","Diocletian","Domitian","Domitian II","Domitius Alexander","Dryantilla","Elagabalus","Eugenius","Flavius Marcus","Florianus","Gaius/Caligula","Galba","Galerius","Gallienus","Geta","Glycerius","Gordian I","Gordian II","Gordian III","Gratian","Hadrian","Honorius","Hostilian","Joannes","Jotapianus","Jovianus","Jovinus","Julian of Pannonia","Julian the Apostate","Julius Nepos","Laelianus","Leo I","Leo II","Leontius","Libius Severus","Licinius","Macrianus Minor","Macrinus","Magnentius","Magnus Maximus","Majorian","Mar. Silbannacus","Marcian","Marcus Aurelius","Marius","Maxentius","Maximian","Maximinus Daia","Maximinus Thrax","Maximus","Maximus of Barcelona","Nero","Nerva","Non-imperial African coinages","Numerian","Odoacer","Olybrius","Otho","Pacatianus","Pertinax","Pescennius Niger","Petronius Maximus","Philip the Arab","Postumus","Priscus Attalus","Probus","Procopius","Pupienus","Quietus","Quintillus","Regalianus","Romulus Augustulus","Saturninus","Septimius Severus","Severus Alexander","Severus II","Sponsianus","Suevi","Tacitus","Tetricus I","Theodosius I","Theodosius II","Tiberius","Titus","Trajan","Trajan Decius","Trebonianus Gallus","Uranius Antoninus","Vabalathus","Valens","Valentinian I","Valentinian II","Valentinian III","Valerian","Vespasian","Victorinus","Visigoths","Vitellius","Volusian","Zeno","Zenobia"];
 var IMP_ISSUERS = ["A. Licinius Nerva Silianus","Apronius","C. Annius Pollio","C. Antistius Reginus","C. Antistius Vetus","C. Asinius Gallus","C. Cassius Celer","C. Gallius Lupercus","C. Marcius Censorinus","C. Marius C F Tro","C. Naevius Capella","C. Plotius Rufus","C. Rubellius Blandus","C. Sulpicius Platorinus","Claudius Pulcher","Cn. PISO Cn.F","Cossus Cornelius Lentulus","Galus","L. Aelius Lamia","L. Aquillius Florus","L. Caninius Gallus","L. Lentulus","L. Mescinius Rufus","L. Naevius Surdinus","L. Valerius Catullus","L. Vinicius","Livineius Regulus","M. Durmius","M. Maecilius Tullus","M. Salvius Otho","M. Sanquinius","Messalla","P. Betilienus Bassus","P. Carisius","P. Licinius Stolo","P. Lurius Agrippa","P. Petronius Turpilianus","P. Silius P.","Q. Aelius Lamia","Q. Rustius","Sex. Nonius Quinctilianus","Sisenna","Statilius Taurus","T. Quinctius Crispinus Sulpicianus","Ti. Sempronius Graccus","Volusus Valerius Messalla"];
 var IMP_CITIES = ["Rome","Constantinople","Alexandria","Ambianum","Antioch of Pisidia","Antioch, Syria","Aquileia","Arelate","Arelate comitatensian mint","Barcino","Caesaraugusta","Caesarea in Cappadocia","Camulodunum","Carnuntum","Carthage","Cologne","Colonia Patricia","Comitatensian","Cyrene","Cyzicus","Eastern Mint","Emerita","Emisa","Ephesus","Heraclea","Laodicea ad Mare","Londinium","Lugdunum","Mainz","Mediolanum","Narbo","Nemausus","Nicaea (Gallia)","Nicomedia","Ostia","Pergamum","Ravenna","Ravenna comitatensian mint","Rotomagus","Samos","Serdica","Sirmium","Siscia","Southern Gallic Mint","Tarraco","Thessalonica","Ticinum","Trier","Tripolis","Uncertain value","Vienne","Viminacium"];
@@ -1058,9 +1036,6 @@ var IMP_MAP_TO_PROVS = {
 var IDB = { ready: true, authorities: IMP_AUTHORITIES, issuers: IMP_ISSUERS, cities: IMP_CITIES, tree: IMP_GEO_TREE, cityToSub: IMP_CITY_TO_SUB, cityToSubsub: IMP_CITY_TO_SUBSUB, tuples: [] };
 IMP_AUTHORITIES.forEach(function(a) { IMP_ISSUERS.forEach(function(i) { IDB.tuples.push({ a: a, i: i }); }); });
 
-/* =====================================================================
-   6. REPUBLICAN DATA
-   ===================================================================== */
 var REP_CITIES = [
   "Antioch, Syria","Apollonia, Illyria","Canusium","Corcyra","Eastern Roman Mint",
   "Italy (Central)","Italy (North)","Italy (South)","Italy (Southeast)",
@@ -1108,9 +1083,6 @@ fetchFirst(['issuer.csv'])
   .catch(e => console.warn("issuer.csv non caricato:", e));
 
 
-/* =====================================================================
-   7. LOOKUP SHARED
-   ===================================================================== */
 function subById(id){ if(!id) return null; return PDB.subById[id]||PDB.subById[LEGACY_SUB_IDS[id]]||null; }
 function cityById(id){ if(!id) return null; return PDB.cityById[id]||null; }
 function subLabel(s){ return s ? s.name+' ('+s.region+')' : ''; }
@@ -1135,9 +1107,6 @@ function normGeo(g){
   };
 }
 
-/* =====================================================================
-   8. STATO UI (coins, tag, filtri)
-   ===================================================================== */
 const STEPS = [
   [207,207,207],[121,160,211],[128,172,160],[171,197,132],[236,213,120],[239,201,96],[243,184,75],[242,171,61],
   [241,157,52],[238,143,46],[234,127,41],[229,111,38],[223,96,35],[218,79,31],[214,61,28],[211,44,25]
@@ -1179,23 +1148,18 @@ function initTagMenu(){
   menu.addEventListener('click',function(e){ e.stopPropagation(); });
 }
 function save(){
-  // Salviamo in locale per sicurezza
   localStorage.setItem('numismatica_v2', JSON.stringify(coins));
   localStorage.setItem('numismatica_nid', String(nextId));
   
-  // Se l'utente è loggato, salviamo su Firebase
   if (window.currentUser) {
-    // Prende la moneta che è stata appena creata o modificata (l'ultima della lista)
     const currentCoin = coins[coins.length - 1]; 
     
     import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js").then(({ getFirestore, doc, setDoc }) => {
       import("https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js").then(({ getApps }) => {
         const db = getFirestore(getApps()[0]);
         
-        // Aggiungiamo l'ID dell'utente alla moneta
         const coinData = { ...currentCoin, userId: window.currentUser.uid };
         
-        // Salviamo o aggiorniamo su Firestore
         setDoc(doc(db, "coins", String(currentCoin.id)), coinData)
           .catch((error) => console.error("Errore salvataggio Firebase:", error));
       });
@@ -1216,9 +1180,6 @@ function geoToOur(geoName){
   return null;
 }
 
-/* =====================================================================
-   9. MAPPA
-   ===================================================================== */
 var map = L.map("map", { zoom: 4.85, minZoom: 4.85, maxZoom: 8, zoomSnap: 0.1, zoomDelta: 0.5 });
 map.createPane('provincesPane'); map.getPane('provincesPane').style.zIndex = 400;
 map.createPane('mintsPane'); map.getPane('mintsPane').style.zIndex = 650;
@@ -1227,7 +1188,6 @@ var tt=document.getElementById("tt");
 var mw=document.getElementById("mapwrap");
 var geoLayer=null;
 
-/* mintsLayer ora può essere inizializzato */
 mintsLayer = L.layerGroup().addTo(map);
 
 function provinceOfMint(mintName){
@@ -1406,9 +1366,6 @@ function updateMap(){
   hl.forEach(function(l){ l.bringToFront(); });
 }
 
-/* =====================================================================
-   10. MINTS
-   ===================================================================== */
 function addMintType(name, type){
   if(!name) return;
   var canon = canonicalMint(name);
@@ -1516,9 +1473,6 @@ function setCoinFilter(mode) {
   updateMap();
 }
 
-/* =====================================================================
-   11. PERIOD SWITCHING
-   ===================================================================== */
 function isProvMode(){ return currentPeriod==='prov' && PDB.ready; }
 function isImpMode(){ return currentPeriod==='imp' && IDB.ready; }
 function isRepMode(){ return currentPeriod==='rep' && RDB.ready; }
@@ -1546,14 +1500,6 @@ function setPeriod(p){
   }
 }
 
-/* =====================================================================
-   12. PROVINCIAL — DESIGN CONSOLIDATO
-   =====================================================================
-   Dimensioni filtrate: r (reign), m (magistrate), c (city).
-   geoSel.regions e geoSel.subs sono VINCOLI DI APPARTENENZA (non filtri
-   sui tuple). provEnforce non li tocca mai.
-   reignSel: stringa singola (il reign selezionato).
-   ===================================================================== */
 var geoSel = emptyGeo();
 var magSel = [];
 var reignSel = '';
@@ -1606,7 +1552,6 @@ function reignSort(a,b){ return PDB.reigns.indexOf(a)-PDB.reigns.indexOf(b); }
 function rebuildReignPicker(){
   if(PDB.ready && isProvMode()){
     var compatible = facet('r', provSelection());
-    /* Se il reign selezionato non è più compatibile, deseleziona */
     if(reignSel && compatible.indexOf(reignSel) < 0 && PDB.reigns.indexOf(reignSel) >= 0){
       reignSel = '';
     }
@@ -1626,7 +1571,6 @@ function updateProvHint(){
   setProvHint('Compatible: '+facet('r',sel).length+' reigns · '+facet('m',sel).length+' magistrates · '+facet('c',sel).length+' cities');
 }
 
-/* Geo add/remove provinciale */
 function provGeoAdd(key, id){
   if (key === 'regions') {
     if (geoSel.regions.indexOf(id) < 0) geoSel.regions.push(id);
@@ -1683,9 +1627,6 @@ function provSyncHierarchy(){
   });
 }
 
-/* =====================================================================
-   13. IMPERIAL FILTER
-   ===================================================================== */
 var impGeoSel = { regions: [], subs: [], subsubs: [], cities: [] };
 var impAuthSel = [];
 var impIssuerSel = [];
@@ -1786,9 +1727,6 @@ function impGeoRemove(key, id) {
   }
 }
 
-/* =====================================================================
-   14. REPUBLICAN FILTER
-   ===================================================================== */
 var repGeoSel = { regions: [], subs: [], subsubs: [], cities: [] };
 var repIssuerSel = [];
 var RDIMS = ['i'];
@@ -1872,9 +1810,6 @@ function repGeoRemove(key, id) {
   }
 }
 
-/* =====================================================================
-   15. PICKERS
-   ===================================================================== */
 function byLabel(a,b){ return a.label.localeCompare(b.label); }
 var IMP_KEY_MAP = {impregions:'regions', impsubs:'subs', impsubsubs:'subsubs', impcities:'cities'};
 var REP_KEY_MAP = {repregions:'regions', repsubs:'subs', repsubsubs:'subsubs', repcities:'cities'};
@@ -2141,9 +2076,6 @@ function updateGeoHint(){
   document.addEventListener('mousedown',function(e){ if(!e.target.closest('.picker')) pkCloseAll(); });
 })();
 
-/* =====================================================================
-   16. MODAL / FORM
-   ===================================================================== */
 function $v(id){ return document.getElementById(id).value.trim(); }
 function $set(id,v){ document.getElementById(id).value=v==null?'':v; }
 function previewHighlight(){
@@ -2277,24 +2209,17 @@ function saveCoin(){
     coins.push(c);
   }
 
-  // --- NUOVO BLOCCO: Assicura che la moneta salvata sia l'ultima dell'array ---
-  // Questo è necessario affinché la funzione save() la trovi e la invii a Firebase
   coins = coins.filter(function(x){ return x.id !== c.id; });
   coins.push(c);
 
-  // Salva (localStorage + Firebase)
   save();
   
-  // Chiude la modale e aggiorna l'interfaccia
   closeModal();
   renderList();
   updateMap();
   if (typeof renderMints === 'function') renderMints();
 }
 
-/* =====================================================================
-   17. LIST / DETAIL
-   ===================================================================== */
 function setFilter(m,btn){
   filterMode=m;
   document.querySelectorAll('.ftab').forEach(function(b){ b.classList.remove('on'); });
@@ -2438,13 +2363,11 @@ function doDelete(){
     coins = coins.filter(function(c){ return c.id!==idToDelete; });
     if(detailId===idToDelete) closeDetail();
     
-    // Salva nel localStorage
     save(); 
     renderList(); 
     updateMap();
     if (typeof renderMints === 'function') renderMints();
 
-    // Elimina da Firebase
     if (window.currentUser) {
       import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js").then(({ getFirestore, doc, deleteDoc }) => {
         import("https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js").then(({ getApps }) => {
@@ -2458,9 +2381,6 @@ function doDelete(){
   closeConfirm();
 }
 
-/* =====================================================================
-   18. DRAGGABLE MODALS
-   ===================================================================== */
 function makeDraggable(windowElement, handleElement) {
   if (!windowElement || !handleElement) return;
   let dragging = false, startX = 0, startY = 0, initialLeft = 0, initialTop = 0, activePointer = null;
@@ -2495,9 +2415,6 @@ function makeDraggable(windowElement, handleElement) {
 makeDraggable(document.getElementById('modal'), document.getElementById('modal-head'));
 makeDraggable(document.getElementById('detail-box'), document.getElementById('detail-head'));
 
-/* =====================================================================
-   19. BOOT
-   ===================================================================== */
 (function(){
   var dirty=false;
   coins.forEach(function(c){
@@ -2518,31 +2435,37 @@ makeDraggable(document.getElementById('detail-box'), document.getElementById('de
 })();
 </script>
 
-<!-- SCHERMATA DI LOGIN -->
 <div id="auth-screen">
   <div id="auth-box">
     <h2>MAPPED ROMAN NUMISMATIC COLLECTION</h2>
     <p style="font-size:0.8rem; color:var(--text2); margin-bottom:15px;">Sign in to manage your collection</p>
     <div id="auth-error"></div>
-    
-    <!-- NUOVO: Avviso per email non verificata -->
-    <div id="auth-verify-msg" style="display:none; background:#fff3cd; color:#856404; padding:10px; font-size:0.8rem; margin-bottom:10px; border:1px solid #ffeeba;">
-      Please verify your email. <a href="#" onclick="checkEmailVerified(); return false;" style="color:#856404; text-decoration:underline; font-weight:bold;">Click here after verifying</a>.
-    </div>
 
     <input type="email" id="auth-email" placeholder="Email" autocomplete="username">
     <input type="password" id="auth-password" placeholder="Password" autocomplete="current-password">
     <button id="auth-submit" onclick="handleAuthSubmit()">SIGN IN</button>
     
-    <!-- NUOVO: Link per recupero password e switch login/registrazione -->
     <div style="margin-top:10px; display:flex; flex-direction:column; gap:5px;">
       <div class="auth-switch" id="auth-switch-mode" onclick="toggleAuthMode()">Don't have an account? Register</div>
       <div class="auth-switch" onclick="handleForgotPassword()" style="font-size:0.75rem; color:var(--text3);">Forgot password?</div>
     </div>
   </div>
 </div>
-
-<!-- SCRIPT DI FIREBASE E LOGICA -->
+<div id="verify-block-screen" style="display:none; position:fixed; inset:0; background:var(--bg); z-index:999998; align-items:center; justify-content:center; flex-direction:column;">
+  <div style="background:var(--bg2); border:1px solid var(--border2); padding:40px; width:420px; text-align:center; box-shadow:0 8px 40px #00000022;">
+    <h2 style="font-family:'Inter',sans-serif; font-size:1rem; letter-spacing:0.1em; margin-bottom:20px;">EMAIL VERIFICATION REQUIRED</h2>
+    <p style="font-size:0.9rem; color:var(--text2); margin-bottom:20px; line-height:1.6;">
+      We sent a verification link to:<br>
+      <strong id="verify-email-display" style="color:var(--text);"></strong><br><br>
+      Click the link in your inbox, then press the button below.
+    </p>
+    <button onclick="checkVerificationNow()" style="width:100%; padding:12px; background:var(--text); color:var(--bg2); border:none; cursor:pointer; font-family:'Inter',sans-serif; letter-spacing:0.08em; margin-bottom:10px;">I HAVE VERIFIED MY EMAIL</button>
+    <button onclick="resendVerificationEmail()" style="width:100%; padding:10px; background:transparent; border:1px solid var(--border2); color:var(--text2); cursor:pointer; font-family:'Inter',sans-serif; font-size:0.75rem; margin-bottom:15px;">RESEND VERIFICATION EMAIL</button>
+    <div style="margin-top:15px;">
+      <span onclick="confirmLogout()" style="font-size:0.75rem; color:var(--text3); cursor:pointer; text-decoration:underline;">Logout and use another account</span>
+    </div>
+  </div>
+</div>
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
   import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -2559,18 +2482,18 @@ makeDraggable(document.getElementById('detail-box'), document.getElementById('de
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
+  import { setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+  setPersistence(auth, browserLocalPersistence).catch(() => {});
   const db = getFirestore(app);
 
   let isRegisterMode = false;
 
   window.showPopup = function(title, message) {
-    // 1. Chiude la finestra delle impostazioni se è aperta
     const settingsModal = document.getElementById('settings-modal');
     if (settingsModal) {
       settingsModal.style.display = 'none';
     }
     
-    // 2. Mostra il popup
     document.getElementById('popup-title').textContent = title;
     document.getElementById('popup-message').textContent = message;
     document.getElementById('custom-popup').style.display = 'flex';
@@ -2585,7 +2508,6 @@ makeDraggable(document.getElementById('detail-box'), document.getElementById('de
     document.getElementById('auth-submit').textContent = isRegisterMode ? 'REGISTER' : 'SIGN IN';
     document.getElementById('auth-switch-mode').textContent = isRegisterMode ? 'Already have an account? Log in' : 'Don\'t have an account? Register';
     document.getElementById('auth-error').style.display = 'none';
-    document.getElementById('auth-verify-msg').style.display = 'none';
   };
 
   window.handleAuthSubmit = async function() {
@@ -2600,18 +2522,18 @@ makeDraggable(document.getElementById('detail-box'), document.getElementById('de
       if (isRegisterMode) {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         await sendEmailVerification(userCredential.user);
-        showPopup("REGISTRATION SUCCESSFUL", "Please check your email inbox to verify your account.");
-        btn.textContent = 'REGISTER'; // Ripristina il testo del pulsante
-      } else {
-        // Effettua il login
-        await signInWithEmailAndPassword(auth, email, password);
         
-        // --- NUOVO BLOCCO: Forza l'aggiornamento dell'interfaccia ---
-        // Dato che onAuthStateChanged potrebbe non scattare in tempo, 
-        // puliamo la schermata manualmente per far vedere che il login è avvenuto.
+        isRegisterMode = false;
+        document.getElementById('auth-submit').textContent = 'SIGN IN';
+        document.getElementById('auth-switch-mode').textContent = "Don't have an account? Register";
+        
+        showPopup("REGISTRATION SUCCESSFUL", "Please check your email inbox to verify your account.");
+      } else {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        if (!userCredential.user.emailVerified) {
+          await sendEmailVerification(userCredential.user);
+        }
         document.getElementById('auth-screen').style.display = 'none';
-        document.getElementById('auth-verify-msg').style.display = 'none';
-        // -------------------------------------------------------------
       }
     } catch (e) {
       err.textContent = e.message.replace('Firebase: ', '');
@@ -2620,30 +2542,8 @@ makeDraggable(document.getElementById('detail-box'), document.getElementById('de
     }
   };
 
-  window.checkEmailVerified = async function() {
-    if (auth.currentUser) {
-      await auth.currentUser.reload();
-      if (auth.currentUser.emailVerified) {
-        document.getElementById('auth-verify-msg').style.display = 'none';
-        showPopup("EMAIL VERIFIED", "Your account is now fully active. Please sign in with your credentials.");
-        
-        // --- NUOVO BLOCCO: Riporta l'interfaccia alla modalità LOGIN ---
-        isRegisterMode = false;
-        document.getElementById('auth-submit').textContent = 'SIGN IN';
-        document.getElementById('auth-switch-mode').textContent = "Don't have an account? Register";
-        document.getElementById('auth-password').value = ''; // Svuota la password per sicurezza
-        // -------------------------------------------------------------
-        
-      } else {
-        showPopup("NOT VERIFIED YET", "Please check your inbox and click the verification link.");
-      }
-    }
-  };
-
   window.logoutUser = function() {
-    // Invece di uscire subito, mostriamo la finestra di conferma
     document.getElementById('logout-confirm-modal').style.display = 'flex';
-    // Chiudiamo le impostazioni se erano aperte
     const settingsModal = document.getElementById('settings-modal');
     if (settingsModal) {
       settingsModal.style.display = 'none';
@@ -2651,17 +2551,14 @@ makeDraggable(document.getElementById('detail-box'), document.getElementById('de
   };
 
   window.closeLogoutConfirm = function() {
-    // Chiude la finestra senza fare nulla
     document.getElementById('logout-confirm-modal').style.display = 'none';
   };
 
   window.confirmLogout = function() {
-    // Chiude la finestra e esegue il logout
     document.getElementById('logout-confirm-modal').style.display = 'none';
     signOut(auth);
   };
 
-    // --- FUNZIONE RECUPERO PASSWORD (mancante) ---
   window.handleForgotPassword = async function() {
     const email = document.getElementById('auth-email').value;
     if (!email) {
@@ -2675,30 +2572,27 @@ makeDraggable(document.getElementById('detail-box'), document.getElementById('de
       showPopup("ERROR", "Unable to send email: " + e.message.replace('Firebase: ', ''));
     }
   };
-  // ---------------------------------------------
-    // --- SETTINGS FUNCTIONS ---
-  
+
   window.toggleSettings = function() {
     const modal = document.getElementById('settings-modal');
     if (modal.style.display === 'flex') {
       modal.style.display = 'none';
     } else {
       modal.style.display = 'flex';
-      // Aggiorna l'email visualizzata
       if (auth.currentUser) {
         document.getElementById('current-email-display').textContent = auth.currentUser.email;
       }
-      // Resetta i campi
       document.getElementById('new-email').value = '';
       document.getElementById('current-password').value = '';
       document.getElementById('new-password').value = '';
-      switchSettingsTab('email'); // Torna alla tab email
+      switchSettingsTab('email');
     }
   };
 
   window.switchSettingsTab = function(tab) {
     document.getElementById('settings-email-panel').style.display = tab === 'email' ? 'block' : 'none';
     document.getElementById('settings-password-panel').style.display = tab === 'password' ? 'block' : 'none';
+    document.getElementById('settings-2fa-panel').style.display = tab === '2fa' ? 'block' : 'none';
     
     document.querySelectorAll('.settings-tab').forEach(function(btn) {
       btn.style.borderBottom = 'none';
@@ -2720,15 +2614,12 @@ makeDraggable(document.getElementById('detail-box'), document.getElementById('de
     if (!auth.currentUser) return;
 
     try {
-      // Importa la funzione corretta per la verifica preventiva
       const { verifyBeforeUpdateEmail } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js");
       
-      // Invia l'email di verifica al NUOVO indirizzo
       await verifyBeforeUpdateEmail(auth.currentUser, newEmail);
       
       showPopup("VERIFICATION SENT", "We sent a confirmation link to your NEW email address. Please click it to complete the change. Your current email remains active until you verify.");
       
-      // Svuota il campo
       document.getElementById('new-email').value = '';
       
     } catch (e) {
@@ -2755,16 +2646,12 @@ makeDraggable(document.getElementById('detail-box'), document.getElementById('de
     if (!auth.currentUser) return;
 
     try {
-      // Importa le funzioni necessarie dal modulo corretto
       const { EmailAuthProvider, reauthenticateWithCredential, updatePassword } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js");
       
-      // 1. Crea le credenziali con la vecchia password
       const credential = EmailAuthProvider.credential(auth.currentUser.email, currentPassword);
       
-      // 2. Riautentica l'utente (richiesto per sicurezza)
       await reauthenticateWithCredential(auth.currentUser, credential);
       
-      // 3. Ora può cambiare la password usando la funzione importata
       await updatePassword(auth.currentUser, newPassword);
       
       showPopup("PASSWORD UPDATED", "Your password has been changed successfully.");
@@ -2781,44 +2668,55 @@ makeDraggable(document.getElementById('detail-box'), document.getElementById('de
       }
     }
   };
+
+  window.enable2FA = async function() {
+    if (!auth.currentUser || !auth.currentUser.emailVerified) {
+      showPopup("ERROR", "Verify your email first.");
+      return;
+    }
+    try {
+      const { multiFactor, TotpMultiFactorGenerator } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js");
+      const mfaSession = await multiFactor(auth.currentUser).getSession();
+      const totpSecret = await TotpMultiFactorGenerator.generateSecret(mfaSession);
+      const url = totpSecret.generateQrCodeUrl(auth.currentUser.email, "RNCM");
+      showPopup("SCAN QR CODE", "Open this URL in your browser to see the QR code, scan it with your authenticator app, then confirm in the next step:\n\n" + url);
+      const code = prompt("Enter the 6-digit code from your authenticator app:");
+      if (!code) return;
+      const assertion = TotpMultiFactorGenerator.assertionForEnrollment(totpSecret, code);
+      await multiFactor(auth.currentUser).enroll(assertion, "Authenticator App");
+      showPopup("SUCCESS", "2FA enabled successfully.");
+    } catch (e) {
+      showPopup("ERROR", e.message.replace('Firebase: ', ''));
+    }
+  };
+
+  
   onAuthStateChanged(auth, async (user) => {
     if (user) {
-      // Controlla se l'email è verificata
+      window.currentUser = user;
       if (!user.emailVerified) {
-        document.getElementById('auth-screen').style.display = 'flex';
-        document.getElementById('auth-verify-msg').style.display = 'block';
-        window.currentUser = null; 
-        coins = [];
-        renderList();
+        document.getElementById('auth-screen').style.display = 'none';
+        document.getElementById('verify-block-screen').style.display = 'flex';
+        document.getElementById('verify-email-display').textContent = user.email;
         const info = document.getElementById('user-info');
         if (info) info.remove();
-        return; 
+        return;
       }
-
-      // Se l'email È verificata, procedi normalmente
+      document.getElementById('verify-block-screen').style.display = 'none';
       document.getElementById('auth-screen').style.display = 'none';
-      document.getElementById('auth-verify-msg').style.display = 'none';
-      window.currentUser = user;
-      
       let info = document.getElementById('user-info');
       if (!info) {
         document.getElementById('hdr-right').insertAdjacentHTML('afterbegin', '<div id="user-info"></div>');
         info = document.getElementById('user-info');
       }
-      // QUI ABBIAMO TOLTO L'EMAIL E IL PULSANTE LOGOUT DALL'HEADER
-      info.innerHTML = ''; 
-      
+      info.innerHTML = '';
       await loadCoinsFromFirebase(user.uid);
-      
     } else {
-      // Se l'utente NON è loggato, resetta tutto
       document.getElementById('auth-screen').style.display = 'flex';
+      document.getElementById('verify-block-screen').style.display = 'none';
       window.currentUser = null;
-      
-      // RIMETTE IL PULSANTE IN MODALITÀ SIGN IN E SVUOTA LA PASSWORD
       document.getElementById('auth-submit').textContent = 'SIGN IN';
       document.getElementById('auth-password').value = '';
-      
       const info = document.getElementById('user-info');
       if (info) info.remove();
       coins = [];
@@ -2826,6 +2724,29 @@ makeDraggable(document.getElementById('detail-box'), document.getElementById('de
     }
   });
 
+  window.checkVerificationNow = async function() {
+    if (auth.currentUser) {
+      await auth.currentUser.reload();
+      if (auth.currentUser.emailVerified) {
+        window.location.reload();
+      } else {
+        showPopup("NOT VERIFIED YET", "Please check your inbox and click the verification link.");
+      }
+    }
+  };
+
+  window.resendVerificationEmail = async function() {
+    if (auth.currentUser) {
+      try {
+        const { sendEmailVerification } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js");
+        await sendEmailVerification(auth.currentUser);
+        showPopup("EMAIL SENT", "A new verification link has been sent to your email. Please check your inbox (and spam folder).");
+      } catch (e) {
+        showPopup("ERROR", e.message.replace('Firebase: ', ''));
+      }
+    }
+  };
+  
   window.loadCoinsFromFirebase = async function(uid) {
     const coinsRef = collection(db, "coins");
     const q = query(coinsRef, where("userId", "==", uid));
@@ -2839,7 +2760,6 @@ makeDraggable(document.getElementById('detail-box'), document.getElementById('de
     if (typeof renderMints === 'function') renderMints();
   };
 </script>
-<!-- CUSTOM POPUP -->
 <div id="custom-popup" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:1000000; align-items:center; justify-content:center;">
   <div style="background:var(--bg2); border:1px solid var(--border2); padding:30px; width:320px; text-align:center; box-shadow:0 8px 40px #00000033;">
     <h3 id="popup-title" style="font-family:'Inter',sans-serif; font-size:1rem; margin-bottom:15px; letter-spacing:0.05em;">MESSAGE</h3>
@@ -2847,7 +2767,6 @@ makeDraggable(document.getElementById('detail-box'), document.getElementById('de
     <button onclick="closePopup()" style="background:var(--text); color:var(--bg2); border:none; padding:10px 20px; font-family:'Inter',sans-serif; cursor:pointer; width:100%;">OK</button>
   </div>
 </div>
-<!-- SETTINGS MODAL -->
 <div id="settings-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:1000000; align-items:center; justify-content:center;">
   <div style="background:var(--bg2); border:1px solid var(--border2); padding:30px; width:350px; box-shadow:0 8px 40px #00000033;">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
@@ -2855,33 +2774,32 @@ makeDraggable(document.getElementById('detail-box'), document.getElementById('de
       <button onclick="toggleSettings()" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color:var(--text3);">&times;</button>
     </div>
     
-    <!-- Tabs -->
     <div style="display:flex; gap:10px; margin-bottom:20px; border-bottom:1px solid var(--border); padding-bottom:10px;">
       <button class="settings-tab active" onclick="switchSettingsTab('email')" style="background:none; border:none; cursor:pointer; font-size:0.8rem; padding:5px; color:var(--text); border-bottom:2px solid var(--text);">Email</button>
       <button class="settings-tab" onclick="switchSettingsTab('password')" style="background:none; border:none; cursor:pointer; font-size:0.8rem; padding:5px; color:var(--text2);">Password</button>
+      <button class="settings-tab" onclick="switchSettingsTab('2fa')" style="background:none; border:none; cursor:pointer; font-size:0.8rem; padding:5px; color:var(--text2);">2FA</button>
     </div>
 
-    <!-- Email Panel -->
     <div id="settings-email-panel">
       <p style="font-size:0.8rem; color:var(--text2); margin-bottom:10px;">Current Email: <strong id="current-email-display"></strong></p>
       <input type="email" id="new-email" placeholder="New Email" style="width:100%; padding:8px; margin-bottom:10px; border:1px solid var(--border); background:var(--bg3);">
       <button onclick="updateUserEmail()" style="width:100%; padding:10px; background:var(--text); color:var(--bg2); border:none; cursor:pointer; margin-bottom:10px;">UPDATE EMAIL</button>
     </div>
 
-    <!-- Password Panel -->
     <div id="settings-password-panel" style="display:none;">
       <input type="password" id="current-password" placeholder="Current Password" style="width:100%; padding:8px; margin-bottom:10px; border:1px solid var(--border); background:var(--bg3);">
       <input type="password" id="new-password" placeholder="New Password" style="width:100%; padding:8px; margin-bottom:10px; border:1px solid var(--border); background:var(--bg3);">
       <button onclick="updateUserPassword()" style="width:100%; padding:10px; background:var(--text); color:var(--bg2); border:none; cursor:pointer; margin-bottom:10px;">UPDATE PASSWORD</button>
     </div>
-
-    <!-- Logout Button (sempre visibile) -->
+    <div id="settings-2fa-panel" style="display:none;">
+      <p style="font-size:0.8rem; color:var(--text2); margin-bottom:10px;">Secure your account with an authenticator app.</p>
+      <button onclick="enable2FA()" style="width:100%; padding:10px; background:var(--text); color:var(--bg2); border:none; cursor:pointer;">ENABLE 2FA</button>
+    </div>
     <div style="margin-top:20px; border-top:1px solid var(--border); padding-top:20px;">
       <button onclick="logoutUser()" style="width:100%; padding:10px; background:transparent; border:1px solid var(--red); color:var(--red); cursor:pointer;">LOG OUT</button>
     </div>
   </div>
 </div>
-<!-- LOGOUT CONFIRMATION POPUP -->
 <div id="logout-confirm-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:1000000; align-items:center; justify-content:center;">
   <div style="background:var(--bg2); border:1px solid var(--border2); padding:30px; width:320px; text-align:center; box-shadow:0 8px 40px #00000033;">
     <h3 style="font-family:'Inter',sans-serif; font-size:1rem; margin-bottom:15px; letter-spacing:0.05em;">LOG OUT</h3>
