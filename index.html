@@ -583,10 +583,61 @@ body.ready{visibility:visible}
   #clist{height:calc(80dvh - 130px - var(--safe-bottom))}
   #auth-screen,#verify-block-screen{align-items:flex-start;padding-top:12px}
 }
+#mobile-gate{
+  display:none;
+  position:fixed;inset:0;z-index:9999999;
+  background:var(--bg);
+  align-items:center;justify-content:center;
+  padding:24px;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+}
+#mobile-gate.open{display:flex}
+#mobile-gate-box{
+  background:var(--bg2);
+  border:1px solid var(--border2);
+  padding:28px 24px;
+  width:100%;max-width:380px;
+  text-align:center;
+  box-shadow:0 8px 40px #00000022;
+}
+#mobile-gate-title{
+  font-size:.9rem;
+  letter-spacing:.18em;
+  font-weight:600;
+  color:var(--text);
+  margin-bottom:18px;
+}
+#mobile-gate-box p{
+  font-size:.85rem;
+  color:var(--text2);
+  line-height:1.55;
+  margin-bottom:14px;
+}
+#mobile-gate-box button{
+  width:100%;
+  padding:14px;
+  margin-top:10px;
+  background:var(--text);
+  color:var(--bg2);
+  border:none;
+  cursor:pointer;
+  font-family:inherit;
+  font-size:.78rem;
+  letter-spacing:.1em;
+}
+#mobile-gate-box button:hover{background:#333}
 </style>
 </head>
 <body>
-
+<div id="mobile-gate">
+  <div id="mobile-gate-box">
+    <div id="mobile-gate-title">WINDOW TOO NARROW</div>
+    <p>This application is designed for larger screens. Some features may be limited or hard to use.</p>
+    <p>For the best experience, please use a larger device, enlarge the browser window, or reduce the zoom level.</p>
+    <button type="button" onclick="proceedMobileAnyway()">PROCEED ANYWAY</button>
+  </div>
+</div>
 <div id="hdr">
   <button id="btn-settings" type="button" aria-label="Settings" onclick="toggleSettings()" title="Settings">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -936,6 +987,27 @@ function normMint(s){
 }
 function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
 function isMobile(){ return window.matchMedia('(max-width: 900px)').matches; }
+function proceedMobileAnyway(){
+  var gate = document.getElementById('mobile-gate');
+  if (gate) gate.classList.remove('open');
+}
+(function initMobileGate(){
+  function check(){
+    var gate = document.getElementById('mobile-gate');
+    if (!gate) return;
+    if (window.innerWidth <= 900) {
+      gate.classList.add('open');
+    } else {
+      gate.classList.remove('open');
+    }
+  }
+  check();
+  var t = null;
+  window.addEventListener('resize', function(){
+    clearTimeout(t);
+    t = setTimeout(check, 200);
+  });
+})();
 function isTablet(){ return window.matchMedia('(min-width: 600px) and (max-width: 1100px) and (pointer: coarse)').matches; }
 function isTouchDevice(){ return 'ontouchstart' in window || navigator.maxTouchPoints > 0; }
 function safeGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
