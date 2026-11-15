@@ -3118,6 +3118,13 @@ function pkAdd(key,id){
   pkAfterChange(key);
   closePickerEl(key);
 }
+function closePickerEl(key){
+  var P = PICKERS[key];
+  if(P && P.el){
+    var root = document.getElementById(P.el);
+    if(root) root.classList.remove('open');
+  }
+}
 function pkRemove(key,id){
   if (IMP_KEY_MAP[key]) { impGeoRemove(IMP_KEY_MAP[key], id); pkAfterChange(key); return; }
   if (REP_KEY_MAP[key]) { repGeoRemove(REP_KEY_MAP[key], id); pkAfterChange(key); return; }
@@ -3195,8 +3202,6 @@ var _pkDebounce = {};
       e.preventDefault();
       e.stopPropagation();
       pkAdd(key, it.getAttribute('data-id'));
-      root.classList.add('open');
-      inp.focus();
     }, {passive:false});
 
     listEl.addEventListener('mousedown', function(e){
@@ -3206,8 +3211,6 @@ var _pkDebounce = {};
       e.preventDefault();
       e.stopPropagation();
       pkAdd(key, it.getAttribute('data-id'));
-      root.classList.add('open');
-      inp.focus();
     });
 
     root.querySelector('.pk-chips').addEventListener('click',function(e){
