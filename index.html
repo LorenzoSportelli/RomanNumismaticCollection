@@ -3102,10 +3102,10 @@ function pkRender(key){
 }
 function pkRenderAll(){ Object.keys(PICKERS).forEach(pkRender); updateGeoHint(); }
 function pkAdd(key,id){
-  if (IMP_KEY_MAP[key]) { impGeoAdd(IMP_KEY_MAP[key], id); pkAfterChange(key); return; }
-  if (REP_KEY_MAP[key]) { repGeoAdd(REP_KEY_MAP[key], id); pkAfterChange(key); return; }
+  if (IMP_KEY_MAP[key]) { impGeoAdd(IMP_KEY_MAP[key], id); pkAfterChange(key); closePickerEl(key); return; }
+  if (REP_KEY_MAP[key]) { repGeoAdd(REP_KEY_MAP[key], id); pkAfterChange(key); closePickerEl(key); return; }
   var P = PICKERS[key];
-  if(P && P.single){ P.set([id]); pkAfterChange(key); return; }
+  if(P && P.single){ P.set([id]); pkAfterChange(key); closePickerEl(key); return; }
   if (key === 'provs') { provGeoAdd('provs', id); }
   else if (key === 'regions') { provGeoAdd('regions', id); }
   else if (key === 'subs') { provGeoAdd('subs', id); }
@@ -3116,6 +3116,7 @@ function pkAdd(key,id){
     P.set(v);
   }
   pkAfterChange(key);
+  closePickerEl(key);
 }
 function pkRemove(key,id){
   if (IMP_KEY_MAP[key]) { impGeoRemove(IMP_KEY_MAP[key], id); pkAfterChange(key); return; }
