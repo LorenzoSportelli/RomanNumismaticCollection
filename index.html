@@ -1173,9 +1173,25 @@ body.ready{visibility:visible}
   .labels-sheet {box-shadow: none;padding:0;margin:0;max-width:none;min-height:auto;}
   .label-card {border:1px dashed #ccc !important; break-inside: avoid;}
 }
+#global-loader {
+  position: fixed; inset: 0; background: var(--paper); z-index: 9999999;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+#global-loader.hidden {
+  opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+}
+.loader-spinner {
+  width: 30px; height: 30px; border: 2px solid var(--rule); border-top-color: var(--ink);
+  border-radius: 50%; animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
 </style>
 </head>
 <body>
+<div id="global-loader">
+  <div class="loader-spinner"></div>
+  <div style="font-family:'Inter',sans-serif; font-size:0.8rem; letter-spacing:0.1em; margin-top:10px; color:var(--ink-3);">LOADING...</div>
+</div>
 <div id="mobile-gate">
   <div id="mobile-gate-box">
     <div id="mobile-gate-title">WINDOW TOO NARROW</div>
@@ -2396,15 +2412,21 @@ fetch("https://cdn.jsdelivr.net/gh/klokantech/roman-empire@master/data/provinces
     document.getElementById("legend").classList.add('ready');
     MINT_GEO_CACHE = {};
     updateMap();
+    window._mapReady = true;
+    if (window.checkAppReady) window.checkAppReady();
   })
   .catch(function(e){
     document.getElementById("loading").innerHTML="<b style='color:#c0392b'>Error: "+e.message+"</b>";
+    window._mapReady = true;
+    if (window.checkAppReady) window.checkAppReady();
   });
 setTimeout(function(){
   if(!geoLayer){
     var el = document.getElementById('loading');
     if (el) el.innerHTML = "<b>Map unavailable</b><small>Check your connection and reload.</small>";
   }
+  window._mapReady = true;
+  if (window.checkAppReady) window.checkAppReady();
 }, 15000);
 function postt(e){
   var r=mw.getBoundingClientRect();
@@ -3709,11 +3731,19 @@ window.addEventListener('orientationchange', function(){
   var defM = safeGet('numismatica_set_mapDef');
   if (defM) setMintMode(defM);
   
-  requestAnimationFrame(function(){
-    requestAnimationFrame(function(){
+  window._mapReady = false;
+  window._authReady = false;
+  
+  window.checkAppReady = function() {
+    if (window._mapReady && window._authReady) {
+      var loader = document.getElementById('global-loader');
+      if (loader) {
+        loader.classList.add('hidden');
+        setTimeout(function(){ loader.style.display = 'none'; }, 300);
+      }
       document.body.classList.add('ready');
-    });
-  });
+    }
+  };
 })();
 </script>
 
@@ -4228,6 +4258,8 @@ window.toggleSettings = function() {
         console.error('Load coins error:', e);
         showPopup('LOAD ERROR', 'Could not load your collection from the cloud. Your local coins are still available.');
       }
+      window._authReady = true;
+      if (window.checkAppReady) window.checkAppReady();
     } else {
       document.getElementById('auth-screen').style.display = 'flex';
       document.getElementById('verify-block-screen').style.display = 'none';
@@ -4240,6 +4272,8 @@ window.toggleSettings = function() {
       renderList();
       updateMap();
       if (typeof renderMints === 'function') renderMints();
+      window._authReady = true;
+      if (window.checkAppReady) window.checkAppReady();
     }
   });
 
