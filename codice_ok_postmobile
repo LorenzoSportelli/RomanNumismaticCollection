@@ -1,0 +1,3427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0">
+<meta name="theme-color" content="#ffffff">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>Mapped Roman Numismatic Collection</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --gold:#1a1a1a;--gold-dim:#555555;--gold-pale:#222222;
+  --bg:#f9f8f6;--bg2:#ffffff;--bg3:#f2f1ef;
+  --border:#d8d5cf;--border2:#b0aca4;
+  --text:#1a1a1a;--text2:#555550;--text3:#999990;
+  --red:#c0392b;--panel:300px;
+  --space-fields:13px;
+  --hdr-h:48px;
+  --handle-h:36px;
+  --safe-top:env(safe-area-inset-top, 0px);
+  --safe-bottom:env(safe-area-inset-bottom, 0px);
+}
+html,body{
+  height:100dvh;height:100vh;
+  overflow:hidden;
+  background:var(--bg);color:var(--text);
+  font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  overscroll-behavior:none;
+  -webkit-text-size-adjust:100%;
+}
+body{visibility:hidden}
+body.ready{visibility:visible}
+#hdr{
+  height:calc(var(--hdr-h) + var(--safe-top));
+  background:var(--bg2);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;
+  padding:0 28px;
+  padding-top:var(--safe-top);
+  position:relative;z-index:1000;
+}
+#hdr-left{
+  position:absolute;left:50%;transform:translateX(-50%);
+  text-align:center;display:flex;flex-direction:column;gap:2px;
+  margin-top:8px;pointer-events:none;
+  max-width:calc(100% - 320px);
+  padding:0 20px;
+}
+#hdr-title{font-size:1.05rem;letter-spacing:.12em;font-weight:600;white-space:nowrap}
+#hdr-title .t-short{display:none}
+#hdr-title .t-mob{display:none}
+#hdr-sub{font-size:.72rem;color:var(--text3);font-style:italic;padding:0 12px 4px}
+#hdr-sep{flex:1}
+#hdr-right{margin-left:auto;display:flex;align-items:center;gap:12px;margin-top:14px}
+#hdr-count{font-size:.72rem;color:var(--text2);letter-spacing:.08em}
+#hdr-count span{color:var(--text)}
+#btn-add{
+  background:transparent;border:1px solid var(--border2);color:var(--text);
+  font-size:.65rem;letter-spacing:.1em;padding:5px 14px;cursor:pointer;
+  transition:all .2s;font-family:inherit;
+}
+#btn-add:hover{background:var(--text);color:var(--bg2)}
+#btn-settings{
+  background:none;border:none;cursor:pointer;padding:4px;
+  display:flex;align-items:center;justify-content:center;
+  margin-right:15px;color:var(--text2);
+}
+#btn-settings:hover{color:var(--text)}
+#body{display:flex;height:calc(100dvh - var(--hdr-h) - var(--safe-top))}
+#mapwrap{flex:1;position:relative;min-width:0}
+#map{width:100%;height:100%}
+#loading{
+  position:absolute;inset:0;background:#f9f8f6ee;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  z-index:500;
+}
+#loading b{color:var(--text);letter-spacing:.1em;font-weight:400}
+#loading small{color:var(--text3);font-style:italic;font-size:.75rem}
+#tt{
+  display:none;position:absolute;background:var(--bg2);
+  border:1px solid var(--border2);padding:9px 13px;z-index:9999;
+  pointer-events:none;min-width:180px;max-width:calc(100vw - 16px);
+  box-shadow:0 4px 20px #00000022;
+}
+#tt strong{display:block;color:var(--text);font-size:.64rem;letter-spacing:.08em;margin-bottom:5px;font-weight:500}
+#tt .tl{font-size:.82rem;color:var(--text2)}
+#tt .tl b{color:var(--text)}
+#tt .coins{margin-top:5px;font-size:.72rem;color:var(--text3);font-style:italic;border-top:1px solid var(--border);padding-top:4px}
+#tt .coin-item{color:var(--text2);padding:1px 0}
+#legend{
+  position:absolute;bottom:18px;left:50%;transform:translateX(-50%);
+  z-index:900;background:#f9f8f6cc;border:1px solid var(--border);
+  padding:5px 14px;display:flex;align-items:center;gap:8px;
+  font-size:.7rem;color:var(--text2);pointer-events:none;letter-spacing:.05em;
+  opacity:0;transition:opacity .3s;
+}
+#legend.ready{opacity:1}
+#legbar{
+  width:150px;height:9px;border-radius:1px;
+  background:linear-gradient(
+    to right,
+    rgb(207,207,207),rgb(121,160,211),rgb(128,172,160),rgb(171,197,132),
+    rgb(236,213,120),rgb(239,201,96),rgb(243,184,75),rgb(242,171,61),
+    rgb(241,157,52),rgb(238,143,46),rgb(234,127,41),rgb(229,111,38),
+    rgb(223,96,35),rgb(218,79,31),rgb(214,61,28),rgb(211,44,25)
+  );
+}
+#legend .leg-hl{display:none;align-items:center;gap:5px;margin-left:10px;padding-left:10px;border-left:1px solid var(--border)}
+#legend .leg-hl i{display:inline-block;width:14px;height:9px;border:2px solid #2a7a4a;background:transparent}
+#legend.has-hl .leg-hl{display:flex}
+#map-controls-overlay{
+  display:none;
+  position:fixed;inset:0;z-index:999;
+  background:rgba(0,0,0,0.15);
+}
+#map-controls-overlay.open{display:block}
+#map-controls{
+  position:absolute;top:15px;right:15px;z-index:1000;
+  display:flex;flex-direction:column;gap:8px;align-items:flex-end;
+}
+#map-controls > div{display:flex;gap:6px}
+#map-controls .btn{background:var(--bg2);font-size:0.6rem;padding:5px 10px}
+#btn-mobile-filters{display:none}
+#panel{
+  width:var(--panel);background:var(--bg2);
+  border-left:1px solid var(--border);
+  display:flex;flex-direction:column;flex-shrink:0;overflow:hidden;
+}
+#panel-head{padding:12px 14px 10px;border-bottom:1px solid var(--border);flex-shrink:0;position:relative}
+#panel-head h2{font-size:.65rem;color:var(--text);letter-spacing:.12em;font-weight:500;margin-bottom:8px}
+#collection-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+#collection-heading h2{margin-bottom:0}
+.panel-handle-label{display:none}
+#tags-wrap{position:relative;z-index:1600}
+#btn-tags{
+  background:transparent;border:1px solid var(--border);color:var(--text2);
+  font-size:.58rem;letter-spacing:.1em;padding:4px 9px;cursor:pointer;
+  font-family:inherit;
+}
+#btn-tags:hover{border-color:var(--border2);color:var(--text)}
+#tags-menu{
+  display:none;position:absolute;right:0;top:calc(100% + 5px);
+  width:175px;background:var(--bg2);border:1px solid var(--border2);
+  padding:9px 11px;z-index:1700;box-shadow:0 4px 18px #00000018;
+}
+#tags-menu.open{display:block}
+.tag-option{display:flex;align-items:center;gap:8px;padding:6px 2px;font-size:.68rem;color:var(--text2);cursor:pointer;font-family:inherit}
+.tag-option input{accent-color:#555;cursor:pointer}
+.tag-option:hover{color:var(--text)}
+#tags-menu .tag-menu-title{font-size:.57rem;letter-spacing:.1em;color:var(--text3);padding-bottom:7px;border-bottom:1px solid var(--border);margin-bottom:5px;font-family:inherit}
+#srch{width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);font-family:inherit;font-size:.9rem;padding:6px 8px;outline:none}
+#srch:focus{border-color:var(--border2)}
+#srch::placeholder{color:var(--text3)}
+.filter-row{display:flex;gap:4px;margin-top:6px}
+.ftab{flex:1;background:transparent;border:1px solid var(--border);color:var(--text3);font-size:.58rem;letter-spacing:.08em;padding:4px 6px;cursor:pointer;transition:all .15s;font-family:inherit}
+.ftab.on{background:var(--text);border-color:var(--text);color:var(--bg2)}
+.ftab:hover:not(.on){border-color:var(--border2);color:var(--text2)}
+#clist{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
+#clist::-webkit-scrollbar{width:3px}
+#clist::-webkit-scrollbar-thumb{background:var(--border)}
+.empty-msg{padding:24px 14px;text-align:center;font-style:italic;color:var(--text3);font-size:.82rem}
+.crow{padding:12px 16px;border-bottom:1px solid #00000008;cursor:pointer;transition:background .1s;position:relative}
+.crow:hover{background:#00000005}
+.crow-ref{font-size:.85rem;font-weight:600;letter-spacing:.02em}
+.crow-desc{font-size:.95rem;color:var(--text2);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.crow-meta{display:flex;flex-wrap:wrap;align-items:baseline;gap:0;margin-top:6px;font-size:.7rem;letter-spacing:.02em}
+.ctag{display:inline;padding:0;border:0;background:transparent;font-variant:small-caps;letter-spacing:.05em;font-weight:600}
+.ctag + .ctag::before{content:"·";margin:0 7px;color:var(--text3);font-weight:400}
+.ct-prov-name{color:#1a3a5c}
+.ct-region{color:#1e4a2a}
+.ct-city{color:#5c4308}
+.ct-authority{color:#5a3f1e}
+.ct-magistrate{color:#4a3055}
+.ct-mat{color:#1f4747}
+.ct-reign{color:#5a3f1e}
+.ct-rep,.ct-imp,.ct-prov{color:var(--text2)}
+.crow-actions{float:right;display:flex;gap:3px;opacity:0;transition:opacity .15s}
+.crow:hover .crow-actions{opacity:1}
+.ca{
+  width:18px;height:18px;background:transparent;border:1px solid var(--border);
+  color:var(--text3);cursor:pointer;font-size:11px;
+  display:flex;align-items:center;justify-content:center;
+}
+.ca:hover{border-color:var(--border2);color:var(--text)}
+.ca.del:hover{border-color:var(--red);color:#c0392b}
+#foot{
+  padding:7px 14px;border-top:1px solid var(--border);
+  font-size:.62rem;color:var(--text3);flex-shrink:0;
+  display:flex;gap:16px;letter-spacing:.06em;
+  padding-bottom:calc(7px + var(--safe-bottom));
+}
+#foot span{color:var(--text)}
+#overlay{
+  display:none;position:fixed;inset:0;background:#00000044;z-index:2000;
+  align-items:center;justify-content:center;
+}
+#overlay.open{display:flex}
+#modal{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  background:var(--bg2);border:1px solid var(--border2);
+  width:520px;max-width:95vw;max-height:90vh;display:flex;flex-direction:column;
+  box-shadow:0 8px 60px #00000022;cursor:grab;
+}
+#modal-head{padding:14px 18px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-shrink:0;cursor:grab;user-select:none;-webkit-user-select:none}
+#modal-head:active{cursor:grabbing}
+#modal-head h3{font-size:.8rem;color:var(--text);letter-spacing:.12em;font-weight:500;flex:1}
+#modal-head button{background:transparent;border:none;color:var(--text3);font-size:1.2rem;cursor:pointer;line-height:1;padding:4px;min-width:36px;min-height:36px}
+#modal-head button:hover{color:var(--text)}
+#modal-body{padding:16px 18px;overflow-y:auto;flex:1;-webkit-overflow-scrolling:touch}
+#modal-body::-webkit-scrollbar{width:3px}
+#modal-body::-webkit-scrollbar-thumb{background:var(--border)}
+#modal-foot{padding:12px 18px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end;flex-shrink:0;padding-bottom:calc(12px + var(--safe-bottom))}
+.frow{margin-bottom:var(--space-fields)}
+.frow label{display:block;font-size:.6rem;color:var(--text3);letter-spacing:.1em;margin-bottom:5px}
+.frow label span{color:var(--border2)}
+.frow input,.frow select,.frow textarea{
+  width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);
+  font-family:'Crimson Text',serif;font-size:.95rem;padding:5px 9px;outline:none;resize:vertical;
+}
+.frow input:focus,.frow select:focus,.frow textarea:focus{border-color:var(--border2)}
+.frow select{
+  appearance:none;-webkit-appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%23555550' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 10px center;padding-right:28px;
+}
+.frow select option{background:var(--bg2);color:var(--text)}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-fields)}
+.frow textarea{min-height:60px}
+.fsep{height:1px;background:var(--border);margin:22px 0 13px;position:relative}
+.fsep-label{
+  position:absolute;left:50%;transform:translateX(-50%) translateY(-50%);
+  background:var(--bg2);padding:0 10px;
+  font-size:.58rem;color:var(--text3);letter-spacing:.1em;
+}
+.radio-group{display:flex;gap:8px}
+.radio-opt{
+  flex:1;border:1px solid var(--border);padding:7px 10px;cursor:pointer;
+  text-align:center;font-size:.65rem;letter-spacing:.08em;color:var(--text3);
+  transition:all .2s;
+}
+.radio-opt.on{border-color:var(--text);background:var(--bg3);color:var(--text)}
+.radio-opt:hover:not(.on){border-color:var(--border2);color:var(--text2)}
+.picker{position:relative}
+.pk-chips{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:4px}
+.pk-chips:empty{display:none}
+.pk-chip{
+  display:inline-flex;align-items:center;gap:5px;font-size:.68rem;letter-spacing:.03em;
+  padding:2px 6px 2px 8px;border:1px solid var(--border);background:var(--bg3);
+  color:var(--text2);border-radius:3px;max-width:100%;
+}
+.pk-chip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pk-chip b{cursor:pointer;font-weight:400;color:var(--text3);font-size:.85rem;line-height:1;padding:0 2px}
+.pk-chip b:hover{color:var(--red)}
+.pk-list{
+  display:none;position:absolute;left:0;right:0;top:100%;
+  max-height:170px;overflow-y:auto;
+  background:var(--bg2);border:1px solid var(--border2);z-index:50;
+  box-shadow:0 4px 20px #00000018;-webkit-overflow-scrolling:touch;
+  touch-action:pan-y;
+}
+.pk-list::-webkit-scrollbar{width:3px}
+.pk-list::-webkit-scrollbar-thumb{background:var(--border)}
+.picker.open .pk-list{display:block}
+.pk-item{padding:6px 9px;font-family:'Crimson Text',serif;font-size:.9rem;color:var(--text2);cursor:pointer;border-bottom:1px solid #00000006}
+.pk-item:hover{background:var(--bg3);color:var(--text)}
+.pk-item small{font-size:.6rem;color:var(--text3);letter-spacing:.04em;margin-left:6px}
+.pk-none{padding:6px 9px;font-style:italic;font-size:.8rem;color:var(--text3)}
+.pk-hint{font-size:.58rem;color:var(--text3);letter-spacing:.05em;margin-top:4px;font-style:italic}
+.pk-hint:empty{display:none}
+#pk-provs .pk-chip{color:#1a3a5c}
+#pk-regions .pk-chip{color:#1e4a2a}
+#pk-subs .pk-chip{color:#5a3f1e}
+#pk-cities .pk-chip{color:#5c4308}
+#pk-mag .pk-chip{color:#4a3055}
+#pk-reign .pk-chip{color:#5a3f1e}
+#pk-imp-regions .pk-chip,#pk-rep-regions .pk-chip{color:#1e4a2a}
+#pk-imp-subs .pk-chip,#pk-rep-subs .pk-chip{color:#1a3a5c}
+#pk-imp-subsubs .pk-chip,#pk-rep-subsubs .pk-chip{color:#4a3055}
+#pk-imp-cities .pk-chip,#pk-rep-cities .pk-chip{color:#5c4308}
+#pk-rep-issuers .pk-chip,#pk-authorities .pk-chip{color:#5a3f1e}
+#pk-issuers .pk-chip{color:#4a3055}
+.btn{
+  background:transparent;border:1px solid var(--border2);color:var(--text2);
+  font-family:inherit;font-size:.65rem;letter-spacing:.1em;
+  padding:7px 18px;cursor:pointer;transition:all .2s;
+}
+.btn:hover{border-color:var(--text);color:var(--text)}
+.btn-gold{background:var(--text);border-color:var(--text);color:var(--bg2)}
+.btn-gold:hover{background:#333;color:var(--bg2);border-color:#333}
+.btn.active{background:var(--bg3);border-color:var(--text);color:var(--text)}
+#confirm{display:none;position:fixed;inset:0;background:#00000066;z-index:3000;align-items:center;justify-content:center;padding:16px}
+#confirm.open{display:flex}
+#confirm-box{background:var(--bg2);border:1px solid var(--border2);padding:24px 28px;text-align:center;max-width:340px;width:100%;max-height:90dvh;overflow-y:auto}
+#confirm-box p{font-style:italic;color:var(--text2);margin-bottom:14px;font-size:.95rem}
+#confirm-box .btns{display:flex;gap:8px;justify-content:center}
+#detail{display:none;position:fixed;inset:0;background:#00000044;z-index:2500;align-items:center;justify-content:center}
+#detail.open{display:flex}
+#detail-box{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  background:var(--bg2);border:1px solid var(--border2);
+  width:480px;max-width:95vw;max-height:90vh;display:flex;flex-direction:column;
+  box-shadow:0 8px 60px #00000022;cursor:grab;
+}
+#detail-head{padding:14px 18px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-shrink:0;cursor:grab;user-select:none;-webkit-user-select:none}
+#detail-head:active{cursor:grabbing}
+#detail-head h3{font-size:.8rem;color:var(--text);letter-spacing:.12em;font-weight:500;flex:1}
+#detail-head button{background:transparent;border:none;color:var(--text3);font-size:1.2rem;cursor:pointer;line-height:1;padding:4px;min-width:36px;min-height:36px}
+#detail-head button:hover{color:var(--text)}
+#detail-body{padding:16px 18px;overflow-y:auto;flex:1;-webkit-overflow-scrolling:touch}
+#detail-body::-webkit-scrollbar{width:3px}
+#detail-body::-webkit-scrollbar-thumb{background:var(--border)}
+#detail-foot{padding:12px 18px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end;flex-shrink:0;padding-bottom:calc(12px + var(--safe-bottom))}
+.drow{margin-bottom:12px}
+.drow label{display:block;font-size:.6rem;color:var(--text3);letter-spacing:.1em;margin-bottom:3px}
+.drow div{font-family:'Crimson Text',serif;font-size:.98rem;color:var(--text);white-space:pre-wrap;line-height:1.4}
+.dgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+.dsep{height:1px;background:var(--border);margin:6px 0 14px}
+.leaflet-container{background:#e8e8e0;font-family:inherit}
+.leaflet-control-zoom a{background:var(--bg2)!important;color:var(--text)!important;border-color:var(--border)!important}
+.leaflet-control-attribution{font-size:7px!important;line-height:1.1!important;opacity:.65!important;background:rgba(249,248,246,.55)!important;color:#333!important;border:1px solid #d8d5cf!important;padding:2px 5px!important;border-radius:3px}
+.mint-marker{border-radius:50%;box-shadow:0 2px 5px rgba(0,0,0,.4)}
+#auth-screen{
+  position:fixed;inset:0;background:var(--bg);z-index:999999;
+  display:flex;align-items:center;justify-content:center;
+  padding:16px;overflow-y:auto;-webkit-overflow-scrolling:touch;
+}
+#auth-box{
+  background:var(--bg2);border:1px solid var(--border2);padding:30px;
+  width:100%;max-width:350px;text-align:center;
+  box-shadow:0 8px 40px #00000022;max-height:90dvh;overflow-y:auto;
+}
+#auth-box h2{font-size:1.05rem;margin-bottom:14px;letter-spacing:.08em;line-height:1.4}
+#auth-box input{
+  width:100%;padding:12px;margin-bottom:10px;border:1px solid var(--border);
+  background:var(--bg3);font-family:inherit;font-size:16px;outline:none;
+}
+#auth-box input:focus{border-color:var(--border2)}
+#auth-box button{
+  width:100%;padding:12px;background:var(--text);color:var(--bg2);
+  border:none;cursor:pointer;font-family:inherit;font-size:.85rem;
+  letter-spacing:.06em;margin-bottom:10px;
+}
+#auth-box button:hover{background:#333}
+#auth-box button:disabled{opacity:.6;cursor:wait}
+#auth-error{color:var(--red);font-size:.8rem;margin-bottom:10px;display:none;text-align:left}
+.auth-switch{font-size:.8rem;color:var(--text2);cursor:pointer;text-decoration:underline;padding:4px 0}
+#user-info{display:flex;align-items:center;gap:10px;font-size:.75rem;margin-right:15px}
+#btn-logout{background:transparent;border:1px solid var(--border);padding:3px 8px;cursor:pointer;font-size:.65rem;font-family:inherit}
+#btn-logout:hover{background:var(--red);color:#fff;border-color:var(--red)}
+#verify-block-screen{
+  display:none;position:fixed;inset:0;background:var(--bg);z-index:999998;
+  align-items:center;justify-content:center;padding:16px;
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
+}
+#verify-block-screen > div{
+  background:var(--bg2);border:1px solid var(--border2);padding:30px;
+  width:100%;max-width:420px;text-align:center;
+  box-shadow:0 8px 40px #00000022;
+}
+.overlay-custom{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);
+  z-index:1000000;align-items:center;justify-content:center;padding:16px;
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
+}
+.overlay-custom.open{display:flex}
+.box-custom{
+  background:var(--bg2);border:1px solid var(--border2);padding:26px;
+  width:100%;max-width:340px;box-shadow:0 8px 40px #00000033;
+  max-height:90dvh;overflow-y:auto;
+}
+@media (max-width: 900px){
+  #hdr{padding:0 12px;gap:6px}
+  #hdr-left{
+    position:static;transform:none;margin:0;
+    flex:1;text-align:left;min-width:0;
+    display:flex;flex-direction:column;justify-content:center;
+  }
+  #hdr-title{font-size:.72rem;letter-spacing:.06em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  #hdr-title .t-long{display:none}
+  #hdr-title .t-short{display:none}
+  #hdr-title .t-mob{display:inline}
+  #hdr-sub{display:none}
+  #hdr-count{display:none}
+  #btn-add{font-size:0;padding:8px 10px;min-width:36px;min-height:36px}
+  #btn-add::before{content:"+";font-size:1.2rem;line-height:1;font-weight:400}
+  #btn-settings{margin-right:4px;min-width:36px;min-height:36px}
+  #hdr-right{margin-top:10px;gap:6px}
+  #body{display:block;position:relative}
+  #mapwrap{height:100%;width:100%}
+  :root{--handle-h:44px}
+  #panel{
+    position:fixed;left:0;right:0;bottom:0;
+    width:100%;height:64dvh;
+    border-left:none;border-top:1px solid var(--border2);
+    border-radius:14px 14px 0 0;
+    box-shadow:0 -6px 30px #00000022;
+    transform:translateY(calc(100% - var(--handle-h) - var(--safe-bottom)));
+    transition:transform .3s ease;
+    z-index:1500;
+    padding-bottom:var(--safe-bottom);
+  }
+  #panel.open{transform:translateY(0)}
+  #panel-head{
+    height:var(--handle-h);
+    padding:0;
+    overflow:hidden;
+    touch-action:none;
+    cursor:grab;
+    min-height:var(--handle-h);
+  }
+  #panel.open #panel-head{
+    height:auto;
+    padding:18px 14px 10px;
+    overflow:visible;
+  }
+  #panel-head::before{
+    content:"";position:absolute;top:6px;left:50%;
+    transform:translateX(-50%);
+    width:40px;height:4px;border-radius:2px;background:var(--border2);
+  }
+  #panel:not(.open) #collection-heading,
+  #panel:not(.open) #srch,
+  #panel:not(.open) .filter-row{
+    opacity:0;
+    pointer-events:none;
+    height:0;
+    overflow:hidden;
+  }
+  #panel.open #collection-heading,
+  #panel.open #srch,
+  #panel.open .filter-row{
+    opacity:1;
+    pointer-events:auto;
+    height:auto;
+  }
+  #panel:not(.open) #panel-head .panel-handle-label{
+    display:flex;
+  }
+  #panel.open #panel-head .panel-handle-label{
+    display:none;
+  }
+  .panel-handle-label{
+    position:absolute;
+    top:14px;left:0;right:0;
+    display:none;
+    align-items:center;justify-content:center;gap:8px;
+    font-size:.62rem;letter-spacing:.18em;color:var(--text2);
+    font-weight:500;
+    pointer-events:none;
+  }
+  .panel-handle-label .arrow{
+    display:inline-block;
+    width:0;height:0;
+    border-left:4px solid transparent;
+    border-right:4px solid transparent;
+    border-bottom:5px solid var(--text3);
+    margin-bottom:1px;
+  }
+  #clist{height:calc(64dvh - 130px - var(--safe-bottom))}
+  #map-controls{
+    top:12px;bottom:auto;
+    right:8px;display:none;flex-direction:column;align-items:stretch;
+    background:var(--bg2);border:1px solid var(--border2);
+    padding:8px;border-radius:6px;box-shadow:0 4px 20px #00000022;
+    max-width:calc(100vw - 16px);
+    z-index:1100;
+    position:absolute;
+  }
+  #map-controls.mobile-open{display:flex}
+  #map-controls > div{flex-wrap:wrap;gap:4px}
+  #map-controls .btn{font-size:.55rem !important;padding:6px 8px !important;flex:1 0 auto}
+  #btn-mobile-filters{
+    display:block;position:absolute;
+    top:12px;
+    right:8px;z-index:1100;
+    background:var(--bg2);font-size:.6rem;padding:8px 12px;
+    border:1px solid var(--border2);
+    margin-top:0;
+  }
+  #btn-mobile-filters.active{background:var(--bg3);border-color:var(--text)}
+  #legend{
+    bottom:calc(var(--handle-h) + var(--safe-bottom) + 10px);
+    top:auto;left:8px;transform:none;
+    font-size:.55rem;padding:4px 8px;gap:6px;
+  }
+  #legbar{width:60px;height:7px}
+  #legend .leg-hl{margin-left:6px;padding-left:6px}
+  #modal, #detail-box{
+    position:fixed;inset:0;
+    transform:none;
+    width:100vw;max-width:100vw;
+    height:100dvh;max-height:100dvh;
+    border-radius:0;border:none;
+    cursor:default;
+  }
+  #modal-head, #detail-head{
+    padding-top:calc(14px + var(--safe-top));
+    cursor:default;
+  }
+  #modal-body, #detail-body{padding:14px 14px}
+  #modal-foot .btn, #detail-foot .btn{flex:1;padding:14px;font-size:.72rem}
+  #modal-foot, #detail-foot{justify-content:stretch}
+  .frow input, .frow select, .frow textarea{
+    font-size:16px;padding:10px 12px;
+  }
+  .frow textarea{min-height:100px}
+  .frow label{font-size:.7rem}
+  .fsep-label{font-size:.65rem}
+  .pk-item{padding:10px 12px;font-size:16px}
+  .pk-item small{display:block;margin-left:0;margin-top:2px;font-size:.7rem}
+  .pk-chip{padding:4px 6px 4px 10px;font-size:.75rem}
+  .pk-chip b{font-size:1.1rem;padding:4px;margin-left:4px}
+  .pk-list{max-height:min(40dvh, 260px)}
+  .pk-hint{font-size:.7rem}
+  .btn{padding:10px 16px;font-size:.72rem;min-height:44px}
+  .radio-opt{padding:12px 6px;font-size:.6rem}
+  .ca{width:40px;height:40px;font-size:16px}
+  .crow-actions{opacity:1;gap:6px}
+  .crow{padding:14px}
+  .crow-ref{font-size:.92rem}
+  .crow-desc{font-size:.88rem}
+  .crow-meta{font-size:.7rem;gap:0}
+  .ctag + .ctag::before{margin:0 5px}
+  #clist .empty-msg{font-size:.85rem}
+  #srch{font-size:16px;padding:10px}
+  .ftab{padding:8px 4px;font-size:.65rem;min-height:36px}
+  .tag-option{padding:10px 4px;font-size:.78rem}
+  #tags-menu{right:6px;width:min(220px,calc(100vw - 12px))}
+  #tags-menu .tag-menu-title{font-size:.7rem}
+  #confirm-box{padding:24px 20px;width:calc(100vw - 32px)}
+  #confirm-box .btn{flex:1;padding:14px}
+  #auth-box{padding:24px 20px}
+  #auth-box h2{font-size:.95rem}
+  .drow div{font-size:.92rem;line-height:1.45}
+  .drow label{font-size:.65rem}
+  .dgrid{grid-template-columns:1fr;gap:0}
+  #map-controls .btn, #btn-mobile-filters, #legend, .btn, .ftab, .ca{
+    -webkit-user-select:none;user-select:none;
+  }
+}
+@media (min-width: 600px) and (max-width: 1100px) and (pointer: coarse){
+  #hdr-title .t-long{display:none}
+  #hdr-title .t-short{display:inline}
+  #hdr-title .t-mob{display:none}
+  #hdr-sub{display:block;padding:0 4px}
+  .panel-handle-label{display:none !important}
+  #panel{
+    width:320px;
+    border-radius:0;
+    height:100%;
+    transform:none;
+    transition:none;
+    position:relative;
+    border-top:none;
+    border-left:1px solid var(--border);
+    padding-bottom:0;
+  }
+  #panel-head{height:auto;padding:12px 14px 10px}
+  #panel:not(.open) #collection-heading,
+  #panel:not(.open) #srch,
+  #panel:not(.open) .filter-row{
+    opacity:1;pointer-events:auto;height:auto;
+  }
+  #body{display:flex;flex-direction:row}
+  #mapwrap{height:100%}
+  #clist{height:auto;flex:1}
+  #legend{left:50%;transform:translateX(-50%);bottom:12px}
+  #hdr{padding:0 20px}
+  #hdr-left{max-width:calc(100% - 280px);padding:0 24px}
+  #hdr-count{display:block}
+  #hdr-sub{display:block}
+}
+@media (max-width: 380px){
+  #hdr-title{font-size:.62rem}
+  .radio-opt{font-size:.55rem;padding:10px 4px}
+  #hdr-right{margin-top:8px}
+}
+@media (max-width: 900px) and (max-height: 500px){
+  #panel{height:80dvh}
+  #clist{height:calc(80dvh - 130px - var(--safe-bottom))}
+  #auth-screen,#verify-block-screen{align-items:flex-start;padding-top:12px}
+}
+#mobile-gate{
+  display:none;
+  position:fixed;inset:0;z-index:9999999;
+  background:var(--bg);
+  align-items:center;justify-content:center;
+  padding:24px;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+}
+#mobile-gate.open{display:flex}
+#mobile-gate-box{
+  background:var(--bg2);
+  border:1px solid var(--border2);
+  padding:28px 24px;
+  width:100%;max-width:380px;
+  text-align:center;
+  box-shadow:0 8px 40px #00000022;
+}
+#mobile-gate-title{
+  font-size:.9rem;
+  letter-spacing:.18em;
+  font-weight:600;
+  color:var(--text);
+  margin-bottom:18px;
+}
+#mobile-gate-box p{
+  font-size:.85rem;
+  color:var(--text2);
+  line-height:1.55;
+  margin-bottom:14px;
+}
+#mobile-gate-box button{
+  width:100%;
+  padding:14px;
+  margin-top:10px;
+  background:var(--text);
+  color:var(--bg2);
+  border:none;
+  cursor:pointer;
+  font-family:inherit;
+  font-size:.78rem;
+  letter-spacing:.1em;
+}
+#mobile-gate-box button:hover{background:#333}
+</style>
+</head>
+<body>
+<div id="mobile-gate">
+  <div id="mobile-gate-box">
+    <div id="mobile-gate-title">WINDOW TOO NARROW</div>
+    <p>This application is designed for larger screens. Some features may be limited or hard to use.</p>
+    <p>For the best experience, please use a larger device, enlarge the browser window, or reduce the zoom level.</p>
+    <button type="button" onclick="proceedMobileAnyway()">PROCEED ANYWAY</button>
+  </div>
+</div>
+<div id="hdr">
+  <button id="btn-settings" type="button" aria-label="Settings" onclick="toggleSettings()" title="Settings">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="3"></circle>
+      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+    </svg>
+  </button>
+  <div id="hdr-left">
+    <div id="hdr-title"><span class="t-long">MAPPED ROMAN NUMISMATIC COLLECTION</span><span class="t-short">ROMAN NUMISMATICS</span><span class="t-mob">MRNC</span></div>
+    <div id="hdr-sub">Provinces at AD 117</div>
+  </div>
+  <div id="hdr-sep"></div>
+  <div id="hdr-right">
+    <div id="hdr-count">Coins: <span id="hc">0</span></div>
+    <button id="btn-add" type="button" aria-label="Add coin" onclick="openModal()">+ ADD COIN</button>
+  </div>
+</div>
+
+<div id="body">
+  <div id="mapwrap">
+    <div id="map"></div>
+    <div id="loading"><b>Loading map…</b><small>Roman provinces at AD 117</small></div>
+    <div id="tt"></div>
+    <div id="legend"><span>0</span><div id="legbar"></div><span id="legmax">0</span><div class="leg-hl"><i></i><span>SELECTION</span></div></div>
+
+    <button id="btn-mobile-filters" type="button" class="btn" onclick="toggleMobileFilters()">FILTERS</button>
+    <div id="map-controls-overlay" onclick="closeMobileFilters()"></div>
+    <div id="map-controls">
+      <div>
+        <button id="btn-mints-none" class="btn" onclick="setMintMode('none')">NO MINTS</button>
+        <button id="btn-mints-mine" class="btn" onclick="setMintMode('mine')">MY MINTS</button>
+        <button id="btn-mints-all" class="btn" onclick="setMintMode('all')">ALL THE MINTS</button>
+      </div>
+      <div>
+        <button id="btn-filter-all" class="btn" data-filter="all" onclick="setFilter('all')">ALL COINS</button>
+        <button id="btn-filter-prov" class="btn" data-filter="prov" onclick="setFilter('prov')">PROVINCIAL</button>
+        <button id="btn-filter-imp" class="btn" data-filter="imp" onclick="setFilter('imp')">IMPERIAL</button>
+        <button id="btn-filter-rep" class="btn" data-filter="rep" onclick="setFilter('rep')">REPUBLICAN</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="panel">
+    <div id="panel-head">
+      <div class="panel-handle-label"><span class="arrow"></span><span>COLLECTION</span></div>
+      <div id="collection-heading">
+        <h2>COLLECTION</h2>
+        <div id="tags-wrap">
+          <button id="btn-tags" type="button" onclick="toggleTagsMenu(event)">TAGS &#9662;</button>
+          <div id="tags-menu">
+            <div class="tag-menu-title">VISIBLE TAGS</div>
+            <label class="tag-option"><input type="checkbox" data-tag="province" checked> Province</label>
+            <label class="tag-option"><input type="checkbox" data-tag="region" checked> Region</label>
+            <label class="tag-option"><input type="checkbox" data-tag="city" checked> City</label>
+            <label class="tag-option"><input type="checkbox" data-tag="authority" checked> Authority</label>
+            <label class="tag-option"><input type="checkbox" data-tag="magistrate" checked> Magistrate</label>
+            <label class="tag-option"><input type="checkbox" data-tag="metal" checked> Metal</label>
+          </div>
+        </div>
+      </div>
+      <input id="srch" type="text" placeholder="Search…" oninput="onSearchInput()">
+      <div class="filter-row">
+        <button class="ftab on" data-filter="all" onclick="setFilter('all',this)">All</button>
+        <button class="ftab" data-filter="prov" onclick="setFilter('prov',this)">Provincial</button>
+        <button class="ftab" data-filter="imp" onclick="setFilter('imp',this)">Imperial</button>
+        <button class="ftab" data-filter="rep" onclick="setFilter('rep',this)">Republican</button>
+      </div>
+    </div>
+    <div id="clist"></div>
+    <div id="foot">Coins: <span id="fcount">0</span></div>
+  </div>
+</div>
+
+<div id="overlay" onclick="if(event.target===this)closeModal()">
+<div id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div id="modal-head">
+    <h3 id="modal-title">ADD COIN</h3>
+    <button type="button" aria-label="Close" onclick="closeModal()">&#215;</button>
+  </div>
+  <div id="modal-body">
+    <div class="frow">
+      <label>PERIOD</label>
+      <div class="radio-group">
+        <div class="radio-opt on" id="r-prov" onclick="setPeriod('prov')">PROVINCIAL</div>
+        <div class="radio-opt" id="r-imp" onclick="setPeriod('imp')">IMPERIAL</div>
+        <div class="radio-opt" id="r-rep" onclick="setPeriod('rep')">REPUBLICAN</div>
+      </div>
+    </div>
+    <div class="frow">
+      <label>REFERENCE <span style="font-size:.55rem;letter-spacing:.05em;color:var(--text3)">(e.g. RRC 44/5 · RPC I 985 · RIC 207)</span></label>
+      <input id="f-ref" type="text" placeholder="RIC 207">
+    </div>
+    <div id="block-main-geography" style="display:none">
+      <div class="fsep"><div class="fsep-label">GEOGRAPHY</div></div>
+      <div class="fgrid">
+        <div class="frow">
+          <label>REGION</label>
+          <div class="picker" id="pk-rep-regions">
+            <div class="pk-chips"></div>
+            <input class="pk-in" type="text" placeholder="Search region…" autocomplete="off">
+            <div class="pk-list"></div>
+          </div>
+        </div>
+        <div class="frow">
+          <label>SUBREGION</label>
+          <div class="picker" id="pk-rep-subs">
+            <div class="pk-chips"></div>
+            <input class="pk-in" type="text" placeholder="Search subregion…" autocomplete="off">
+            <div class="pk-list"></div>
+          </div>
+        </div>
+      </div>
+      <div class="fgrid">
+        <div class="frow">
+          <label>SUBSUBREGION</label>
+          <div class="picker" id="pk-rep-subsubs">
+            <div class="pk-chips"></div>
+            <input class="pk-in" type="text" placeholder="Search subsubregion…" autocomplete="off">
+            <div class="pk-list"></div>
+          </div>
+        </div>
+        <div class="frow">
+          <label>CITY / MINT</label>
+          <div class="picker" id="pk-rep-cities">
+            <div class="pk-chips"></div>
+            <input class="pk-in" type="text" placeholder="Search city / mint…" autocomplete="off">
+            <div class="pk-list"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="block-prov-chrono" style="display:none">
+      <div class="fsep"><div class="fsep-label">REIGN &amp; MAGISTRATE</div></div>
+      <div class="fgrid">
+        <div class="frow">
+          <label>REIGN</label>
+          <div class="picker" id="pk-reign">
+            <div class="pk-chips"></div>
+            <input class="pk-in" type="text" placeholder="Search reign…" autocomplete="off">
+            <div class="pk-list"></div>
+          </div>
+        </div>
+        <div class="frow">
+          <label>MAGISTRATE</label>
+          <div class="picker" id="pk-mag">
+            <div class="pk-chips"></div>
+            <input class="pk-in" type="text" placeholder="Search magistrate…" autocomplete="off">
+            <div class="pk-list"></div>
+          </div>
+        </div>
+      </div>
+      <div class="pk-hint" id="prov-hint"></div>
+    </div>
+    <div id="block-prov-geography" style="position:relative;">
+      <button type="button" class="btn" onclick="clearProvGeography()" style="position:absolute;top:8px;right:0;padding:4px 12px;font-size:.6rem;border-color:var(--border);background:var(--bg2);z-index:10;">CLEAR</button>
+      <div class="fsep"><div class="fsep-label">GEOGRAPHY</div></div>
+      <div class="frow">
+        <label>PROVINCE</label>
+        <div class="picker" id="pk-provs">
+          <div class="pk-chips"></div>
+          <input class="pk-in" type="text" placeholder="Search province…" autocomplete="off">
+          <div class="pk-list"></div>
+        </div>
+      </div>
+      <div class="fgrid">
+        <div class="frow">
+          <label>REGION</label>
+          <div class="picker" id="pk-regions">
+            <div class="pk-chips"></div>
+            <input class="pk-in" type="text" placeholder="Search region…" autocomplete="off">
+            <div class="pk-list"></div>
+          </div>
+        </div>
+        <div class="frow">
+          <label>SUBREGION</label>
+          <div class="picker" id="pk-subs">
+            <div class="pk-chips"></div>
+            <input class="pk-in" type="text" placeholder="Search subregion…" autocomplete="off">
+            <div class="pk-list"></div>
+          </div>
+        </div>
+      </div>
+      <div class="frow">
+        <label>CITY / MINT</label>
+        <div class="picker" id="pk-cities">
+          <div class="pk-chips"></div>
+          <input class="pk-in" type="text" placeholder="Search city / mint…" autocomplete="off">
+          <div class="pk-list"></div>
+        </div>
+        <div class="pk-hint" id="geo-hint"></div>
+      </div>
+    </div>
+    <div id="block-imp-geography" style="display:none">
+      <div class="fsep"><div class="fsep-label">GEOGRAPHY</div></div>
+      <div class="fgrid">
+        <div class="frow">
+          <label>REGION</label>
+          <div class="picker" id="pk-imp-regions">
+            <div class="pk-chips"></div>
+            <input class="pk-in" type="text" placeholder="Search region…" autocomplete="off">
+            <div class="pk-list"></div>
+          </div>
+        </div>
+        <div class="frow">
+          <label>SUBREGION</label>
+          <div class="picker" id="pk-imp-subs">
+            <div class="pk-chips"></div>
+            <input class="pk-in" type="text" placeholder="Search subregion…" autocomplete="off">
+            <div class="pk-list"></div>
+          </div>
+        </div>
+      </div>
+      <div class="fgrid">
+        <div class="frow">
+          <label>SUBSUBREGION</label>
+          <div class="picker" id="pk-imp-subsubs">
+            <div class="pk-chips"></div>
+            <input class="pk-in" type="text" placeholder="Search subsubregion…" autocomplete="off">
+            <div class="pk-list"></div>
+          </div>
+        </div>
+        <div class="frow">
+          <label>CITY / MINT</label>
+          <div class="picker" id="pk-imp-cities">
+            <div class="pk-chips"></div>
+            <input class="pk-in" type="text" placeholder="Search city / mint…" autocomplete="off">
+            <div class="pk-list"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="fsep"><div class="fsep-label">ISSUE</div></div>
+    <div id="block-rep" style="display:none">
+      <div class="fgrid">
+        <div class="frow">
+          <label>MONEYER / ISSUER</label>
+          <div class="picker" id="pk-rep-issuers">
+            <div class="pk-chips"></div>
+            <input class="pk-in" type="text" placeholder="Search moneyer…" autocomplete="off">
+            <div class="pk-list"></div>
+          </div>
+        </div>
+        <div class="frow">
+          <label>ISSUED BY <span style="font-size:.5rem">(if different)</span></label>
+          <input id="f-rep-auth" type="text" placeholder="General, authority…">
+        </div>
+      </div>
+    </div>
+    <div id="block-imp" style="display:none">
+      <div class="fgrid">
+        <div class="frow">
+          <label>AUTHORITY (EMPEROR)</label>
+          <div class="picker" id="pk-authorities">
+            <div class="pk-chips"></div>
+            <input class="pk-in" type="text" placeholder="Search authority…" autocomplete="off">
+            <div class="pk-list"></div>
+          </div>
+        </div>
+        <div class="frow">
+          <label>ISSUER <span style="font-size:.5rem">(if different)</span></label>
+          <div class="picker" id="pk-issuers">
+            <div class="pk-chips"></div>
+            <input class="pk-in" type="text" placeholder="Search issuer…" autocomplete="off">
+            <div class="pk-list"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="block-prov">
+      <div class="fgrid">
+        <div class="frow">
+          <label>EMPEROR / AUTHORITY</label>
+          <input id="f-prov-imp" type="text" placeholder="Trajan, Hadrian…">
+        </div>
+        <div class="frow">
+          <label>ISSUED BY <span style="font-size:.5rem">(if different)</span></label>
+          <input id="f-prov-auth" type="text" placeholder="City, governor…">
+        </div>
+      </div>
+    </div>
+    <div class="fsep"><div class="fsep-label">CHARACTERISTICS</div></div>
+    <div class="fgrid">
+      <div class="frow">
+        <label>METAL</label>
+        <select id="f-metal">
+          <option value="">— select —</option>
+          <option>Gold</option><option>Silver</option><option>Billon</option>
+          <option>Orichalcum</option><option>Bronze</option><option>Other</option>
+        </select>
+      </div>
+      <div class="frow">
+        <label>DENOMINATION</label>
+        <input id="f-denom" type="text" placeholder="Denarius, Sestertius, As…">
+      </div>
+      <div class="frow" style="grid-column:1/-1">
+        <label>PERIOD / DATE</label>
+        <input id="f-date" type="text" placeholder="e.g. 211-208 BC; AD 138-141">
+      </div>
+    </div>
+    <div class="frow">
+      <label>DESCRIPTION (obverse / reverse)</label>
+      <textarea id="f-desc" placeholder="Helmeted head of Roma / Dioscuri on horseback…"></textarea>
+    </div>
+    <div class="frow">
+      <label>NOTES</label>
+      <textarea id="f-notes" placeholder="Weight, diameter, condition, provenance…" style="min-height:48px"></textarea>
+    </div>
+  </div>
+  <div id="modal-foot">
+    <button class="btn" onclick="closeModal()">CANCEL</button>
+    <button class="btn btn-gold" onclick="saveCoin()">SAVE COIN</button>
+  </div>
+</div>
+</div>
+
+<div id="detail" onclick="if(event.target===this)closeDetail()">
+<div id="detail-box" role="dialog" aria-modal="true">
+  <div id="detail-head">
+    <h3 id="detail-title">COIN</h3>
+    <button type="button" aria-label="Close" onclick="closeDetail()">&#215;</button>
+  </div>
+  <div id="detail-body"></div>
+  <div id="detail-foot">
+    <button class="btn" onclick="closeDetail()">CLOSE</button>
+    <button class="btn btn-gold" onclick="editFromDetail()">EDIT</button>
+  </div>
+</div>
+</div>
+
+<div id="confirm">
+<div id="confirm-box">
+  <p class="confirm-text">REMOVE THIS COIN FROM THE COLLECTION?</p>
+  <div class="btns">
+    <button class="btn" onclick="closeConfirm()">CANCEL</button>
+    <button class="btn" style="border-color:var(--red);color:#c0392b" onclick="doDelete()">DELETE</button>
+  </div>
+</div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
+<script>
+function slug(s){ return String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,''); }
+function norm(s){ return String(s||'').trim().replace(/\s+/g,' ').toLowerCase(); }
+function normMint(s){
+  return String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').replace(/[.,;:()]/g,'').trim();
+}
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+function isMobile(){ return window.matchMedia('(max-width: 900px)').matches; }
+function proceedMobileAnyway(){
+  var gate = document.getElementById('mobile-gate');
+  if (gate) gate.classList.remove('open');
+}
+(function initMobileGate(){
+  function check(){
+    var gate = document.getElementById('mobile-gate');
+    if (!gate) return;
+    if (window.innerWidth <= 900) {
+      gate.classList.add('open');
+    } else {
+      gate.classList.remove('open');
+    }
+  }
+  check();
+  var t = null;
+  window.addEventListener('resize', function(){
+    clearTimeout(t);
+    t = setTimeout(check, 200);
+  });
+})();
+function isTablet(){ return window.matchMedia('(min-width: 600px) and (max-width: 1100px) and (pointer: coarse)').matches; }
+function isTouchDevice(){ return 'ontouchstart' in window || navigator.maxTouchPoints > 0; }
+function safeGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+function safeSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){ console.warn('localStorage set failed:',e); } }
+function safeRemove(k){ try{ localStorage.removeItem(k); }catch(e){} }
+function debounce(fn, ms){
+  var t=null;
+  return function(){ var args=arguments, ctx=this; clearTimeout(t); t=setTimeout(function(){ fn.apply(ctx,args); }, ms); };
+}
+var MINT_ALIASES = {
+  'laodicea ad lycum': ['laodiceia ad lycum','laodicea ad mare','laodiceia ad mare'],
+  'antioch':           ['antioch syria','antiochia','antioch on the orontes'],
+  'rome':              ['roma'],
+  'lugdunum':          ['lyon'],
+  'massalia':          ['massilia','marseille'],
+  'osca':              ['huesca'],
+  'corcyra':           ['corfu','kerkyra'],
+  'messana':           ['messina','zancla'],
+  'neapolis':          ['napoli','naples'],
+  'metapontum':        ['metaponto'],
+  'canusium':          ['canosa','canosa di puglia'],
+  'luceria':           ['lucera'],
+  'narbo':             ['narbo martius','narbonne'],
+  'apollonia':         ['apollonia illyria','apollonia, illyria','apollonia, illyricum','apollonia illyricum','apollonia pojani'],
+  'salpesa':           ['salpensa']
+};
+function canonicalMint(name){
+  var n = normMint(name);
+  for (var canon in MINT_ALIASES){
+    if (n === canon || MINT_ALIASES[canon].indexOf(n) >= 0) return canon;
+  }
+  return n;
+}
+var PROVS = [
+  "Achaia","Aegyptus","Africa Proconsularis","Alpes Cottiae","Alpes Graiae et Poeninae","Alpes Maritimae",
+  "Aquitania","Arabia","Armenia Mesopotamia","Asia","Baetica","Belgica","Bithynia et Pontus","Britannia",
+  "Cilicia","Creta et Cyrene","Dacia","Dalmatia","Galatia et Cappadocia","Germania Inferior","Germania Superior",
+  "Italia","Iudaea","Lugdunensis","Lusitania","Lycia et Pamphylia","Macedonia","Mauretania Caesariensis",
+  "Mauretania Tingitana","Moesia Inferior","Moesia Superior","Narbonensis","Noricum","Numidia",
+  "Pannonia Inferior","Pannonia Superior","Raetia","Sardinia et Corsica","Sicilia","Syria","Tarraconensis","Thracia",
+  "Italia — Regio I — Latium et Campania","Italia — Regio II — Apulia et Calabria",
+  "Italia — Regio III — Lucania et Bruttii","Italia — Regio IV — Samnium",
+  "Italia — Regio V — Picenum","Italia — Regio VI — Umbria et Ager Gallicus",
+  "Italia — Regio VII — Etruria","Italia — Regio VIII — Aemilia",
+  "Italia — Regio IX — Liguria","Italia — Regio X — Venetia et Histria","Italia — Regio XI — Transpadana"
+];
+var GEO_MAP = {
+  "Achaia":"Achaia","Aegyptus":"Aegyptus","Africa Proconsularis":"Africa Proconsularis",
+  "Alpes Cottiae":"Alpes Cottiae","Alpes Graiae et Poeninae":"Alpes Graiae et Poeninae","Alpes Maritimae":"Alpes Maritimae",
+  "Aquitania":"Aquitania","Arabia":"Arabia","Armenia":"Armenia Mesopotamia","Mesopotamia":"Armenia Mesopotamia",
+  "Asia":"Asia","Baetica":"Baetica","Belgica":"Belgica","Bithynia et Pontus":"Bithynia et Pontus","Britannia":"Britannia",
+  "Cilicia":"Cilicia","Creta et Cyrenaica":"Creta et Cyrene","Cyrenaica":"Creta et Cyrene","Dacia":"Dacia","Dalmatia":"Dalmatia",
+  "Galatia":"Galatia et Cappadocia","Cappadocia":"Galatia et Cappadocia","Germania Inferior":"Germania Inferior",
+  "Germania Superior":"Germania Superior","Iudaea":"Iudaea","Lugdunensis":"Lugdunensis","Lusitania":"Lusitania",
+  "Lycia et Pamphylia":"Lycia et Pamphylia","Macedonia":"Macedonia","Mauretania Caesariensis":"Mauretania Caesariensis",
+  "Mauretania Tingitana":"Mauretania Tingitana","Moesia Inferior":"Moesia Inferior","Moesia Superior":"Moesia Superior",
+  "Narbonensis":"Narbonensis","Noricum":"Noricum","Numidia":"Numidia","Pannonia Inferior":"Pannonia Inferior",
+  "Pannonia Superior":"Pannonia Superior","Raetia":"Raetia","Sardinia et Corsica":"Sardinia et Corsica","Sicilia":"Sicilia",
+  "Syria":"Syria","Tarraconensis":"Tarraconensis","Thracia":"Thracia","Italia":"Italia",
+  "I":"Italia — Regio I — Latium et Campania","II":"Italia — Regio II — Apulia et Calabria",
+  "III":"Italia — Regio III — Lucania et Bruttii","IV":"Italia — Regio IV — Samnium","V":"Italia — Regio V — Picenum",
+  "VI":"Italia — Regio VI — Umbria et Ager Gallicus","VII":"Italia — Regio VII — Etruria","VIII":"Italia — Regio VIII — Aemilia",
+  "IX":"Italia — Regio IX — Liguria","X":"Italia — Regio X — Venetia et Histria","XI":"Italia — Regio XI — Transpadana"
+};
+var REGIONS = [];
+var SUBREGIONS = [];
+var CITIES = [];
+var REGION_PROVINCES = {
+  "Aegina":["Achaia"],"Aeolis":["Asia"],"Africa":["Africa Proconsularis"],"Arabia":["Arabia"],
+  "Armenia":["Armenia Mesopotamia"],"Mesopotamia":["Armenia Mesopotamia"],"Attica":["Achaia"],
+  "Bithynia":["Bithynia et Pontus"],"Boeotia":["Achaia"],"Bosporus":[],"Cappadocia":["Galatia et Cappadocia"],
+  "Caria":["Asia"],"Cilicia":["Cilicia"],"Commagene":["Syria"],"Corinthia":["Achaia"],"Crete":["Creta et Cyrene"],
+  "Cyclades":["Achaia"],"Cyprus":[],"Cyrenaica":["Creta et Cyrene"],"Dacia":["Dacia"],"Egypt":["Aegyptus"],
+  "Epirus":[],"Euboea":["Achaia"],"Galatia":["Galatia et Cappadocia"],"Galilaea":["Iudaea"],
+  "Gaul":["Aquitania","Lugdunensis","Belgica","Narbonensis"],"Hispania":["Baetica","Lusitania","Tarraconensis"],
+  "Illyricum":["Dalmatia","Pannonia Superior","Pannonia Inferior"],"Ionia":["Asia"],"Italy":["Italia"],
+  "Judaea":["Iudaea"],"Lesbus":["Asia"],"Locris":["Achaia"],"Lycaonia":["Galatia et Cappadocia","Cilicia"],
+  "Lycia":["Lycia et Pamphylia"],"Lydia":["Asia"],"Macedonia":["Macedonia"],
+  "Mauretania":["Mauretania Caesariensis","Mauretania Tingitana"],"Megaris":["Achaia"],
+  "Moesia":["Moesia Superior","Moesia Inferior"],"Mysia":["Asia"],"Pamphylia":["Lycia et Pamphylia"],
+  "Paphlagonia":["Bithynia et Pontus","Galatia et Cappadocia"],"Peloponnesus":["Achaia"],"Phocis":["Achaia"],
+  "Phoenicia":["Syria"],"Phrygia":["Asia","Galatia et Cappadocia"],"Pisidia":["Galatia et Cappadocia"],
+  "Pontus":["Bithynia et Pontus","Galatia et Cappadocia"],"Samaria":["Iudaea"],"Sardinia":["Sardinia et Corsica"],
+  "Sarmata":[],"Sarmatia":[],"Sicily":["Sicilia"],"Syria":["Syria"],"Thessaly":["Macedonia"],"Thrace":["Thracia"],
+  "Troas":["Asia"],"Uncertain":[]
+};
+var LEGACY_SUB_IDS = {
+  "sub-cilicia-trachea":"sub-cilicia-cilicia-trachea",
+  "sub-cilicia-pedias":"sub-cilicia-cilicia-pedias",
+  "sub-pelop-achaea":"sub-peloponnesus-achaea",
+  "sub-pelop-argolis":"sub-peloponnesus-argolis",
+  "sub-pelop-laconia":"sub-peloponnesus-laconia"
+};
+var PDB = {
+  ready:false, error:null,
+  cities:[], cityById:{}, cityByKey:{}, cityByName:{},
+  subs:[], subById:{},
+  regions:[], reigns:[], reignInfo:{},
+  mags:[], magById:{},
+  tuples:[]
+};
+var allMintsData = [];
+var currentMintMode = 'none';
+var mintsLayer = null;
+var MINT_TYPES = {};
+var MINT_GEO_CACHE = {};
+var REIGN_ORDER = [];
+var MINT_COORD_OVERRIDES = {
+  'Apollonia, Illyria':[40.720583,19.470413],'Canusium':[41.2167,16.0667],'Corcyra':[39.6072,19.9183],
+  'Laodiceia ad Lycum':[37.83686,29.10797],'Luceria':[41.508065,15.335065],'Massalia':[43.3,5.367],
+  'Messana':[38.189444,15.55],'Metapontum':[40.383641,16.824332],'Neapolis':[40.8514,14.2628],
+  'Osca':[42.1397,-0.4085],'Salpesa':[37.181512,-5.781536],'Narbo':[43.183,3.0],'Antioch, Syria':[36.2,36.15]
+};
+function parseCSV(text){
+  if(!text) return [];
+  if(text.charCodeAt(0)===0xFEFF) text=text.slice(1);
+  var firstLine=text.split(/\r?\n/)[0]||'';
+  var sep=[',',';','\t'].map(function(s){return [s,firstLine.split(s).length];}).sort(function(a,b){return b[1]-a[1];})[0][0];
+  var rows=[],row=[],field='',q=false;
+  for(var i=0;i<text.length;i++){
+    var ch=text[i];
+    if(q){
+      if(ch==='"'){ if(text[i+1]==='"'){field+='"';i++;} else q=false; }
+      else field+=ch;
+    } else {
+      if(ch==='"') q=true;
+      else if(ch===sep){ row.push(field); field=''; }
+      else if(ch==='\n'){ row.push(field); rows.push(row); row=[]; field=''; }
+      else if(ch==='\r'){ }
+      else field+=ch;
+    }
+  }
+  if(field.length||row.length){ row.push(field); rows.push(row); }
+  if(!rows.length) return [];
+  var header=rows.shift().map(function(h){ return norm(h); });
+  return rows.filter(function(r){ return r.some(function(x){ return x.trim(); }); }).map(function(r){
+    var o={}; header.forEach(function(h,i){ o[h]=(r[i]||'').trim(); }); return o;
+  });
+}
+function pickCol(row, candidates){
+  for(var i=0;i<candidates.length;i++) if(candidates[i] in row) return candidates[i];
+  return null;
+}
+function splitMulti(s){
+  var out=[],depth=0,cur='';
+  for(var i=0;i<(s||'').length;i++){
+    var ch=s[i];
+    if(ch==='(') depth++;
+    if(ch===')') depth=Math.max(0,depth-1);
+    if((ch===','||ch===';')&&depth===0){ out.push(cur); cur=''; }
+    else cur+=ch;
+  }
+  out.push(cur);
+  return out.map(function(x){ return x.trim().replace(/\s+/g,' '); }).filter(Boolean);
+}
+function fetchFirst(paths){
+  return paths.reduce(function(p,path){
+    return p.catch(function(){
+      return fetch(path).then(function(r){
+        if(!r.ok) throw new Error(path+' HTTP '+r.status);
+        return r.arrayBuffer();
+      }).then(function(buf){
+        return new TextDecoder('utf-8').decode(buf);
+      });
+    });
+  }, Promise.reject(new Error('no path')));
+}
+function pdbAddCity(name, region, sub, rpc){
+  var key=norm(name)+'|'+norm(region);
+  if(PDB.cityByKey[key]) return PDB.cityByKey[key];
+  var subId='';
+  if(sub){
+    subId='sub-'+slug(region)+'-'+slug(sub);
+    if(!PDB.subById[subId]){ var s={id:subId,name:sub,region:region}; PDB.subs.push(s); PDB.subById[subId]=s; }
+  }
+  var base='city-'+slug(name)+'-'+slug(region), id=base, n=2;
+  while(PDB.cityById[id]) id=base+'-'+(n++);
+  var c={id:id,name:name,region:region,sub:subId,key:key,rpc:rpc||''};
+  PDB.cities.push(c); PDB.cityById[id]=c; PDB.cityByKey[key]=c;
+  (PDB.cityByName[norm(name)]=PDB.cityByName[norm(name)]||[]).push(c);
+  return c;
+}
+function resolveCityRef(ref){
+  var m=/^(.*?)\s*\(([^()]*)\)\s*$/.exec(ref);
+  var name=m?m[1].trim():ref.trim(), region=m?m[2].trim():'';
+  if(!name) return null;
+  if(region){
+    var c=PDB.cityByKey[norm(name)+'|'+norm(region)];
+    return c || pdbAddCity(name, region, '', '');
+  }
+  var list=PDB.cityByName[norm(name)]||[];
+  return list.length===1 ? list[0] : null;
+}
+function buildReignDB(rows){
+  if(!rows || !rows.length) return;
+  var r0 = rows[0];
+  var cKind  = pickCol(r0, ['kind']);
+  var cReign = pickCol(r0, ['reign']);
+  var cStart = pickCol(r0, ['start date','start']);
+  var cEnd   = pickCol(r0, ['end date','end']);
+  if(!cReign) return;
+  var entries = [];
+  rows.forEach(function(row){
+    var name = (row[cReign]||'').replace(/\s+/g,' ').trim();
+    if(!name) return;
+    var kind = cKind ? (row[cKind]||'').trim() : '';
+    var start = parseInt((row[cStart]||'').replace(/[^\-0-9]/g,''), 10);
+    var end   = parseInt((row[cEnd]||'').replace(/[^\-0-9]/g,''), 10);
+    if(isNaN(start)) start = 9999;
+    if(isNaN(end))   end   = 9999;
+    PDB.reignInfo[name] = { kind: kind, start: start, end: end };
+    entries.push({ name: name, start: start, end: end });
+  });
+  entries.sort(function(a,b){
+    if(a.start !== b.start) return a.start - b.start;
+    if(a.end   !== b.end)   return a.end - b.end;
+    return a.name.localeCompare(b.name);
+  });
+  REIGN_ORDER = entries.map(function(e){ return e.name; });
+}
+function isClientKing(reign){
+  var info = PDB.reignInfo[reign];
+  return !!(info && info.kind && /client king/i.test(info.kind));
+}
+function reignLabel(reign){ return isClientKing(reign) ? reign + ' *' : reign; }
+function buildProvDB(magRows, cityRows){
+  if(cityRows.length){
+    var r0=cityRows[0];
+    var cCity=pickCol(r0,['city','città','citta']), cReg=pickCol(r0,['region','regione']),
+        cSub=pickCol(r0,['subregion','sub-region','sub region','subregione']), cMore=pickCol(r0,['more','link','rpc']);
+    if(!cCity||!cReg) throw new Error('cities CSV: columns City/Region not found');
+    cityRows.forEach(function(row){
+      if(!row[cCity]) return;
+      pdbAddCity(row[cCity], row[cReg], cSub?row[cSub]:'', cMore?row[cMore]:'');
+    });
+  }
+  if(magRows.length){
+    var m0=magRows[0];
+    var cMag=pickCol(m0,['magistrate','magistrato']), cReigns=pickCol(m0,['reigns','reign','regni']),
+        cCities=pickCol(m0,['cities','city','città']), cTitle=pickCol(m0,['title','titolo']);
+    if(!cMag||!cReigns||!cCities) throw new Error('magistrates CSV: columns Magistrate/Reigns/Cities not found');
+    var ordinal={};
+    magRows.forEach(function(row){
+      var name=(row[cMag]||'').replace(/\s+/g,' ').trim(); if(!name) return;
+      var k=slug(name)||'anon'; ordinal[k]=(ordinal[k]||0)+1;
+      var id='mag-'+k+'#'+ordinal[k];
+      var reigns=splitMulti(row[cReigns]);
+      var cities=[]; splitMulti(row[cCities]).forEach(function(ref){ var c=resolveCityRef(ref); if(c&&cities.indexOf(c.id)<0) cities.push(c.id); });
+      var mag={id:id,name:name,title:cTitle?(row[cTitle]||''):'',reigns:reigns,cities:cities};
+      PDB.mags.push(mag); PDB.magById[id]=mag;
+    });
+  }
+  var regSet={}, reignSet={};
+  PDB.cities.forEach(function(c){ if(c.region) regSet[c.region]=true; });
+  PDB.mags.forEach(function(m){ m.reigns.forEach(function(r){ reignSet[r]=true; }); });
+  Object.keys(PDB.reignInfo).forEach(function(r){ reignSet[r]=true; });
+  PDB.regions=Object.keys(regSet).sort();
+  PDB.reigns=Object.keys(reignSet).sort(function(a,b){
+    var ia=REIGN_ORDER.indexOf(a), ib=REIGN_ORDER.indexOf(b);
+    if(a==='Uncertain') return 1; if(b==='Uncertain') return -1;
+    if(ia>=0&&ib>=0) return ia-ib; if(ia>=0) return -1; if(ib>=0) return 1;
+    return a.localeCompare(b);
+  });
+  var withMag={};
+  PDB.mags.forEach(function(m){
+    var reigns=m.reigns.length?m.reigns:[null];
+    var cities=m.cities.length?m.cities:[null];
+    reigns.forEach(function(r){ cities.forEach(function(cid){
+      var c=cid?PDB.cityById[cid]:null; if(cid) withMag[cid]=true;
+      PDB.tuples.push({r:r,m:m.id,c:cid,g:c?c.region:null,s:c?(c.sub||null):null});
+    }); });
+  });
+  PDB.cities.forEach(function(c){ if(!withMag[c.id]) PDB.tuples.push({r:null,m:null,c:c.id,g:c.region,s:c.sub||null}); });
+  PDB.ready=true;
+  applyProvDB();
+}
+function applyProvDB(){
+  CITIES=PDB.cities; SUBREGIONS=PDB.subs;
+  var set={}; Object.keys(REGION_PROVINCES).forEach(function(r){ set[r]=true; }); PDB.regions.forEach(function(r){ set[r]=true; });
+  REGIONS=Object.keys(set).sort();
+  setProvHint('');
+  if(document.getElementById('overlay').classList.contains('open')){ provEnforce(); pkRenderAll(); previewHighlight(); }
+  renderList();
+  try { rebuildMintTypeIndex(); } catch(e){}
+  try { if (mintsLayer && currentMintMode !== 'none') renderMints(); } catch(e){}
+}
+function setProvHint(t){ document.getElementById('prov-hint').textContent=t; }
+setProvHint('Loading CSV data…');
+Promise.all([
+  fetchFirst(['magistrati.csv','magistrates.csv']).catch(function(e){ console.error('magistrati:', e); return ''; }),
+  fetchFirst(['città.csv','citta.csv','cities.csv']).catch(function(e){ console.error('città:', e); return ''; }),
+  fetchFirst(['reigns.csv']).catch(function(e){ console.error('reigns:', e); return ''; })
+]).then(function(res){
+  var start = function(){
+    buildReignDB(parseCSV(res[2]));
+    var magText = res[0], cityText = res[1];
+    if(!magText && !cityText){ setProvHint('CSV non caricati. Controlla che i file esistano nella cartella del sito.'); return; }
+    buildProvDB(parseCSV(magText), parseCSV(cityText));
+  };
+  if(window.requestIdleCallback) requestIdleCallback(start, {timeout: 500});
+  else setTimeout(start, 0);
+}).catch(function(e){
+  PDB.error = e;
+  console.error('Errore caricamento CSV:', e);
+  setProvHint('CSV not loaded ('+e.message+'). Open the page through a local web server.');
+});
+var IMP_AUTHORITIES = ["Aemilian","Allectus","Amandus","Anonymous","Anthemius","Antoninus Pius","Arcadius","Augustus","Aurelian","Aureolus","Avitus","Balbinus","Basiliscus","Bonosus","Burgundians or Franks","Caracalla","Carausius","Carinus","Carus","Claudius","Claudius II Gothicus","Clodius Albinus","Clodius Macer","Commodus","Constans","Constantine I","Constantine II","Constantine III","Constantius Chlorus","Constantius II","Diadumenian","Didius Julianus","Diocletian","Domitian","Domitian II","Domitius Alexander","Dryantilla","Elagabalus","Eugenius","Flavius Marcus","Florianus","Gaius/Caligula","Galba","Galerius","Gallienus","Geta","Glycerius","Gordian I","Gordian II","Gordian III","Gratian","Hadrian","Honorius","Hostilian","Joannes","Jotapianus","Jovianus","Jovinus","Julian of Pannonia","Julian the Apostate","Julius Nepos","Laelianus","Leo I","Leo II","Leontius","Libius Severus","Licinius","Macrianus Minor","Macrinus","Magnentius","Magnus Maximus","Majorian","Mar. Silbannacus","Marcian","Marcus Aurelius","Marius","Maxentius","Maximian","Maximinus Daia","Maximinus Thrax","Maximus","Maximus of Barcelona","Nero","Nerva","Non-imperial African coinages","Numerian","Odoacer","Olybrius","Otho","Pacatianus","Pertinax","Pescennius Niger","Petronius Maximus","Philip the Arab","Postumus","Priscus Attalus","Probus","Procopius","Pupienus","Quietus","Quintillus","Regalianus","Romulus Augustulus","Saturninus","Septimius Severus","Severus Alexander","Severus II","Sponsianus","Suevi","Tacitus","Tetricus I","Theodosius I","Theodosius II","Tiberius","Titus","Trajan","Trajan Decius","Trebonianus Gallus","Uranius Antoninus","Vabalathus","Valens","Valentinian I","Valentinian II","Valentinian III","Valerian","Vespasian","Victorinus","Visigoths","Vitellius","Volusian","Zeno","Zenobia"];
+var IMP_ISSUERS = ["A. Licinius Nerva Silianus","Apronius","C. Annius Pollio","C. Antistius Reginus","C. Antistius Vetus","C. Asinius Gallus","C. Cassius Celer","C. Gallius Lupercus","C. Marcius Censorinus","C. Marius C F Tro","C. Naevius Capella","C. Plotius Rufus","C. Rubellius Blandus","C. Sulpicius Platorinus","Claudius Pulcher","Cn. PISO Cn.F","Cossus Cornelius Lentulus","Galus","L. Aelius Lamia","L. Aquillius Florus","L. Caninius Gallus","L. Lentulus","L. Mescinius Rufus","L. Naevius Surdinus","L. Valerius Catullus","L. Vinicius","Livineius Regulus","M. Durmius","M. Maecilius Tullus","M. Salvius Otho","M. Sanquinius","Messalla","P. Betilienus Bassus","P. Carisius","P. Licinius Stolo","P. Lurius Agrippa","P. Petronius Turpilianus","P. Silius P.","Q. Aelius Lamia","Q. Rustius","Sex. Nonius Quinctilianus","Sisenna","Statilius Taurus","T. Quinctius Crispinus Sulpicianus","Ti. Sempronius Graccus","Volusus Valerius Messalla"];
+var IMP_CITIES = ["Rome","Constantinople","Alexandria","Ambianum","Antioch of Pisidia","Antioch, Syria","Aquileia","Arelate","Arelate comitatensian mint","Barcino","Caesaraugusta","Caesarea in Cappadocia","Camulodunum","Carnuntum","Carthage","Cologne","Colonia Patricia","Comitatensian","Cyrene","Cyzicus","Eastern Mint","Emerita","Emisa","Ephesus","Heraclea","Laodicea ad Mare","Londinium","Lugdunum","Mainz","Mediolanum","Narbo","Nemausus","Nicaea (Gallia)","Nicomedia","Ostia","Pergamum","Ravenna","Ravenna comitatensian mint","Rotomagus","Samos","Serdica","Sirmium","Siscia","Southern Gallic Mint","Tarraco","Thessalonica","Ticinum","Trier","Tripolis","Uncertain value","Vienne","Viminacium"];
+var IMP_GEO_TREE = {
+  "Africa": {"Africa": ["Africa", "Zeugitana"],"Cyrenaica": ["Cyrenaica"],"Egypt": ["Egypt"]},
+  "Asia": {"Asia": ["Asia", "Asia Minor"],"Bithynia": ["Bithynia"],"Cappadocia": ["Cappadocia"],"Ionia": ["Ionia", "Islands off Ionia"],"Mysia": ["Mysia"],"Pisidia": ["Pisidia"],"Syria": ["Syria", "Commagene", "Judaea", "Phoenicia", "Seleucis and Pieria"]},
+  "Europe": {
+    "Britannia": ["Britannia"],"Dalmatia": ["Dalmatia"],"Gallia": ["Gallia", "Gallia Cisalpina", "Gallia Transalpina"],"Germania": ["Germania"],"Hispania": ["Hispania", "Hispania Citerior", "Hispania Ulterior"],
+    "Italy": ["Italia — Regio I — Latium et Campania","Italia — Regio II — Apulia et Calabria","Italia — Regio III — Lucania et Bruttii","Italia — Regio IV — Samnium","Italia — Regio V — Picenum","Italia — Regio VI — Umbria et Ager Gallicus","Italia — Regio VII — Etruria","Italia — Regio VIII — Aemilia","Italia — Regio IX — Liguria","Italia — Regio X — Venetia et Histria","Italia — Regio XI — Transpadana"],
+    "Macedon": ["Macedon", "Bisaltian District"],"Pannonia": ["Pannonia"],"Peloponnesus": ["Peloponnesus", "Achaea"],"Thrace": ["Thrace", "Inland Cities of Thrace", "Moesia Superior", "Moesia", "The European Coast of the Propontis"]
+  }
+};
+var IMP_CITY_TO_SUB = {
+  "Rome": "Italy", "Ostia": "Italy", "Ravenna": "Italy", "Ravenna comitatensian mint": "Italy","Mediolanum": "Italy", "Aquileia": "Italy", "Ticinum": "Italy",
+  "Constantinople": "Thrace", "Serdica": "Thrace", "Thessalonica": "Macedon","Sirmium": "Pannonia", "Siscia": "Pannonia", "Viminacium": "Moesia Superior", "Carnuntum": "Pannonia",
+  "Alexandria": "Egypt", "Cyrene": "Cyrenaica", "Carthage": "Africa","Antioch, Syria": "Syria", "Emisa": "Syria", "Laodicea ad Mare": "Syria",
+  "Tripolis": "Phoenicia", "Caesarea in Cappadocia": "Cappadocia","Antioch of Pisidia": "Pisidia", "Ephesus": "Asia", "Pergamum": "Mysia",
+  "Samos": "Ionia", "Cyzicus": "Mysia", "Nicomedia": "Bithynia", "Heraclea": "Bithynia","Lugdunum": "Gallia", "Arelate": "Gallia", "Arelate comitatensian mint": "Gallia",
+  "Narbo": "Gallia", "Vienne": "Gallia", "Ambianum": "Gallia","Rotomagus": "Gallia", "Nemausus": "Gallia", "Nicaea (Gallia)": "Gallia",
+  "Trier": "Gallia", "Cologne": "Germania", "Mainz": "Germania","Londinium": "Britannia", "Camulodunum": "Britannia",
+  "Tarraco": "Hispania", "Emerita": "Hispania", "Colonia Patricia": "Hispania","Barcino": "Hispania", "Caesaraugusta": "Hispania"
+};
+var IMP_CITY_TO_SUBSUB = {
+  "Rome": "Italia — Regio I — Latium et Campania", "Ostia": "Italia — Regio I — Latium et Campania","Mediolanum": "Italia — Regio XI — Transpadana", "Aquileia": "Italia — Regio X — Venetia et Histria", "Ticinum": "Italia — Regio XI — Transpadana","Ravenna": "Italia — Regio VIII — Aemilia","Ravenna comitatensian mint": "Italia — Regio VIII — Aemilia",
+  "Lugdunum": "Gallia Transalpina", "Arelate": "Gallia Transalpina", "Arelate comitatensian mint": "Gallia Transalpina","Narbo": "Gallia Transalpina", "Vienne": "Gallia Transalpina", "Nemausus": "Gallia Transalpina", "Nicaea (Gallia)": "Gallia Transalpina",
+  "Tarraco": "Hispania Citerior", "Barcino": "Hispania Citerior", "Caesaraugusta": "Hispania Citerior","Emerita": "Hispania Ulterior", "Colonia Patricia": "Hispania Ulterior",
+  "Thessalonica": "Bisaltian District","Antioch, Syria": "Seleucis and Pieria", "Emisa": "Phoenicia", "Laodicea ad Mare": "Seleucis and Pieria", "Tripolis": "Phoenicia","Carthage": "Zeugitana", "Nicomedia": "Bithynia", "Heraclea": "Bithynia"
+};
+var IMP_MAP_TO_PROVS = {
+  "Europe": ["Britannia","Dalmatia","Lugdunensis","Belgica","Aquitania","Narbonensis","Germania Superior","Germania Inferior","Tarraconensis","Baetica","Lusitania","Italia","Macedonia","Pannonia Superior","Pannonia Inferior","Achaia","Thracia","Moesia Superior","Moesia Inferior"],
+  "Italy": ["Italia"],"Asia": ["Asia","Bithynia et Pontus","Galatia et Cappadocia","Syria","Iudaea"],"Africa": ["Africa Proconsularis","Creta et Cyrene","Aegyptus"],
+  "Britannia": ["Britannia"],"Dalmatia": ["Dalmatia"],"Gallia": ["Lugdunensis","Belgica","Aquitania","Narbonensis"],"Germania": ["Germania Superior","Germania Inferior"],"Hispania": ["Tarraconensis","Baetica","Lusitania"],"Macedon": ["Macedonia"],"Pannonia": ["Pannonia Superior","Pannonia Inferior"],"Peloponnesus": ["Achaia"],"Thrace": ["Thracia","Moesia Superior","Moesia Inferior"],"Bithynia": ["Bithynia et Pontus"],"Cappadocia": ["Galatia et Cappadocia"],"Ionia": ["Asia"],"Mysia": ["Asia"],"Pisidia": ["Galatia et Cappadocia"],"Syria": ["Syria","Iudaea"],"Cyrenaica": ["Creta et Cyrene"],"Egypt": ["Aegyptus"],
+  "Gallia Cisalpina": ["Italia"],"Gallia Transalpina": ["Narbonensis","Lugdunensis"],"Hispania Citerior": ["Tarraconensis"],"Hispania Ulterior": ["Baetica","Lusitania"],
+  "Italia — Regio I — Latium et Campania": ["Italia"],"Italia — Regio II — Apulia et Calabria": ["Italia"],"Italia — Regio III — Lucania et Bruttii": ["Italia"],"Italia — Regio IV — Samnium": ["Italia"],"Italia — Regio V — Picenum": ["Italia"],"Italia — Regio VI — Umbria et Ager Gallicus": ["Italia"],"Italia — Regio VII — Etruria": ["Italia"],"Italia — Regio VIII — Aemilia": ["Italia"],"Italia — Regio IX — Liguria": ["Italia"],"Italia — Regio X — Venetia et Histria": ["Italia"],"Italia — Regio XI — Transpadana": ["Italia"],
+  "Bisaltian District": ["Macedonia"],"Inland Cities of Thrace": ["Thracia"],"The European Coast of the Propontis": ["Thracia"],"Asia Minor": ["Asia"],"Islands off Ionia": ["Asia"],"Commagene": ["Syria"],"Judaea": ["Iudaea"],"Phoenicia": ["Syria"],"Seleucis and Pieria": ["Syria"],"Zeugitana": ["Africa Proconsularis"],
+  "Rome": ["Italia"], "Ostia": ["Italia"], "Ravenna": ["Italia"], "Ravenna comitatensian mint": ["Italia"],"Mediolanum": ["Italia"], "Aquileia": ["Italia"], "Ticinum": ["Italia"],"Constantinople": ["Thracia"], "Serdica": ["Thracia"], "Thessalonica": ["Macedonia"],"Sirmium": ["Pannonia Inferior"], "Siscia": ["Pannonia Superior"], "Viminacium": ["Moesia Superior"], "Carnuntum": ["Pannonia Superior"],"Alexandria": ["Aegyptus"], "Cyrene": ["Creta et Cyrene"], "Carthage": ["Africa Proconsularis"],"Antioch, Syria": ["Syria"], "Emisa": ["Syria"], "Laodicea ad Mare": ["Syria"],"Tripolis": ["Syria"], "Caesarea in Cappadocia": ["Galatia et Cappadocia"],"Antioch of Pisidia": ["Galatia et Cappadocia"], "Ephesus": ["Asia"], "Pergamum": ["Asia"],"Samos": ["Asia"], "Cyzicus": ["Asia"], "Nicomedia": ["Bithynia et Pontus"], "Heraclea": ["Bithynia et Pontus"],"Lugdunum": ["Lugdunensis"], "Arelate": ["Narbonensis"], "Arelate comitatensian mint": ["Narbonensis"],"Narbo": ["Narbonensis"], "Vienne": ["Narbonensis"], "Ambianum": ["Belgica"],"Rotomagus": ["Lugdunensis"], "Nemausus": ["Narbonensis"], "Nicaea (Gallia)": ["Alpes Maritimae"],"Trier": ["Belgica"], "Cologne": ["Germania Inferior"], "Mainz": ["Germania Superior"],"Londinium": ["Britannia"], "Camulodunum": ["Britannia"],"Tarraco": ["Tarraconensis"], "Emerita": ["Lusitania"], "Colonia Patricia": ["Baetica"],"Barcino": ["Tarraconensis"], "Caesaraugusta": ["Tarraconensis"]
+};
+var IDB = { ready: true, authorities: IMP_AUTHORITIES, issuers: IMP_ISSUERS, cities: IMP_CITIES, tree: IMP_GEO_TREE, cityToSub: IMP_CITY_TO_SUB, cityToSubsub: IMP_CITY_TO_SUBSUB, tuples: [] };
+IMP_AUTHORITIES.forEach(function(a){ IMP_ISSUERS.forEach(function(i){ IDB.tuples.push({ a: a, i: i }); }); });
+var REP_CITIES = [
+  "Antioch, Syria","Apollonia, Illyria","Canusium","Corcyra","Eastern Roman Mint",
+  "Italy (Central)","Italy (North)","Italy (South)","Italy (Southeast)",
+  "Laodiceia ad Lycum","Luceria","Lugdunum","Massalia","Messana","Metapontum",
+  "Narbo","Neapolis","Osca","Rome","Salpesa","Sicily 1","Sicily 2","Uncertain value"
+];
+var REP_GEO_TREE = {
+  "Africa": {"Africa": ["Africa", "Zeugitana"],"Cyrenaica": ["Cyrenaica"],"Egypt": ["Egypt"]},
+  "Asia": {"Asia": ["Asia", "Asia Minor"],"Bithynia": ["Bithynia"],"Cappadocia": ["Cappadocia"],"Ionia": ["Ionia", "Islands off Ionia"],"Mysia": ["Mysia"],"Pisidia": ["Pisidia"],"Syria": ["Syria", "Commagene", "Judaea", "Phoenicia", "Seleucis and Pieria"]},
+  "Europe": {
+    "Britannia": ["Britannia"],"Dalmatia": ["Dalmatia"],"Gallia": ["Gallia", "Gallia Cisalpina", "Gallia Transalpina"],"Germania": ["Germania"],"Hispania": ["Hispania", "Hispania Citerior", "Hispania Ulterior"],
+    "Italy": ["Italia — Regio I — Latium et Campania","Italia — Regio II — Apulia et Calabria","Italia — Regio III — Lucania et Bruttii","Italia — Regio IV — Samnium","Italia — Regio V — Picenum","Italia — Regio VI — Umbria et Ager Gallicus","Italia — Regio VII — Etruria","Italia — Regio VIII — Aemilia","Italia — Regio IX — Liguria","Italia — Regio X — Venetia et Histria","Italia — Regio XI — Transpadana","Sardinia", "Sicily"],
+    "Macedon": ["Macedon", "Bisaltian District"],"Pannonia": ["Pannonia"],"Peloponnesus": ["Peloponnesus", "Achaea"],"Thrace": ["Thrace", "Inland Cities of Thrace", "Moesia Superior", "Moesia", "The European Coast of the Propontis"]
+  }
+};
+var REP_CITY_TO_SUB = {
+  "Rome": "Italy", "Canusium": "Italy", "Luceria": "Italy", "Neapolis": "Italy","Osca": "Hispania", "Massalia": "Gallia", "Lugdunum": "Gallia", "Narbo": "Gallia","Antioch, Syria": "Syria", "Laodiceia ad Lycum": "Asia","Apollonia, Illyria": "Macedon", "Corcyra": "Macedon","Messana": "Sicily", "Metapontum": "Italy", "Salpesa": "Hispania","Sicily 1": "Sicily", "Sicily 2": "Sicily","Italy (Central)": "Italy", "Italy (North)": "Italy", "Italy (South)": "Italy", "Italy (Southeast)": "Italy","Eastern Roman Mint": "Asia", "Uncertain value": "Italy"
+};
+var REP_CITY_TO_SUBSUB = {
+  "Rome": "Italia — Regio I — Latium et Campania", "Canusium": "Italia — Regio II — Apulia et Calabria", "Luceria": "Italia — Regio II — Apulia et Calabria", "Neapolis": "Italia — Regio I — Latium et Campania","Metapontum": "Italia — Regio III — Lucania et Bruttii","Osca": "Hispania Citerior", "Salpesa": "Hispania Ulterior","Massalia": "Gallia Transalpina", "Lugdunum": "Gallia Transalpina", "Narbo": "Gallia Transalpina","Antioch, Syria": "Seleucis and Pieria", "Laodiceia ad Lycum": "Asia Minor","Apollonia, Illyria": "Macedon", "Corcyra": "Macedon","Messana": "Sicily", "Sicily 1": "Sicily", "Sicily 2": "Sicily","Italy (Central)": "Italia — Regio I — Latium et Campania", "Italy (North)": "Italia — Regio VIII — Aemilia", "Italy (South)": "Italia — Regio II — Apulia et Calabria", "Italy (Southeast)": "Italia — Regio II — Apulia et Calabria","Eastern Roman Mint": "Asia Minor", "Uncertain value": "Italia — Regio I — Latium et Campania"
+};
+var REP_MAP_TO_PROVS = {
+  "Europe": ["Britannia","Dalmatia","Lugdunensis","Belgica","Aquitania","Narbonensis","Germania Superior","Germania Inferior","Tarraconensis","Baetica","Lusitania","Italia","Macedonia","Pannonia Superior","Pannonia Inferior","Achaia","Thracia","Moesia Superior","Moesia Inferior"],
+  "Africa": ["Africa Proconsularis","Creta et Cyrene","Aegyptus"],"Asia": ["Asia","Bithynia et Pontus","Galatia et Cappadocia","Syria","Iudaea"],"Britannia": ["Britannia"], "Dalmatia": ["Dalmatia"], "Gallia": ["Lugdunensis","Belgica","Aquitania","Narbonensis"],"Germania": ["Germania Superior","Germania Inferior"], "Hispania": ["Tarraconensis","Baetica","Lusitania"],"Macedon": ["Macedonia"], "Pannonia": ["Pannonia Superior","Pannonia Inferior"], "Peloponnesus": ["Achaia"],"Thrace": ["Thracia","Moesia Superior","Moesia Inferior"], "Bithynia": ["Bithynia et Pontus"],"Cappadocia": ["Galatia et Cappadocia"], "Ionia": ["Asia"], "Mysia": ["Asia"], "Pisidia": ["Galatia et Cappadocia"],"Syria": ["Syria","Iudaea"], "Cyrenaica": ["Creta et Cyrene"], "Egypt": ["Aegyptus"],
+  "Italia — Regio I — Latium et Campania": ["Italia"],"Italia — Regio II — Apulia et Calabria": ["Italia"],"Italia — Regio III — Lucania et Bruttii": ["Italia"],"Italia — Regio IV — Samnium": ["Italia"],"Italia — Regio V — Picenum": ["Italia"],"Italia — Regio VI — Umbria et Ager Gallicus": ["Italia"],"Italia — Regio VII — Etruria": ["Italia"],"Italia — Regio VIII — Aemilia": ["Italia"],"Italia — Regio IX — Liguria": ["Italia"],"Italia — Regio X — Venetia et Histria": ["Italia"],"Italia — Regio XI — Transpadana": ["Italia"],"Sardinia": ["Sardinia et Corsica"], "Sicily": ["Sicilia"],
+  "Gallia Cisalpina": ["Italia"], "Gallia Transalpina": ["Narbonensis","Lugdunensis"],"Hispania Citerior": ["Tarraconensis"], "Hispania Ulterior": ["Baetica","Lusitania"],"Bisaltian District": ["Macedonia"], "Inland Cities of Thrace": ["Thracia"], "The European Coast of the Propontis": ["Thracia"],"Asia Minor": ["Asia"], "Islands off Ionia": ["Asia"], "Commagene": ["Syria"], "Judaea": ["Iudaea"], "Phoenicia": ["Syria"], "Seleucis and Pieria": ["Syria"], "Zeugitana": ["Africa Proconsularis"],
+  "Rome": ["Italia"], "Canusium": ["Italia"], "Luceria": ["Italia"], "Neapolis": ["Italia"], "Metapontum": ["Italia"], "Messana": ["Sicilia"],"Osca": ["Tarraconensis"], "Salpesa": ["Baetica"], "Massalia": ["Narbonensis"], "Lugdunum": ["Lugdunensis"], "Narbo": ["Narbonensis"],"Antioch, Syria": ["Syria"], "Laodiceia ad Lycum": ["Asia"], "Apollonia, Illyria": ["Macedonia"], "Corcyra": ["Macedonia"],"Sicily 1": ["Sicilia"], "Sicily 2": ["Sicilia"],"Italy (Central)": ["Italia"], "Italy (North)": ["Italia"], "Italy (South)": ["Italia"], "Italy (Southeast)": ["Italia"],"Eastern Roman Mint": ["Asia"], "Uncertain value": ["Italia"]
+};
+var REP_ISSUERS = [];
+var RDB = { ready: true, issuers: [], cities: REP_CITIES, tree: REP_GEO_TREE, cityToSub: REP_CITY_TO_SUB, cityToSubsub: REP_CITY_TO_SUBSUB, tuples: [] };
+fetchFirst(['issuer.csv'])
+  .then(function(text){
+    var rows = parseCSV(text);
+    if(rows.length){
+      var key = pickCol(rows[0], ['issuer', 'issuers']);
+      if(key){
+        REP_ISSUERS = rows.map(function(r){ return r[key]; }).filter(Boolean).sort();
+        RDB.issuers = REP_ISSUERS;
+        REP_ISSUERS.forEach(function(i){ RDB.tuples.push({ i: i }); });
+      }
+    }
+    rebuildMintTypeIndex();
+  })
+  .catch(function(e){ console.warn("issuer.csv non caricato:", e); });
+function subById(id){ if(!id) return null; return PDB.subById[id]||PDB.subById[LEGACY_SUB_IDS[id]]||null; }
+function cityById(id){ if(!id) return null; return PDB.cityById[id]||null; }
+function subLabel(s){ return s ? s.name+' ('+s.region+')' : ''; }
+function cityLabel(c){ return c ? c.name : ''; }
+function magLabel(m){ return m ? m.name+(m.title?' ('+m.title+')':'') : ''; }
+function provsForRegion(r){ return (REGION_PROVINCES[r]||[]).slice(); }
+function provsForSub(id){
+  var s = subById(id); if(!s) return [];
+  if(s.provs && s.provs.length) return s.provs.slice();
+  return provsForRegion(s.region);
+}
+function emptyGeo(){ return { provs:[], provExclusions:[], regions:[], subs:[], cities:[] }; }
+function normGeo(g){
+  g = g || {};
+  var subs=Array.isArray(g.subs) ? g.subs.map(function(s){ return LEGACY_SUB_IDS[s]||s; }) : [];
+  return {
+    provs:Array.isArray(g.provs)?g.provs.slice():[],
+    provExclusions:Array.isArray(g.provExclusions) ? g.provExclusions.slice() : [],
+    regions:Array.isArray(g.regions)?g.regions.slice():[],
+    subs:subs,
+    cities:Array.isArray(g.cities)?g.cities.slice():[]
+  };
+}
+const STEPS = [
+  [207,207,207],[121,160,211],[128,172,160],[171,197,132],[236,213,120],[239,201,96],[243,184,75],[242,171,61],
+  [241,157,52],[238,143,46],[234,127,41],[229,111,38],[223,96,35],[218,79,31],[214,61,28],[211,44,25]
+];
+var coins = [];
+var nextId = parseInt(safeGet('numismatica_nid') || '1', 10) || 1;
+var editId = null;
+var deleteId = null;
+var detailId = null;
+var filterMode = 'all';
+var currentPeriod = 'prov';
+var currentCoinFilter = 'all';
+var TAG_ORDER = ['province','region','city','authority','magistrate','metal'];
+var visibleTags = (function(){
+  try{
+    var saved = JSON.parse(safeGet('numismatica_tags') || 'null');
+    if(!Array.isArray(saved)) return TAG_ORDER.slice();
+    return TAG_ORDER.filter(function(tag){ return saved.indexOf(tag) >= 0; });
+  }catch(e){ return TAG_ORDER.slice(); }
+})();
+function saveTagPreferences(){ safeSet('numismatica_tags', JSON.stringify(visibleTags)); }
+function toggleTagsMenu(event){
+  if(event){ event.stopPropagation(); event.preventDefault(); }
+  document.getElementById('tags-menu').classList.toggle('open');
+}
+function initTagMenu(){
+  var menu = document.getElementById('tags-menu');
+  var wrap = document.getElementById('tags-wrap');
+  menu.querySelectorAll('input[data-tag]').forEach(function(input){
+    input.checked = visibleTags.indexOf(input.dataset.tag) >= 0;
+    input.addEventListener('change',function(e){
+      e.stopPropagation();
+      var tag = input.dataset.tag;
+      if(input.checked){ if(visibleTags.indexOf(tag)<0){ visibleTags.push(tag); } }
+      else{ visibleTags = visibleTags.filter(function(t){ return t !== tag; }); }
+      visibleTags = TAG_ORDER.filter(function(t){ return visibleTags.indexOf(t)>=0; });
+      saveTagPreferences(); renderList();
+    });
+  });
+  document.addEventListener('click',function(e){ if(!wrap.contains(e.target)){ menu.classList.remove('open'); } });
+  menu.addEventListener('click',function(e){ e.stopPropagation(); });
+}
+var _saveLocalTimer = null;
+function persistLocal(){
+  clearTimeout(_saveLocalTimer);
+  _saveLocalTimer = setTimeout(function(){
+    safeSet('numismatica_v2', JSON.stringify(coins));
+    safeSet('numismatica_nid', String(nextId));
+  }, 200);
+}
+function save(coinToSync){
+  persistLocal();
+  if (window.currentUser && coinToSync) {
+    import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js").then(function(mod){
+      import("https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js").then(function(appMod){
+        var db = mod.getFirestore(appMod.getApps()[0]);
+        var coinData = Object.assign({}, coinToSync, { userId: window.currentUser.uid });
+        mod.setDoc(mod.doc(db, "coins", String(coinToSync.id)), coinData)
+          .catch(function(error){
+            console.error("Errore salvataggio Firebase:", error);
+            var msg = (error && error.code === 'permission-denied')
+              ? 'You do not have permission to save this coin to the cloud. It has been saved locally only.'
+              : (error && error.code === 'unavailable')
+                ? 'The server is currently unreachable. The coin has been saved locally but has not been synced to the cloud. Please try again later.'
+                : 'A synchronization error occurred. The coin has been saved locally but not to the cloud. Please try again later.';
+            if (window.showPopup) showPopup("SAVE ERROR", msg);
+          });
+      });
+    });
+  }
+}
+function val2color(v, mx) {
+  if (!v || !mx) return "rgb(" + STEPS[0].join(",") + ")";
+  var idx = Math.ceil((v / mx) * (STEPS.length - 1));
+  idx = Math.max(1, Math.min(idx, STEPS.length - 1));
+  return "rgb(" + STEPS[idx].join(",") + ")";
+}
+function geoToOur(geoName){
+  if(!geoName)return null;
+  if(GEO_MAP[geoName])return GEO_MAP[geoName];
+  var low=geoName.toLowerCase();
+  for(var k in GEO_MAP){ if(k.toLowerCase() === low) return GEO_MAP[k]; }
+  return null;
+}
+var _mobileInit = isMobile();
+var _touchInit = isTouchDevice();
+var map = L.map("map", {
+  zoom: 5, minZoom: _touchInit ? 2 : 4.85, maxZoom: 8,
+  zoomSnap: 0.1, zoomDelta: 0.5,
+  touchZoom: true, tap: true, tapTolerance: 15,
+  bounceAtZoomLimits: false,
+  doubleClickZoom: _mobileInit,
+  scrollWheelZoom: !_mobileInit
+});
+if (_mobileInit) {
+  map.zoomControl.remove();
+}
+map.createPane('provincesPane'); map.getPane('provincesPane').style.zIndex = 400;
+map.createPane('mintsPane'); map.getPane('mintsPane').style.zIndex = 650;
+map.createPane('mintsTooltipPane'); map.getPane('mintsTooltipPane').style.zIndex = 700;
+var tt=document.getElementById("tt");
+var mw=document.getElementById("mapwrap");
+var geoLayer=null;
+mintsLayer = L.layerGroup().addTo(map);
+map.on('click', function(){
+  if (isMobile() && tt.style.display === 'block') {
+    tt.style.display = 'none';
+    tt.dataset.prov = '';
+    updateMap();
+  }
+});
+function provinceOfMint(mintName){
+  if(!mintName) return null;
+  var canon = canonicalMint(mintName);
+  if(canon in MINT_GEO_CACHE) return MINT_GEO_CACHE[canon];
+  if(!geoLayer) return null;
+  var lat=null, lng=null;
+  if(allMintsData.length){
+    var m = allMintsData.find(function(x){ return canonicalMint(x.name) === canon; });
+    if(m){ lat = m.lat; lng = m.lng; }
+  }
+  if(lat==null){
+    for(var k in MINT_COORD_OVERRIDES){
+      if(canonicalMint(k) === canon){ lat = MINT_COORD_OVERRIDES[k][0]; lng = MINT_COORD_OVERRIDES[k][1]; break; }
+    }
+  }
+  if(lat==null || lng==null){ MINT_GEO_CACHE[canon] = null; return null; }
+  var pt = turf.point([lng, lat]);
+  var hits = [];
+  geoLayer.eachLayer(function(l){ if(l.feature && l.feature.geometry && turf.booleanPointInPolygon(pt, l.feature)) hits.push(l.feature); });
+  hits.sort(function(a,b){ return (turf.area(a)-turf.area(b)) || String(a.properties.name||'').localeCompare(String(b.properties.name||'')); });
+  var result = hits[0] ? geoToOur(hits[0].properties.name) : null;
+  MINT_GEO_CACHE[canon] = result;
+  return result;
+}
+function provsForCity(id){
+  var c = cityById(id); if(!c) return [];
+  var p = provinceOfMint(c.name);
+  if(p) return [p];
+  if(c.provs && c.provs.length) return c.provs.slice();
+  if(c.sub){ var sp = provsForSub(c.sub); if(sp.length) return sp; }
+  return provsForRegion(c.region);
+}
+function resolveProvinces(geo, primary){
+  var set = {};
+  function add(arr){ arr.forEach(function(p){ if(p) set[p]=true; }); }
+  geo = normGeo(geo);
+  if(primary) set[primary]=true;
+  add(geo.provs);
+  var cityResolved = false;
+  geo.cities.forEach(function(cid){
+    var obj = cityById(cid);
+    var name = obj ? obj.name : cid;
+    var p = provinceOfMint(name);
+    if(p){ set[p]=true; cityResolved = true; }
+  });
+  if(!cityResolved){ geo.cities.forEach(function(c){ add(provsForCity(c)); }); }
+  if(!cityResolved){
+    geo.subs.forEach(function(s){ add(provsForSub(s)); });
+    geo.regions.forEach(function(r){ add(provsForRegion(r)); });
+  }
+  geo.provExclusions.forEach(function(p){ delete set[p]; });
+  return Object.keys(set);
+}
+function coinInMapProvince(c, ourName){
+  if (currentCoinFilter !== 'all' && c.period !== currentCoinFilter) return false;
+  var provinces = [];
+  if (c.period === 'prov') {
+    provinces = resolveProvinces(c.geo, '');
+  } else if (c.period === 'imp' || c.period === 'rep') {
+    var fromMint = provinceOfMint(c.mint);
+    if(fromMint){ provinces = [fromMint]; }
+    else {
+      var map2 = (c.period === 'imp') ? IMP_MAP_TO_PROVS : REP_MAP_TO_PROVS;
+      var subsubs = (c.period === 'imp') ? c.impSubsubs : c.repSubsubs;
+      var subs    = (c.period === 'imp') ? c.impSubs    : c.repSubs;
+      var regions = (c.period === 'imp') ? c.impRegions : c.repRegions;
+      if (c.mint && map2[c.mint]) provinces = map2[c.mint];
+      else if (subsubs && subsubs.length) provinces = subsubs.reduce(function(a,ss){ return a.concat(map2[ss]||[]); }, []);
+      else if (subs && subs.length) provinces = subs.reduce(function(a,s){ return a.concat(map2[s]||[]); }, []);
+      else if (regions && regions.length) provinces = regions.reduce(function(a,r){ return a.concat(map2[r]||[]); }, []);
+    }
+  }
+  if(provinces.indexOf('Italia') >= 0){
+    return ourName === 'Italia' || (ourName && ourName.indexOf('Italia') === 0);
+  }
+  if(ourName === 'Italia'){
+    return provinces.some(function(p){ return p === 'Italia' || p.indexOf('Italia') === 0; });
+  }
+  return provinces.indexOf(ourName) >= 0;
+}
+var _provCountCache = {};
+function provCount(ourName){
+  if (ourName in _provCountCache) return _provCountCache[ourName];
+  var n = coins.filter(function(c){ return coinInMapProvince(c, ourName); }).length;
+  _provCountCache[ourName] = n;
+  return n;
+}
+function getMax(gl){
+  var m=0;
+  gl.eachLayer(function(l){
+    var n=l.feature&&l.feature.properties&&l.feature.properties.name||"";
+    var our=geoToOur(n);
+    if(our)m=Math.max(m,provCount(our));
+  });
+  return m;
+}
+fetch("https://cdn.jsdelivr.net/gh/klokantech/roman-empire@master/data/provinces.geojson")
+  .then(function(r){if(!r.ok)throw new Error("HTTP "+r.status);return r.json();})
+  .then(function(data){
+    geoLayer=L.geoJSON(data,{
+      pane: 'provincesPane',
+      style:function(){return{fillColor:"#c8c8b3",fillOpacity:.83,color:"#6a5020",weight:.8};},
+      onEachFeature:function(feat,lyr){
+        var geoName=feat.properties&&feat.properties.name||"";
+        var ourName=geoToOur(geoName);
+        var hideTimer = null;
+
+        function showTooltip(e){
+          var pc = ourName ? coins.filter(function(c){ return coinInMapProvince(c, ourName); }) : [];
+          var html="<strong>"+(ourName||geoName)+"</strong>";
+          html+="<div class='tl'>Coins: <b>"+pc.length+"</b></div>";
+          if(pc.length){
+            html+="<div class='coins'>";
+            pc.slice(0,4).forEach(function(c){
+              var label=c.ref||(c.period==='rep'?c.mag:c.period==='imp'?c.imp:(c.provImp||c.reign))||c.denom||'—';
+              html+="<div class='coin-item'>"+esc(label)+(c.denom&&c.ref?" · "+esc(c.denom):"")+"</div>";
+            });
+            if(pc.length>4)html+="<div class='coin-item'>…and "+(pc.length-4)+" more</div>";
+            html+="</div>";
+          }
+          tt.innerHTML=html;
+          tt.style.display="block";
+          tt.dataset.prov = ourName || '';
+          postt(e.originalEvent || e);
+        }
+        function hideTooltip(){
+          tt.style.display = 'none';
+          tt.dataset.prov = '';
+          clearTimeout(hideTimer);
+          updateMap();
+        }
+
+        lyr.on({
+          mouseover:function(e){
+            if (L.Browser.mobile) return;
+            lyr.setStyle({weight:2,color:"#e8c020",fillOpacity:.95});
+            lyr.bringToFront();
+            showTooltip(e);
+          },
+          mousemove:function(e){
+            if (L.Browser.mobile) return;
+            postt(e.originalEvent);
+          },
+          mouseout:function(){
+            if (L.Browser.mobile) return;
+            hideTooltip();
+          },
+          click:function(e){
+            if (!L.Browser.mobile) return;
+            if (tt.style.display === 'block' && tt.dataset.prov === (ourName || '')) {
+              hideTooltip();
+              return;
+            }
+            lyr.setStyle({weight:2,color:"#e8c020",fillOpacity:.95});
+            lyr.bringToFront();
+            showTooltip(e);
+            clearTimeout(hideTimer);
+            hideTimer = setTimeout(function(){ hideTooltip(); }, 3500);
+          }
+        });
+      }
+    }).addTo(map);
+    var b = geoLayer.getBounds();
+    var isTbl = window.matchMedia('(min-width: 600px) and (max-width: 1100px) and (pointer: coarse)').matches;
+    if (isMobile() || isTbl) {
+      map.fitBounds(b, { paddingTopLeft: [0, 0], paddingBottomRight: [0, 0] });
+    } else {
+      map.fitBounds(b, { padding: [20, 20] });
+    }
+    setTimeout(function(){
+      map.invalidateSize();
+      if (isMobile()) map.setView(map.getCenter(), Math.max(map.getZoom(), 5.5));
+      else if (isTbl) map.setView(map.getCenter(), Math.max(map.getZoom(), 4));
+    }, 250);
+    map.setMaxBounds(b.pad(0.5));
+    map.options.maxBoundsViscosity = 0.9;
+    document.getElementById("loading").style.display="none";
+    document.getElementById("legend").classList.add('ready');
+    MINT_GEO_CACHE = {};
+    updateMap();
+    document.body.classList.add('ready');
+  })
+  .catch(function(e){
+    document.getElementById("loading").innerHTML="<b style='color:#c0392b'>Error: "+e.message+"</b>";
+    document.body.classList.add('ready');
+  });
+setTimeout(function(){
+  if(!geoLayer){
+    var el = document.getElementById('loading');
+    if (el) el.innerHTML = "<b>Map unavailable</b><small>Check your connection and reload.</small>";
+  }
+  document.body.classList.add('ready');
+}, 15000);
+function postt(e){
+  var r=mw.getBoundingClientRect();
+  var x=e.clientX-r.left+14;
+  var y=e.clientY-r.top-8;
+  var tw = tt.offsetWidth || 200;
+  var th = tt.offsetHeight || 110;
+  if(x+tw>mw.offsetWidth-8) x=e.clientX-r.left-tw-8;
+  if(x<8) x=8;
+  if(y+th>mw.offsetHeight-8) y=e.clientY-r.top-th-8;
+  if(y<8) y=8;
+  tt.style.left=x+"px";tt.style.top=y+"px";
+}
+var highlightSet = {};
+function setHighlight(list){
+  highlightSet = {};
+  (list||[]).forEach(function(p){ highlightSet[p]=true; });
+  document.getElementById('legend').classList.toggle('has-hl', Object.keys(highlightSet).length>0);
+  updateMap();
+}
+function clearHighlight(){ setHighlight([]); }
+function isHighlighted(our){
+  if(!our) return false;
+  if(highlightSet[our]) return true;
+  if(our.indexOf("Italia")===0 && highlightSet["Italia"]) return true;
+  if(our==="Italia"){ for(var k in highlightSet){ if(k.indexOf("Italia")===0) return true; } }
+  return false;
+}
+function updateMap(){
+  if(!geoLayer)return;
+  _provCountCache = {};
+  var mx=getMax(geoLayer);
+  document.getElementById("legmax").textContent=mx;
+  var hl=[];
+  geoLayer.eachLayer(function(l){
+    var n=l.feature&&l.feature.properties&&l.feature.properties.name||"";
+    var our=geoToOur(n);
+    var v=our?provCount(our):0;
+    if(isHighlighted(our)){
+      l.setStyle({fillColor:val2color(v,mx),fillOpacity:.95,color:"#2a7a4a",weight:2.4});
+      hl.push(l);
+    } else {
+      l.setStyle({fillColor:val2color(v,mx),fillOpacity:.83,color:"#6a5020",weight:.8});
+    }
+  });
+  hl.forEach(function(l){ l.bringToFront(); });
+}
+function addMintType(name, type){
+  if(!name) return;
+  var canon = canonicalMint(name);
+  if(!MINT_TYPES[canon]) MINT_TYPES[canon] = {};
+  MINT_TYPES[canon][type] = true;
+}
+function rebuildMintTypeIndex(){
+  if (typeof allMintsData === 'undefined') return;
+  MINT_TYPES = {};
+  REP_CITIES.forEach(function(n){ addMintType(n, 'rep'); });
+  IMP_CITIES.forEach(function(n){ addMintType(n, 'imp'); });
+  if(PDB.ready){ PDB.cities.forEach(function(c){ addMintType(c.name, 'prov'); }); }
+  (allMintsData || []).forEach(function(m){
+    if(m.type && ['prov','imp','rep'].indexOf(m.type) >= 0){ addMintType(m.name, m.type); }
+  });
+}
+function getMintTypes(name){
+  var canon = canonicalMint(name);
+  return MINT_TYPES[canon] || null;
+}
+function mintVisible(mintName, ownedSet){
+  var canon = canonicalMint(mintName);
+  var isOwned = ownedSet.has(canon);
+  if (currentMintMode === 'mine' && !isOwned) return false;
+  if (currentCoinFilter === 'all') return true;
+  var types = getMintTypes(mintName);
+  if (!types) return isOwned;
+  return !!types[currentCoinFilter];
+}
+fetch('mints.json')
+  .then(function(r){ return r.json(); })
+  .then(function(data){
+    allMintsData = data;
+    MINT_GEO_CACHE = {};
+    rebuildMintTypeIndex();
+    setMintMode('none');
+    setFilter('all');
+  })
+  .catch(function(err){ console.error("Errore caricamento mints.json:", err); });
+var _mintsRaf = null;
+function renderMints() {
+  if (!mintsLayer) return;
+  if (_mintsRaf) cancelAnimationFrame(_mintsRaf);
+  _mintsRaf = requestAnimationFrame(function(){
+    _mintsRaf = null;
+    mintsLayer.clearLayers();
+    if (allMintsData.length === 0 || currentMintMode === 'none') return;
+    var ownedMints = new Set();
+    coins.forEach(function(c){
+      if (c.mint) {
+        c.mint.split(';').forEach(function(m){ if(m.trim()) ownedMints.add(canonicalMint(m.trim())); });
+      }
+    });
+    var mintsToDraw = allMintsData.slice().sort(function(a, b){
+      var oa = ownedMints.has(canonicalMint(a.name)) ? 1 : 0;
+      var ob = ownedMints.has(canonicalMint(b.name)) ? 1 : 0;
+      return oa - ob;
+    });
+    mintsToDraw.forEach(function(m){
+      if (!mintVisible(m.name, ownedMints)) return;
+      var isOwned = ownedMints.has(canonicalMint(m.name));
+      var marker = L.circleMarker([m.lat, m.lng], {
+        pane: 'mintsPane', radius: 5,
+        fillColor: isOwned ? '#2a7a4a' : '#9a9a94',
+        color: '#ffffff', weight: 1.5, opacity: 1, fillOpacity: 0.95, className: 'mint-marker'
+      });
+      marker.bindTooltip('<strong>'+esc(m.name)+'</strong><br><span style="font-size:10px;">'+(isOwned ? 'In collection' : 'Not owned')+'</span>', { direction: 'top', offset: [0, -8], pane: 'mintsTooltipPane' });
+      marker.on('click', function(){
+        if (L.Browser.mobile) setTimeout(function(){ marker.closeTooltip(); }, 2500);
+      });
+      mintsLayer.addLayer(marker);
+    });
+    Object.keys(MINT_COORD_OVERRIDES).forEach(function(name){
+      if(allMintsData.some(function(m){ return canonicalMint(m.name) === canonicalMint(name); })) return;
+      if (!mintVisible(name, ownedMints)) return;
+      var isOwned = ownedMints.has(canonicalMint(name));
+      var coords = MINT_COORD_OVERRIDES[name];
+      var marker = L.circleMarker(coords, {
+        pane: 'mintsPane', radius: 5,
+        fillColor: isOwned ? '#2a7a4a' : '#9a9a94',
+        color: '#ffffff', weight: 1.5, opacity: 1, fillOpacity: 0.95, className: 'mint-marker'
+      });
+      marker.bindTooltip('<strong>'+esc(name)+'</strong><br><span style="font-size:10px;">'+(isOwned ? 'In collection' : 'Not owned')+'</span>', { direction: 'top', offset: [0, -8], pane: 'mintsTooltipPane' });
+      marker.on('click', function(){
+        if (L.Browser.mobile) setTimeout(function(){ marker.closeTooltip(); }, 2500);
+      });
+      mintsLayer.addLayer(marker);
+    });
+  });
+}
+function setMintMode(mode) {
+  currentMintMode = mode;
+  var bNone = document.getElementById('btn-mints-none');
+  var bMine = document.getElementById('btn-mints-mine');
+  var bAll = document.getElementById('btn-mints-all');
+  [bNone, bMine, bAll].forEach(function(b){ b.classList.remove('active'); });
+  if (mode === 'none') bNone.classList.add('active');
+  else if (mode === 'mine') bMine.classList.add('active');
+  else if (mode === 'all') bAll.classList.add('active');
+  renderMints();
+}
+function setFilter(mode, btn){
+  filterMode = mode;
+  currentCoinFilter = mode;
+  document.querySelectorAll('.ftab').forEach(function(b){
+    b.classList.toggle('on', b.dataset.filter === mode);
+  });
+  document.querySelectorAll('#map-controls [data-filter]').forEach(function(b){
+    b.classList.toggle('active', b.dataset.filter === mode);
+  });
+  renderList();
+  updateMap();
+  renderMints();
+}
+function toggleMobileFilters(){
+  var c = document.getElementById('map-controls');
+  var ov = document.getElementById('map-controls-overlay');
+  var b = document.getElementById('btn-mobile-filters');
+  var isOpen = c.classList.toggle('mobile-open');
+  ov.classList.toggle('open', isOpen);
+  b.classList.toggle('active', isOpen);
+}
+function closeMobileFilters(){
+  var c = document.getElementById('map-controls');
+  var ov = document.getElementById('map-controls-overlay');
+  var b = document.getElementById('btn-mobile-filters');
+  c.classList.remove('mobile-open');
+  ov.classList.remove('open');
+  b.classList.remove('active');
+}
+document.getElementById('map-controls-overlay').addEventListener('touchstart', function(e){
+  e.preventDefault();
+  closeMobileFilters();
+}, {passive:false});
+function isProvMode(){ return currentPeriod==='prov' && PDB.ready; }
+function isImpMode(){ return currentPeriod==='imp' && IDB.ready; }
+function isRepMode(){ return currentPeriod==='rep' && RDB.ready; }
+function modalOpen(){ return document.getElementById('overlay').classList.contains('open'); }
+function setPeriod(p){
+  currentPeriod=p;
+  document.getElementById('r-prov').className='radio-opt'+(p==='prov'?' on':'');
+  document.getElementById('r-imp').className='radio-opt'+(p==='imp'?' on':'');
+  document.getElementById('r-rep').className='radio-opt'+(p==='rep'?' on':'');
+  var isProv = p === 'prov'; var isImp = p === 'imp'; var isRep = p === 'rep';
+  document.getElementById('block-prov').style.display=isProv?'':'none';
+  document.getElementById('block-imp').style.display=isImp?'':'none';
+  document.getElementById('block-rep').style.display=isRep?'':'none';
+  document.getElementById('block-prov-chrono').style.display=isProv?'':'none';
+  document.getElementById('block-prov-geography').style.display=isProv?'':'none';
+  document.getElementById('block-imp-geography').style.display=isImp?'':'none';
+  document.getElementById('block-main-geography').style.display=isRep?'':'none';
+  if(modalOpen()){
+    if(isProv) provEnforce();
+    if(isImp) impEnforce();
+    if(isRep) repEnforce();
+    if(isProv) rebuildReignPicker();
+    pkRenderAll();
+    previewHighlight();
+  }
+}
+var geoSel = emptyGeo();
+var magSel = [];
+var reignSel = '';
+var DIMS = ['r','m','c'];
+function provSelection(){ return { r: [], m: magSel.slice(), c: geoSel.cities.slice() }; }
+function tupleOk(t, sel, skip){
+  if(skip!=='r' && sel.r.length && sel.r.indexOf(t.r)<0) return false;
+  if(skip!=='m' && sel.m.length && sel.m.indexOf(t.m)<0) return false;
+  if(skip!=='c' && sel.c.length && sel.c.indexOf(t.c)<0) return false;
+  if(t.c){
+    if(geoSel.regions.length && t.g && geoSel.regions.indexOf(t.g)<0) return false;
+    if(geoSel.subs.length && t.s && geoSel.subs.indexOf(t.s)<0) return false;
+  }
+  return true;
+}
+function facet(k, sel){
+  var seen={}, out=[];
+  for(var i=0;i<PDB.tuples.length;i++){
+    var t=PDB.tuples[i];
+    if(t[k]==null || seen[t[k]]) continue;
+    if(tupleOk(t,sel,k)){ seen[t[k]]=true; out.push(t[k]); }
+  }
+  return out;
+}
+function writeDim(k, vals){
+  if(k==='r') reignSel=vals[0]||'';
+  else if(k==='m') magSel=vals;
+  else if(k==='c') geoSel.cities=vals;
+}
+function provEnforce(){
+  if(!isProvMode()){ rebuildReignPicker(); return; }
+  var changed=true, guard=0;
+  while(changed && guard++<10){
+    changed=false;
+    var sel=provSelection();
+    for(var i=0;i<DIMS.length;i++){
+      var k=DIMS[i]; if(!sel[k].length) continue;
+      var okSet={}; facet(k,sel).forEach(function(v){ okSet[v]=true; });
+      var kept=sel[k].filter(function(v){ return okSet[v]; });
+      if(kept.length!==sel[k].length){ writeDim(k,kept); sel=provSelection(); changed=true; }
+    }
+  }
+  rebuildReignPicker();
+  updateProvHint();
+}
+function rebuildReignPicker(){ pkRender('reign'); }
+function updateProvHint(){
+  if(PDB.error) return;
+  if(!isProvMode()){ setProvHint(''); return; }
+  var sel=provSelection();
+  var any=DIMS.some(function(k){ return sel[k].length; });
+  if(!any && !geoSel.regions.length && !geoSel.subs.length){
+    setProvHint(PDB.reigns.length+' reigns · '+PDB.mags.length+' magistrates · '+PDB.cities.length+' cities');
+    return;
+  }
+  setProvHint('Compatible: '+facet('m',sel).length+' magistrates · '+facet('c',sel).length+' cities');
+}
+function provGeoAdd(key, id){
+  if (key === 'regions') {
+    if (geoSel.regions.indexOf(id) < 0) geoSel.regions.push(id);
+  } else if (key === 'subs') {
+    if (geoSel.subs.indexOf(id) < 0) geoSel.subs.push(id);
+    var s = subById(id);
+    if (s && s.region && geoSel.regions.indexOf(s.region) < 0) geoSel.regions.push(s.region);
+  } else if (key === 'cities') {
+    if (geoSel.cities.indexOf(id) < 0) geoSel.cities.push(id);
+    var c = cityById(id);
+    if (c) {
+      if (c.sub && geoSel.subs.indexOf(c.sub) < 0) geoSel.subs.push(c.sub);
+      var sOfCity = c.sub ? subById(c.sub) : null;
+      var reg = (sOfCity && sOfCity.region) || c.region;
+      if (reg && geoSel.regions.indexOf(reg) < 0) geoSel.regions.push(reg);
+    }
+  } else if (key === 'provs') {
+    if (geoSel.provs.indexOf(id) < 0) geoSel.provs.push(id);
+    geoSel.provExclusions = geoSel.provExclusions.filter(function(p){ return p !== id; });
+  }
+}
+function provGeoRemove(key, id){
+  if (key === 'regions') {
+    geoSel.regions = geoSel.regions.filter(function(x){ return x !== id; });
+  } else if (key === 'subs') {
+    geoSel.subs = geoSel.subs.filter(function(x){ return x !== id; });
+  } else if (key === 'cities') {
+    geoSel.cities = geoSel.cities.filter(function(x){ return x !== id; });
+  } else if (key === 'provs') {
+    var derived = resolveProvinces({ provs: [], regions: geoSel.regions, subs: geoSel.subs, cities: geoSel.cities }, '').indexOf(id) >= 0;
+    geoSel.provs = geoSel.provs.filter(function(p){ return p !== id; });
+    if (derived) { if (geoSel.provExclusions.indexOf(id) < 0) geoSel.provExclusions.push(id); }
+    else { geoSel.provExclusions = geoSel.provExclusions.filter(function(p){ return p !== id; }); }
+  }
+}
+function provSyncProvinces(){
+  var derived = resolveProvinces({ provs: [], regions: geoSel.regions, subs: geoSel.subs, cities: geoSel.cities }, '');
+  derived.forEach(function(p){
+    if (geoSel.provs.indexOf(p) < 0) geoSel.provs.push(p);
+    geoSel.provExclusions = geoSel.provExclusions.filter(function(x){ return x !== p; });
+  });
+}
+function provSyncHierarchy(){
+  geoSel.cities.forEach(function(cid){
+    var c = cityById(cid); if(!c) return;
+    if (c.sub && geoSel.subs.indexOf(c.sub) < 0) geoSel.subs.push(c.sub);
+    var s = c.sub ? subById(c.sub) : null;
+    var reg = (s && s.region) || c.region;
+    if (reg && geoSel.regions.indexOf(reg) < 0) geoSel.regions.push(reg);
+  });
+  geoSel.subs.forEach(function(sid){
+    var s = subById(sid); if(!s) return;
+    if (s.region && geoSel.regions.indexOf(s.region) < 0) geoSel.regions.push(s.region);
+  });
+}
+function clearProvGeography(){
+  geoSel.provs = [];
+  geoSel.provExclusions = [];
+  geoSel.regions = [];
+  geoSel.subs = [];
+  geoSel.cities = [];
+  document.querySelectorAll('#pk-provs .pk-in, #pk-regions .pk-in, #pk-subs .pk-in, #pk-cities .pk-in')
+    .forEach(function(i){ i.value = ''; });
+  pkRenderAll();
+  previewHighlight();
+}
+var impGeoSel = { regions: [], subs: [], subsubs: [], cities: [] };
+var impAuthSel = [];
+var impIssuerSel = [];
+var IDIMS = ['a','i'];
+function impSelection(){ return { a: impAuthSel.slice(), i: impIssuerSel.slice() }; }
+function impTupleOk(t, sel, skip){
+  for(var j=0;j<IDIMS.length;j++){
+    var k=IDIMS[j]; if(k===skip) continue;
+    if(sel[k].length && sel[k].indexOf(t[k])<0) return false;
+  }
+  return true;
+}
+function impFacet(k, sel){
+  var seen={}, out=[];
+  for(var j=0;j<IDB.tuples.length;j++){
+    var t=IDB.tuples[j];
+    if(t[k]==null || seen[t[k]]) continue;
+    if(impTupleOk(t,sel,k)){ seen[t[k]]=true; out.push(t[k]); }
+  }
+  return out;
+}
+function impEnforce(){
+  var changed=true, guard=0;
+  while(changed && guard++<10){
+    changed=false;
+    var sel=impSelection();
+    for(var j=0;j<IDIMS.length;j++){
+      var k=IDIMS[j]; if(!sel[k].length) continue;
+      var okSet={}; impFacet(k,sel).forEach(function(v){ okSet[v]=true; });
+      var kept=sel[k].filter(function(v){ return okSet[v]; });
+      if(kept.length!==sel[k].length){
+        if(k==='a') impAuthSel=kept;
+        else if(k==='i') impIssuerSel=kept;
+        sel=impSelection(); changed=true;
+      }
+    }
+  }
+}
+function impRegionOfSub(s){ for(var r in IDB.tree){ if(IDB.tree[r][s]) return r; } return ''; }
+function impCityPath(c){
+  var s=IDB.cityToSub[c]||'', ss=IDB.cityToSubsub[c]||'';
+  return {r:s?impRegionOfSub(s):'', s:s, ss:ss};
+}
+function impCityAllowed(){
+  var a={r:{},s:{},ss:{}};
+  impGeoSel.cities.forEach(function(c){
+    var p=impCityPath(c);
+    if(p.r) a.r[p.r]=1;
+    if(p.s) a.s[p.s]=1;
+    if(p.ss) a.ss[p.ss]=1;
+  });
+  return a;
+}
+function impGeoAdd(key, id) {
+  if (key === 'regions') { if (impGeoSel.regions.indexOf(id) < 0) impGeoSel.regions.push(id); }
+  else if (key === 'subs') {
+    if (impGeoSel.subs.indexOf(id) < 0) impGeoSel.subs.push(id);
+    var rr = impRegionOfSub(id);
+    if (rr && impGeoSel.regions.indexOf(rr) < 0) impGeoSel.regions.push(rr);
+  } else if (key === 'subsubs') {
+    if (impGeoSel.subsubs.indexOf(id) < 0) impGeoSel.subsubs.push(id);
+    for (var r in IDB.tree) {
+      for (var s in IDB.tree[r]) {
+        if (IDB.tree[r][s].indexOf(id) >= 0) {
+          if (impGeoSel.subs.indexOf(s) < 0) impGeoSel.subs.push(s);
+          if (impGeoSel.regions.indexOf(r) < 0) impGeoSel.regions.push(r);
+          return;
+        }
+      }
+    }
+  } else if (key === 'cities') {
+    if (impGeoSel.cities.indexOf(id) < 0) impGeoSel.cities.push(id);
+    var p = impCityPath(id);
+    if (p.ss && impGeoSel.subsubs.indexOf(p.ss) < 0) impGeoSel.subsubs.push(p.ss);
+    if (p.s && impGeoSel.subs.indexOf(p.s) < 0) impGeoSel.subs.push(p.s);
+    if (p.r && impGeoSel.regions.indexOf(p.r) < 0) impGeoSel.regions.push(p.r);
+  }
+}
+function impGeoRemove(key, id) {
+  var g = impGeoSel;
+  if (key === 'cities') { g.cities = g.cities.filter(function(x){ return x !== id; }); }
+  else if (key === 'subsubs') {
+    g.subsubs = g.subsubs.filter(function(x){ return x !== id; });
+    g.cities = g.cities.filter(function(c){ return IDB.cityToSubsub[c] !== id; });
+  } else if (key === 'subs') {
+    var ssOfSub = [];
+    for (var r in IDB.tree) if (IDB.tree[r][id]) ssOfSub = ssOfSub.concat(IDB.tree[r][id]);
+    g.subs = g.subs.filter(function(x){ return x !== id; });
+    g.subsubs = g.subsubs.filter(function(ss){ return ssOfSub.indexOf(ss) < 0; });
+    g.cities = g.cities.filter(function(c){ return IDB.cityToSub[c] !== id; });
+  } else if (key === 'regions') {
+    var subsIn = Object.keys(IDB.tree[id] || {}), ssIn = [];
+    subsIn.forEach(function(s){ ssIn = ssIn.concat(IDB.tree[id][s]); });
+    g.regions = g.regions.filter(function(x){ return x !== id; });
+    g.subs = g.subs.filter(function(s){ return subsIn.indexOf(s) < 0; });
+    g.subsubs = g.subsubs.filter(function(ss){ return ssIn.indexOf(ss) < 0; });
+    g.cities = g.cities.filter(function(c){ return subsIn.indexOf(IDB.cityToSub[c]) < 0; });
+  }
+}
+var repGeoSel = { regions: [], subs: [], subsubs: [], cities: [] };
+var repIssuerSel = [];
+var RDIMS = ['i'];
+function repSelection(){ return { i: repIssuerSel.slice() }; }
+function repTupleOk(t, sel, skip){
+  for(var j=0;j<RDIMS.length;j++){
+    var k=RDIMS[j]; if(k===skip) continue;
+    if(sel[k].length && sel[k].indexOf(t[k])<0) return false;
+  }
+  return true;
+}
+function repFacet(k, sel){
+  var seen={}, out=[];
+  for(var j=0;j<RDB.tuples.length;j++){
+    var t=RDB.tuples[j];
+    if(t[k]==null || seen[t[k]]) continue;
+    if(repTupleOk(t,sel,k)){ seen[t[k]]=true; out.push(t[k]); }
+  }
+  return out;
+}
+function repEnforce(){}
+function repRegionOfSub(s){ for(var r in RDB.tree){ if(RDB.tree[r][s]) return r; } return ''; }
+function repCityPath(c){
+  var s=RDB.cityToSub[c]||'', ss=RDB.cityToSubsub[c]||'';
+  return {r:s?repRegionOfSub(s):'', s:s, ss:ss};
+}
+function repCityAllowed(){
+  var a={r:{},s:{},ss:{}};
+  repGeoSel.cities.forEach(function(c){
+    var p=repCityPath(c);
+    if(p.r) a.r[p.r]=1;
+    if(p.s) a.s[p.s]=1;
+    if(p.ss) a.ss[p.ss]=1;
+  });
+  return a;
+}
+function repGeoAdd(key, id) {
+  if (key === 'regions') { if (repGeoSel.regions.indexOf(id) < 0) repGeoSel.regions.push(id); }
+  else if (key === 'subs') {
+    if (repGeoSel.subs.indexOf(id) < 0) repGeoSel.subs.push(id);
+    var rr = repRegionOfSub(id);
+    if (rr && repGeoSel.regions.indexOf(rr) < 0) repGeoSel.regions.push(rr);
+  } else if (key === 'subsubs') {
+    if (repGeoSel.subsubs.indexOf(id) < 0) repGeoSel.subsubs.push(id);
+    for (var r in RDB.tree) {
+      for (var s in RDB.tree[r]) {
+        if (RDB.tree[r][s].indexOf(id) >= 0) {
+          if (repGeoSel.subs.indexOf(s) < 0) repGeoSel.subs.push(s);
+          if (repGeoSel.regions.indexOf(r) < 0) repGeoSel.regions.push(r);
+          return;
+        }
+      }
+    }
+  } else if (key === 'cities') {
+    if (repGeoSel.cities.indexOf(id) < 0) repGeoSel.cities.push(id);
+    var p = repCityPath(id);
+    if (p.ss && repGeoSel.subsubs.indexOf(p.ss) < 0) repGeoSel.subsubs.push(p.ss);
+    if (p.s && repGeoSel.subs.indexOf(p.s) < 0) repGeoSel.subs.push(p.s);
+    if (p.r && repGeoSel.regions.indexOf(p.r) < 0) repGeoSel.regions.push(p.r);
+  }
+}
+function repGeoRemove(key, id) {
+  var g = repGeoSel;
+  if (key === 'cities') { g.cities = g.cities.filter(function(x){ return x !== id; }); }
+  else if (key === 'subsubs') {
+    g.subsubs = g.subsubs.filter(function(x){ return x !== id; });
+    g.cities = g.cities.filter(function(c){ return RDB.cityToSubsub[c] !== id; });
+  } else if (key === 'subs') {
+    var ssOfSub = [];
+    for (var r in RDB.tree) if (RDB.tree[r][id]) ssOfSub = ssOfSub.concat(RDB.tree[r][id]);
+    g.subs = g.subs.filter(function(x){ return x !== id; });
+    g.subsubs = g.subsubs.filter(function(ss){ return ssOfSub.indexOf(ss) < 0; });
+    g.cities = g.cities.filter(function(c){ return RDB.cityToSub[c] !== id; });
+  } else if (key === 'regions') {
+    var subsIn = Object.keys(RDB.tree[id] || {}), ssIn = [];
+    subsIn.forEach(function(s){ ssIn = ssIn.concat(RDB.tree[id][s]); });
+    g.regions = g.regions.filter(function(x){ return x !== id; });
+    g.subs = g.subs.filter(function(s){ return subsIn.indexOf(s) < 0; });
+    g.subsubs = g.subsubs.filter(function(ss){ return ssIn.indexOf(ss) < 0; });
+    g.cities = g.cities.filter(function(c){ return subsIn.indexOf(RDB.cityToSub[c]) < 0; });
+  }
+}
+function byLabel(a,b){ return a.label.localeCompare(b.label); }
+var IMP_KEY_MAP = {impregions:'regions', impsubs:'subs', impsubsubs:'subsubs', impcities:'cities'};
+var REP_KEY_MAP = {repregions:'regions', repsubs:'subs', repsubsubs:'subsubs', repcities:'cities'};
+var PICKERS = {
+  reign:{ el:'pk-reign', single:true,
+    items:function(){
+      if(!PDB.ready) return [];
+      return PDB.reigns.slice().map(function(r){ return {id:r,label:reignLabel(r),small:isClientKing(r)?'client king':''}; }).sort(byLabel);
+    },
+    get:function(){ return reignSel ? [reignSel] : []; },
+    set:function(v){ reignSel = v.length ? v[v.length-1] : ''; },
+    label:function(id){ return reignLabel(id); } },
+  provs:{ el:'pk-provs',
+    items:function(){ return PROVS.map(function(p){ return {id:p,label:p}; }); },
+    get:function(){ return resolveProvinces(geoSel, ''); },
+    set:function(v){ geoSel.provs=v; },
+    label:function(id){ return id; } },
+  regions:{ el:'pk-regions',
+    items:function(){
+      var list = isProvMode() ? facet('g',provSelection()) : REGIONS;
+      return list.map(function(r){ return {id:r,label:r}; }).sort(byLabel);
+    },
+    get:function(){ return geoSel.regions; }, set:function(v){ geoSel.regions=v; },
+    label:function(id){ return id; } },
+  subs:{ el:'pk-subs',
+    items:function(){
+      var list = isProvMode() ? facet('s',provSelection()).map(subById) : SUBREGIONS;
+      return list.filter(Boolean).map(function(s){ return {id:s.id,label:s.name,small:s.region}; }).sort(byLabel);
+    },
+    get:function(){ return geoSel.subs; }, set:function(v){ geoSel.subs=v; },
+    label:function(id){ return subLabel(subById(id))||id; } },
+  cities:{ el:'pk-cities',
+    items:function(){
+      var list = isProvMode() ? facet('c',provSelection()).map(cityById) : CITIES;
+      return list.filter(Boolean).map(function(c){
+        var s=c.sub?subById(c.sub):null;
+        var reg = (s && s.region) || c.region || '';
+        return {id:c.id,label:c.name,small:reg};
+      }).sort(byLabel);
+    },
+    get:function(){ return geoSel.cities; }, set:function(v){ geoSel.cities=v; },
+    label:function(id){ return cityLabel(cityById(id))||id; } },
+  mag:{ el:'pk-mag',
+    items:function(){
+      if(!PDB.ready) return [];
+      var list = isProvMode() ? facet('m',provSelection()) : PDB.mags.map(function(m){ return m.id; });
+      return list.map(function(id){ var m=PDB.magById[id]; return {id:id,label:m.name,small:m.title}; }).sort(byLabel);
+    },
+    get:function(){ return magSel; }, set:function(v){ magSel=v; },
+    label:function(id){ return magLabel(PDB.magById[id])||id; } },
+  impregions: { el:'pk-imp-regions',
+    items:function(){
+      var ok=impCityAllowed().r, has=impGeoSel.cities.length;
+      return Object.keys(IDB.tree).filter(function(r){ return !has||ok[r]; }).sort().map(function(r){ return {id:r,label:r}; });
+    },
+    get:function(){ return impGeoSel.regions; }, set:function(v){ impGeoSel.regions=v; },
+    label:function(id){ return id; } },
+  impsubs: { el:'pk-imp-subs',
+    items:function(){
+      var ok=impCityAllowed().s, has=impGeoSel.cities.length, seen={}, list=[];
+      var regs=impGeoSel.regions.length?impGeoSel.regions:Object.keys(IDB.tree);
+      regs.forEach(function(r){
+        Object.keys(IDB.tree[r]||{}).forEach(function(s){
+          if(seen[s]||(has&&!ok[s])) return;
+          seen[s]=1; list.push({id:s,label:s,small:r});
+        });
+      });
+      return list.sort(byLabel);
+    },
+    get:function(){ return impGeoSel.subs; }, set:function(v){ impGeoSel.subs=v; },
+    label:function(id){ return id; } },
+  impsubsubs: { el:'pk-imp-subsubs',
+    items:function(){
+      var ok=impCityAllowed().ss, has=impGeoSel.cities.length, seen={}, list=[];
+      for(var r in IDB.tree){
+        for(var s in IDB.tree[r]){
+          if(impGeoSel.subs.length && impGeoSel.subs.indexOf(s)<0) continue;
+          IDB.tree[r][s].forEach(function(ss){
+            if(seen[ss]||(has&&!ok[ss])) return;
+            seen[ss]=1; list.push({id:ss,label:ss,small:s});
+          });
+        }
+      }
+      return list.sort(byLabel);
+    },
+    get:function(){ return impGeoSel.subsubs; }, set:function(v){ impGeoSel.subsubs=v; },
+    label:function(id){ return id; } },
+  impcities: { el:'pk-imp-cities',
+    items:function(){
+      var g=impGeoSel;
+      return IDB.cities.filter(function(c){
+        var p=impCityPath(c);
+        if(g.regions.length && g.regions.indexOf(p.r)<0) return false;
+        if(g.subs.length && g.subs.indexOf(p.s)<0) return false;
+        if(g.subsubs.length && p.ss && g.subsubs.indexOf(p.ss)<0) return false;
+        return true;
+      }).map(function(c){ return {id:c,label:c}; }).sort(byLabel);
+    },
+    get:function(){ return impGeoSel.cities; }, set:function(v){ impGeoSel.cities=v; },
+    label:function(id){ return id; } },
+  authorities: { el:'pk-authorities',
+    items:function(){
+      if(!IDB.ready) return [];
+      return impFacet('a', impSelection()).map(function(a){ return {id:a, label:a}; }).sort(byLabel);
+    },
+    get:function(){ return impAuthSel; }, set:function(v){ impAuthSel = v; },
+    label:function(id){ return id; } },
+  issuers: { el:'pk-issuers',
+    items:function(){
+      if(!IDB.ready) return [];
+      return impFacet('i', impSelection()).map(function(i){ return {id:i, label:i}; }).sort(byLabel);
+    },
+    get:function(){ return impIssuerSel; }, set:function(v){ impIssuerSel = v; },
+    label:function(id){ return id; } },
+  repregions: { el:'pk-rep-regions',
+    items:function(){
+      var ok=repCityAllowed().r, has=repGeoSel.cities.length;
+      return Object.keys(RDB.tree).filter(function(r){ return !has||ok[r]; }).sort().map(function(r){ return {id:r,label:r}; });
+    },
+    get:function(){ return repGeoSel.regions; }, set:function(v){ repGeoSel.regions=v; }, label:function(id){ return id; } },
+  repsubs: { el:'pk-rep-subs',
+    items:function(){
+      var ok=repCityAllowed().s, has=repGeoSel.cities.length, seen={}, list=[];
+      var regs=repGeoSel.regions.length?repGeoSel.regions:Object.keys(RDB.tree);
+      regs.forEach(function(r){
+        Object.keys(RDB.tree[r]||{}).forEach(function(s){
+          if(seen[s]||(has&&!ok[s])) return;
+          seen[s]=1; list.push({id:s,label:s,small:r});
+        });
+      });
+      return list.sort(byLabel);
+    },
+    get:function(){ return repGeoSel.subs; }, set:function(v){ repGeoSel.subs=v; }, label:function(id){ return id; } },
+  repsubsubs: { el:'pk-rep-subsubs',
+    items:function(){
+      var ok=repCityAllowed().ss, has=repGeoSel.cities.length, seen={}, list=[];
+      for(var r in RDB.tree){
+        for(var s in RDB.tree[r]){
+          if(repGeoSel.subs.length && repGeoSel.subs.indexOf(s)<0) continue;
+          RDB.tree[r][s].forEach(function(ss){
+            if(seen[ss]||(has&&!ok[ss])) return;
+            seen[ss]=1; list.push({id:ss,label:ss,small:s});
+          });
+        }
+      }
+      return list.sort(byLabel);
+    },
+    get:function(){ return repGeoSel.subsubs; }, set:function(v){ repGeoSel.subsubs=v; }, label:function(id){ return id; } },
+  repcities: { el:'pk-rep-cities',
+    items:function(){
+      var g=repGeoSel;
+      return RDB.cities.filter(function(c){
+        var p=repCityPath(c);
+        if(g.regions.length && g.regions.indexOf(p.r)<0) return false;
+        if(g.subs.length && g.subs.indexOf(p.s)<0) return false;
+        if(g.subsubs.length && p.ss && g.subsubs.indexOf(p.ss)<0) return false;
+        return true;
+      }).map(function(c){ return {id:c,label:c}; }).sort(byLabel);
+    },
+    get:function(){ return repGeoSel.cities; }, set:function(v){ repGeoSel.cities=v; }, label:function(id){ return id; } },
+  repissuers: { el:'pk-rep-issuers',
+    items:function(){
+      if(!RDB.ready) return [];
+      return RDB.issuers.map(function(i){ return {id:i, label:i}; }).sort(byLabel);
+    },
+    get:function(){ return repIssuerSel; }, set:function(v){ repIssuerSel = v; }, label:function(id){ return id; } }
+};
+function pkRender(key){
+  var P=PICKERS[key], root=document.getElementById(P.el); if(!root) return;
+  var chips=root.querySelector('.pk-chips'), list=root.querySelector('.pk-list'), inp=root.querySelector('.pk-in');
+  var sel=P.get();
+  chips.innerHTML=sel.map(function(id){
+    return '<span class="pk-chip"><span title="'+esc(P.label(id))+'">'+esc(P.label(id))+'</span><b data-id="'+esc(id)+'" role="button" aria-label="Remove">&#215;</b></span>';
+  }).join('');
+  var q=norm(inp.value);
+  var allItems = P.items();
+  var items=allItems.filter(function(it){ return sel.indexOf(it.id)<0 && (!q || norm(it.label+' '+(it.small||'')).indexOf(q)>=0); });
+  if(!items.length){ list.innerHTML='<div class="pk-none">'+(allItems.length?'No match':'No options available')+'</div>'; return; }
+  list.innerHTML=items.slice(0,300).map(function(it){
+    return '<div class="pk-item" data-id="'+esc(it.id)+'">'+esc(it.label)+(it.small?'<small>'+esc(it.small)+'</small>':'')+'</div>';
+  }).join('')+(items.length>300?'<div class="pk-none">…'+(items.length-300)+' more — refine the search</div>':'');
+}
+function pkRenderAll(){ Object.keys(PICKERS).forEach(pkRender); updateGeoHint(); }
+function pkAdd(key,id){
+  if (IMP_KEY_MAP[key]) { impGeoAdd(IMP_KEY_MAP[key], id); pkAfterChange(key); return; }
+  if (REP_KEY_MAP[key]) { repGeoAdd(REP_KEY_MAP[key], id); pkAfterChange(key); return; }
+  var P = PICKERS[key];
+  if(P && P.single){ P.set([id]); pkAfterChange(key); return; }
+  if (key === 'provs') { provGeoAdd('provs', id); }
+  else if (key === 'regions') { provGeoAdd('regions', id); }
+  else if (key === 'subs') { provGeoAdd('subs', id); }
+  else if (key === 'cities') { provGeoAdd('cities', id); }
+  else {
+    var v = P.get().slice();
+    if (v.indexOf(id) < 0) v.push(id);
+    P.set(v);
+  }
+  pkAfterChange(key);
+}
+function pkRemove(key,id){
+  if (IMP_KEY_MAP[key]) { impGeoRemove(IMP_KEY_MAP[key], id); pkAfterChange(key); return; }
+  if (REP_KEY_MAP[key]) { repGeoRemove(REP_KEY_MAP[key], id); pkAfterChange(key); return; }
+  var P = PICKERS[key];
+  if(P && P.single){ P.set([]); pkAfterChange(key); return; }
+  if (key === 'provs') { provGeoRemove('provs', id); }
+  else if (key === 'regions') { provGeoRemove('regions', id); }
+  else if (key === 'subs') { provGeoRemove('subs', id); }
+  else if (key === 'cities') { provGeoRemove('cities', id); }
+  else { P.set(P.get().filter(function(x){ return x !== id; })); }
+  pkAfterChange(key);
+}
+function pkAfterChange(key){
+  var root=document.getElementById(PICKERS[key].el); if(root) root.querySelector('.pk-in').value='';
+  if(currentPeriod==='imp'){ impEnforce(); }
+  else if(currentPeriod==='rep'){ repEnforce(); }
+  else {
+    provSyncHierarchy();
+    provEnforce();
+    provSyncProvinces();
+  }
+  pkRenderAll(); previewHighlight();
+}
+function pkCloseAll(){ document.querySelectorAll('.picker.open').forEach(function(p){ p.classList.remove('open'); }); }
+function updateGeoHint(){
+  var hint = document.getElementById('geo-hint');
+  if(currentPeriod !== 'prov'){ hint.textContent = ''; return; }
+  var provs = resolveProvinces(geoSel, '');
+  hint.textContent = provs.length ? 'Map highlight: '+provs.join(' · ') : '';
+}
+var _pkDebounce = {};
+(function initPickers(){
+  Object.keys(PICKERS).forEach(function(key){
+    var P=PICKERS[key], root=document.getElementById(P.el); if(!root) return;
+    var inp=root.querySelector('.pk-in');
+    var listEl = root.querySelector('.pk-list');
+    var touchStartX = 0, touchStartY = 0, touchMoved = false;
+
+    inp.addEventListener('focus',function(){
+      pkCloseAll();
+      root.classList.add('open');
+      pkRender(key);
+      if (isMobile()) {
+        setTimeout(function(){ inp.scrollIntoView({ block: 'center', behavior: 'smooth' }); }, 250);
+      }
+    });
+    inp.addEventListener('input',function(){
+      root.classList.add('open');
+      clearTimeout(_pkDebounce[key]);
+      _pkDebounce[key] = setTimeout(function(){ pkRender(key); }, 120);
+    });
+    inp.addEventListener('keydown',function(e){
+      if(e.key==='Enter'){ e.preventDefault(); var first=root.querySelector('.pk-item'); if(first) pkAdd(key,first.getAttribute('data-id')); }
+      if(e.key==='Escape') root.classList.remove('open');
+      if(e.key==='Backspace' && !inp.value){ var v=P.get(); if(v.length) pkRemove(key,v[v.length-1]); }
+    });
+
+    listEl.addEventListener('touchstart', function(e){
+      var t = e.touches[0];
+      touchStartX = t.clientX;
+      touchStartY = t.clientY;
+      touchMoved = false;
+    }, {passive:true});
+    listEl.addEventListener('touchmove', function(e){
+      var t = e.touches[0];
+      if (Math.abs(t.clientY - touchStartY) > 8 || Math.abs(t.clientX - touchStartX) > 8) {
+        touchMoved = true;
+      }
+    }, {passive:true});
+    listEl.addEventListener('touchend', function(e){
+      if (touchMoved) return;
+      var target = document.elementFromPoint(touchStartX, touchStartY);
+      var it = target && target.closest ? target.closest('.pk-item') : null;
+      if (!it) return;
+      e.preventDefault();
+      e.stopPropagation();
+      pkAdd(key, it.getAttribute('data-id'));
+      root.classList.add('open');
+      inp.focus();
+    }, {passive:false});
+
+    listEl.addEventListener('mousedown', function(e){
+      if (L.Browser && L.Browser.mobile) return;
+      var it = e.target.closest('.pk-item');
+      if (!it) return;
+      e.preventDefault();
+      e.stopPropagation();
+      pkAdd(key, it.getAttribute('data-id'));
+      root.classList.add('open');
+      inp.focus();
+    });
+
+    root.querySelector('.pk-chips').addEventListener('click',function(e){
+      if(e.target.tagName==='B'){
+        e.preventDefault();
+        e.stopPropagation();
+        pkRemove(key,e.target.getAttribute('data-id'));
+      }
+    });
+  });
+  document.addEventListener('click',function(e){
+    if(!e.target.closest('.picker')) pkCloseAll();
+  });
+})();
+function $v(id){ return document.getElementById(id).value.trim(); }
+function $set(id,v){ document.getElementById(id).value=v==null?'':v; }
+var _previewT = null;
+function previewHighlight(){
+  clearTimeout(_previewT);
+  _previewT = setTimeout(_doPreviewHighlight, 80);
+}
+function _doPreviewHighlight(){
+  var provinces = [];
+  if (currentPeriod === 'prov') {
+    provinces = resolveProvinces(geoSel, '');
+  } else if (currentPeriod === 'rep' || currentPeriod === 'imp') {
+    var geo = (currentPeriod === 'imp') ? impGeoSel : repGeoSel;
+    var map2 = (currentPeriod === 'imp') ? IMP_MAP_TO_PROVS : REP_MAP_TO_PROVS;
+    if (geo.cities.length > 0) {
+      geo.cities.forEach(function(c){
+        var p = provinceOfMint(c);
+        if (p && provinces.indexOf(p) < 0) provinces.push(p);
+      });
+    }
+    if (!provinces.length && geo.subsubs.length > 0) {
+      geo.subsubs.forEach(function(ss){ (map2[ss]||[]).forEach(function(p){ if(provinces.indexOf(p)<0) provinces.push(p); }); });
+    }
+    if (!provinces.length && geo.subs.length > 0) {
+      geo.subs.forEach(function(s){ (map2[s]||[]).forEach(function(p){ if(provinces.indexOf(p)<0) provinces.push(p); }); });
+    }
+    if (!provinces.length && geo.regions.length > 0) {
+      geo.regions.forEach(function(r){ (map2[r]||[]).forEach(function(p){ if(provinces.indexOf(p)<0) provinces.push(p); }); });
+    }
+  }
+  setHighlight(provinces);
+  updateGeoHint();
+  var clearBtn = document.querySelector('#block-prov-geography button[onclick="clearProvGeography()"]');
+  if (clearBtn) {
+    var hasGeo = geoSel.provs.length > 0 || geoSel.regions.length > 0 || geoSel.subs.length > 0 || geoSel.cities.length > 0;
+    clearBtn.style.opacity = hasGeo ? '1' : '0.3';
+    clearBtn.style.pointerEvents = hasGeo ? 'auto' : 'none';
+  }
+}
+function resetForm(){
+  ['f-ref','f-prov-imp','f-prov-auth','f-rep-auth','f-denom','f-date','f-desc','f-notes'].forEach(function(id){ $set(id,''); });
+  $set('f-metal','');
+  geoSel=emptyGeo(); magSel=[]; reignSel='';
+  impGeoSel = { regions: [], subs: [], subsubs: [], cities: [] };
+  impAuthSel = []; impIssuerSel = [];
+  repGeoSel = { regions: [], subs: [], subsubs: [], cities: [] };
+  repIssuerSel = [];
+  document.querySelectorAll('.pk-in').forEach(function(i){ i.value=''; });
+  currentPeriod = 'prov';
+}
+function openModal(id){
+  editId = id==null ? null : id;
+  resetForm();
+  document.getElementById('modal-title').textContent = editId==null ? 'ADD COIN' : 'EDIT COIN';
+  if(editId!=null){
+    var c=coins.find(function(x){ return x.id===editId; });
+    if(c){
+      $set('f-ref',c.ref);
+      $set('f-prov-imp',c.provImp||c.imp); $set('f-prov-auth',c.provAuth||c.auth);
+      $set('f-rep-auth', c.auth);
+      $set('f-metal',c.metal); $set('f-denom',c.denom); $set('f-date',c.date); $set('f-desc',c.desc); $set('f-notes',c.notes);
+      currentPeriod=c.period||'rep';
+      if(currentPeriod === 'prov'){
+        geoSel=normGeo(c.geo);
+        magSel=Array.isArray(c.mags)?c.mags.slice():[];
+        reignSel = c.reign || '';
+        rebuildReignPicker();
+      } else if(currentPeriod === 'imp'){
+        impGeoSel = {
+          regions: c.impRegions || [], subs: c.impSubs || [], subsubs: c.impSubsubs || [],
+          cities: c.mint ? c.mint.split(';').map(function(s){return s.trim();}).filter(Boolean) : []
+        };
+        impAuthSel = c.imp ? [c.imp] : [];
+        impIssuerSel = c.impAuth ? [c.impAuth] : [];
+      } else if(currentPeriod === 'rep'){
+        repGeoSel = {
+          regions: c.repRegions || [], subs: c.repSubs || [], subsubs: c.repSubsubs || [],
+          cities: c.mint ? c.mint.split(';').map(function(s){return s.trim();}).filter(Boolean) : []
+        };
+        repIssuerSel = c.mag ? c.mag.split(';').map(function(s){return s.trim();}).filter(Boolean) : [];
+      }
+    }
+  }
+  document.getElementById('overlay').classList.add('open');
+  setPeriod(currentPeriod);
+  document.getElementById('modal-body').scrollTop=0;
+  if (isMobile()) closePanel();
+}
+function closeModal(){
+  document.getElementById('overlay').classList.remove('open');
+  pkCloseAll(); editId=null; clearHighlight();
+}
+function saveCoin(){
+  var isProv = currentPeriod === 'prov';
+  var isImp = currentPeriod === 'imp';
+  var isRep = currentPeriod === 'rep';
+  if(isProv) provEnforce();
+  if(isImp) impEnforce();
+  if(isRep) repEnforce();
+  if(isProv && !geoSel.regions.length && !geoSel.subs.length && !geoSel.cities.length && !geoSel.provs.length){
+    showPopup('MISSING GEOGRAPHY', 'Please select at least one region, subregion, city or province.');
+    return;
+  }
+  if(isImp && impGeoSel.regions.length === 0 && impGeoSel.subs.length === 0 && impGeoSel.subsubs.length === 0 && impGeoSel.cities.length === 0){
+    showPopup('MISSING GEOGRAPHY', 'Please select at least one geographical area.');
+    return;
+  }
+  if(isRep && repGeoSel.regions.length === 0 && repGeoSel.subs.length === 0 && repGeoSel.subsubs.length === 0 && repGeoSel.cities.length === 0){
+    showPopup('MISSING GEOGRAPHY', 'Please select at least one geographical area.');
+    return;
+  }
+  var provMint = '';
+  if (isProv && geoSel.cities.length) {
+    var cityObj = cityById(geoSel.cities[0]);
+    if (cityObj) provMint = cityObj.name;
+  }
+  var c={
+    id: editId!=null ? editId : nextId++,
+    period: currentPeriod,
+    ref:$v('f-ref'),
+    prov: (isProv ? '' : (isImp ? impGeoSel.regions[0] || '' : repGeoSel.regions[0] || '')),
+    mint: isProv ? provMint : (isImp ? impGeoSel.cities.join('; ') : repGeoSel.cities.join('; ')),
+    mag: isRep ? repIssuerSel.join('; ') : '',
+    auth: isRep ? $v('f-rep-auth') : '',
+    imp: isImp ? (impAuthSel[0] || '') : (isProv ? $v('f-prov-imp') : ''),
+    impAuth: isImp ? (impIssuerSel[0] || '') : '',
+    provImp: isProv ? $v('f-prov-imp') : '',
+    provAuth: isProv ? $v('f-prov-auth') : '',
+    reign: isProv ? reignSel : '',
+    mags: isProv ? magSel.slice() : [],
+    magNames: isProv ? magSel.map(function(id){ return magLabel(PDB.magById[id]); }) : [],
+    metal:$v('f-metal'), denom:$v('f-denom'), date:$v('f-date'), desc:$v('f-desc'), notes:$v('f-notes'),
+    geo: isProv ? normGeo(geoSel) : emptyGeo(),
+    impRegions: isImp ? impGeoSel.regions.slice() : [],
+    impSubs: isImp ? impGeoSel.subs.slice() : [],
+    impSubsubs: isImp ? impGeoSel.subsubs.slice() : [],
+    repRegions: isRep ? repGeoSel.regions.slice() : [],
+    repSubs: isRep ? repGeoSel.subs.slice() : [],
+    repSubsubs: isRep ? repGeoSel.subsubs.slice() : []
+  };
+  if(editId!=null){
+    var i=coins.findIndex(function(x){ return x.id===editId; });
+    if(i>=0){ c.created=coins[i].created; coins[i]=c; }
+    else { c.created=Date.now(); coins.push(c); }
+  } else {
+    c.created=Date.now();
+    coins.push(c);
+  }
+  coins = coins.filter(function(x){ return x.id !== c.id; });
+  coins.push(c);
+  save(c);
+  closeModal();
+  renderList();
+  updateMap();
+  if (typeof renderMints === 'function') renderMints();
+}
+var _searchT = null;
+function onSearchInput(){
+  clearTimeout(_searchT);
+  _searchT = setTimeout(renderList, 150);
+}
+function periodName(p){ return p==='rep'?'Republican':p==='imp'?'Imperial':'Provincial'; }
+function coinAuthority(c){
+  if(c.period==='rep') return c.mag||'';
+  if(c.period==='imp') return c.imp||'';
+  return c.provImp||c.imp||'';
+}
+function coinMagNames(c){
+  if(c.period === 'rep') return c.mag ? c.mag.split(';').map(function(s){return s.trim();}) : [];
+  if(Array.isArray(c.mags)&&c.mags.length&&PDB.ready) return c.mags.map(function(id){ return magLabel(PDB.magById[id])||id; });
+  return Array.isArray(c.magNames)?c.magNames:[];
+}
+function coinGeoNames(c){
+  var g=normGeo(c.geo), gn=c.geoNames||{};
+  if (c.period === 'imp') {
+    var p = provinceOfMint(c.mint);
+    var provs = p ? [p] : (c.impSubsubs || []).slice();
+    return { provs: provs, regions: c.impRegions || [], subs: [], cities: c.mint ? c.mint.split('; ').map(function(s){return s.trim();}) : [] };
+  }
+  if (c.period === 'rep') {
+    var p = provinceOfMint(c.mint);
+    var provs = p ? [p] : (c.repSubsubs || []).slice();
+    return { provs: provs, regions: c.repRegions || [], subs: [], cities: c.mint ? c.mint.split('; ').map(function(s){return s.trim();}) : [] };
+  }
+  return {
+    provs:c.period==='prov' ? resolveProvinces(g,'') : g.provs,
+    regions:g.regions,
+    subs:g.subs.map(function(s){ var o=subById(s); return o?subLabel(o):(gn.subs&&gn.subs[g.subs.indexOf(s)])||s; }),
+    cities:g.cities.map(function(x){ var o=cityById(x); return o?cityLabel(o):(gn.cities&&gn.cities[g.cities.indexOf(x)])||x; })
+  };
+}
+function searchText(c){
+  var gn=coinGeoNames(c);
+  return norm([c.ref,c.prov,c.mint,c.mag,c.auth,c.imp,c.impAuth,c.provImp,c.provAuth,c.reign,c.metal,c.denom,c.date,c.desc,c.notes,
+    periodName(c.period), coinMagNames(c).join(' '), gn.provs.join(' '), gn.regions.join(' '), gn.subs.join(' '), gn.cities.join(' ')].join(' | '));
+}
+var _clistTouchStartY = 0, _clistTouchMoved = false;
+function initClistTouch(){
+  var el = document.getElementById('clist');
+  el.addEventListener('touchstart', function(e){
+    _clistTouchStartY = e.touches[0].clientY;
+    _clistTouchMoved = false;
+  }, {passive:true});
+  el.addEventListener('touchmove', function(e){
+    if(Math.abs(e.touches[0].clientY - _clistTouchStartY) > 8) _clistTouchMoved = true;
+  }, {passive:true});
+}
+function crowClick(id){
+  if(_clistTouchMoved) return;
+  openDetail(id);
+}
+function renderList(){
+  var q=norm(document.getElementById('srch').value);
+  var list=coins.filter(function(c){
+    if(filterMode!=='all' && c.period!==filterMode) return false;
+    return !q || searchText(c).indexOf(q)>=0;
+  }).slice().sort(function(a,b){ return (b.created||0)-(a.created||0) || b.id-a.id; });
+  var el=document.getElementById('clist');
+  if(!list.length){
+    el.innerHTML='<div class="empty-msg">'+(coins.length?'No coins match.':'No coins yet — add the first one.')+'</div>';
+  }
+  else el.innerHTML=list.map(function(c){
+    var tags = '';
+    var gn = coinGeoNames(c);
+    if(visibleTags.indexOf('province')>=0){
+      var provinces = c.period === 'prov' ? gn.provs : (c.period === 'imp' ? gn.provs : (c.period === 'rep' ? gn.provs : (c.prov ? [c.prov] : [])));
+      provinces.forEach(function(p){ tags += '<span class="ctag ct-prov-name">'+esc(p)+'</span>'; });
+    }
+    if(visibleTags.indexOf('region')>=0 && (c.period === 'prov' || c.period === 'imp' || c.period === 'rep')){
+      gn.regions.forEach(function(r){ tags += '<span class="ctag ct-region">'+esc(r)+'</span>'; });
+    }
+    if(visibleTags.indexOf('city')>=0 && (c.period === 'prov' || c.period === 'imp' || c.period === 'rep')){
+      gn.cities.forEach(function(city){ tags += '<span class="ctag ct-city">'+esc(city)+'</span>'; });
+    }
+    if(visibleTags.indexOf('authority')>=0){
+      var authority = coinAuthority(c);
+      if(authority){ tags += '<span class="ctag ct-authority">'+esc(authority)+'</span>'; }
+    }
+    if(visibleTags.indexOf('magistrate')>=0){
+      var magistrates = [];
+      if(c.period === 'prov'){ magistrates = coinMagNames(c); }
+      else if(c.period === 'rep' && c.mag){ magistrates = [c.mag]; }
+      else if(c.period === 'imp' && c.impAuth){ magistrates = [c.impAuth]; }
+      magistrates.forEach(function(m){ if(m){ tags += '<span class="ctag ct-magistrate">'+esc(m)+'</span>'; } });
+    }
+    if(visibleTags.indexOf('metal')>=0 && c.metal){ tags += '<span class="ctag ct-mat">'+esc(c.metal)+'</span>'; }
+    var title=c.ref||coinAuthority(c)||c.denom||'—';
+    var sub=[coinAuthority(c), c.denom, c.date, c.mint].filter(Boolean).join(' · ');
+    return '<div class="crow" onclick="crowClick('+c.id+')">'+
+      '<div class="crow-actions">'+
+      '<button class="ca" type="button" aria-label="Edit coin" title="Edit" onpointerdown="event.stopPropagation()" onclick="event.stopPropagation();openModal('+c.id+')">&#9998;</button>'+
+      '<button class="ca del" type="button" aria-label="Delete coin" title="Delete" onpointerdown="event.stopPropagation()" onclick="event.stopPropagation();askDelete('+c.id+')">&#215;</button></div>'+
+      '<div class="crow-ref">'+esc(title)+'</div>'+
+      '<div class="crow-desc">'+esc(sub||c.desc||'')+'</div>'+
+      '<div class="crow-meta">'+tags+'</div></div>';
+  }).join('');
+  document.getElementById('hc').textContent=coins.length;
+  document.getElementById('fcount').textContent=list.length;
+}
+function drow(label,val){ return val ? '<div class="drow"><label>'+label+'</label><div>'+esc(val)+'</div></div>' : ''; }
+function openDetail(id){
+  var c=coins.find(function(x){ return x.id===id; }); if(!c) return;
+  detailId=id;
+  document.getElementById('detail-title').textContent=(c.ref||periodName(c.period)).toUpperCase();
+  var gn=coinGeoNames(c);
+  var h='<div class="dgrid">'+drow('PERIOD',periodName(c.period))+drow('REFERENCE',c.ref)+(c.period==='rep' ? drow('PROVINCE / REGION',c.prov)+drow('CITY / MINT',c.mint) : '')+'</div>';
+  if(c.period==='prov'){
+    h+='<div class="dsep"></div><div class="dgrid">'+drow('REIGN',c.reign)+drow('MAGISTRATE',coinMagNames(c).join('\n'))+drow('EMPEROR / AUTHORITY',c.provImp||c.imp)+drow('ISSUED BY',c.provAuth)+'</div>';
+  } else if(c.period==='imp'){
+    h+='<div class="dsep"></div><div class="dgrid">'+drow('AUTHORITY',c.imp)+drow('ISSUER',c.impAuth)+'</div>';
+  } else if(c.period==='rep'){
+    h+='<div class="dsep"></div><div class="dgrid">'+drow('MAGISTRATE / ISSUER',c.mag)+drow('ISSUED BY',c.auth)+'</div>';
+  }
+  var geoAny=(c.period==='prov' || c.period==='rep') && (gn.provs.length||gn.regions.length||gn.subs.length||gn.cities.length);
+  var geoAnyImp=c.period==='imp' && (gn.provs.length||gn.regions.length||gn.cities.length);
+  if(geoAny){
+    h+='<div class="dsep"></div><div class="dgrid">'+drow('PROVINCE',gn.provs.join('\n'))+drow('REGION',gn.regions.join('\n'))+drow('SUBREGION',gn.subs.join('\n'))+drow('CITY / MINT',gn.cities.join('\n'))+'</div>';
+  } else if (geoAnyImp || c.period==='rep') {
+    h+='<div class="dsep"></div><div class="dgrid">'+drow('SUBSUBREGION',gn.provs.join('\n'))+drow('REGION',gn.regions.join('\n'))+drow('CITY / MINT',gn.cities.join('\n'))+'</div>';
+  }
+  h+='<div class="dsep"></div><div class="dgrid">'+drow('METAL',c.metal)+drow('DENOMINATION',c.denom)+'</div>'+drow('PERIOD / DATE',c.date)+drow('DESCRIPTION',c.desc)+drow('NOTES',c.notes);
+  document.getElementById('detail-body').innerHTML=h;
+  document.getElementById('detail').classList.add('open');
+  if(c.period === 'imp' || c.period === 'rep'){
+    var p = provinceOfMint(c.mint);
+    if(p){ setHighlight([p]); }
+    else {
+      var map2 = (c.period === 'imp') ? IMP_MAP_TO_PROVS : REP_MAP_TO_PROVS;
+      var subsubs2 = (c.period === 'imp') ? c.impSubsubs : c.repSubsubs;
+      var subs2 = (c.period === 'imp') ? c.impSubs : c.repSubs;
+      var regions2 = (c.period === 'imp') ? c.impRegions : c.repRegions;
+      var provs2 = [];
+      if (c.mint && map2[c.mint]) provs2 = map2[c.mint];
+      else if (subsubs2 && subsubs2.length) provs2 = subsubs2.reduce(function(a,ss){ return a.concat(map2[ss]||[]); }, []);
+      else if (subs2 && subs2.length) provs2 = subs2.reduce(function(a,s){ return a.concat(map2[s]||[]); }, []);
+      else if (regions2 && regions2.length) provs2 = regions2.reduce(function(a,r){ return a.concat(map2[r]||[]); }, []);
+      setHighlight(provs2);
+    }
+  } else if (c.period === 'prov') {
+    setHighlight(resolveProvinces(c.geo, c.prov));
+  } else {
+    setHighlight([]);
+  }
+}
+function closeDetail(){ document.getElementById('detail').classList.remove('open'); detailId=null; clearHighlight(); }
+function editFromDetail(){ var id=detailId; closeDetail(); openModal(id); }
+function askDelete(id){ deleteId=id; document.getElementById('confirm').classList.add('open'); }
+function closeConfirm(){ deleteId=null; document.getElementById('confirm').classList.remove('open'); }
+function doDelete(){
+  if(deleteId!=null){
+    var idToDelete = deleteId;
+    coins = coins.filter(function(c){ return c.id!==idToDelete; });
+    if(detailId===idToDelete) closeDetail();
+    save();
+    renderList();
+    updateMap();
+    if (typeof renderMints === 'function') renderMints();
+    if (window.currentUser) {
+      import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js").then(function(mod){
+        import("https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js").then(function(appMod){
+          var db = mod.getFirestore(appMod.getApps()[0]);
+          mod.deleteDoc(mod.doc(db, "coins", String(idToDelete)))
+            .catch(function(error){ console.error("Errore eliminazione Firebase:", error); });
+        });
+      });
+    }
+  }
+  closeConfirm();
+}
+function openPanel(){
+  if(!isMobile()) return;
+  var p = document.getElementById('panel');
+  p.classList.add('open');
+  p.setAttribute('aria-hidden', 'false');
+  setTimeout(function(){ map.invalidateSize(); }, 320);
+}
+function closePanel(){
+  if(!isMobile()) return;
+  var p = document.getElementById('panel');
+  p.classList.remove('open');
+  p.setAttribute('aria-hidden', 'true');
+  setTimeout(function(){ map.invalidateSize(); }, 320);
+}
+function togglePanel(){
+  var p = document.getElementById('panel');
+  if(p.classList.contains('open')) closePanel();
+  else openPanel();
+}
+(function initPanelDrag(){
+  var head = document.getElementById('panel-head');
+  var panel = document.getElementById('panel');
+  var startY = 0, dragging = false, activePointer = null;
+  head.addEventListener('pointerdown', function(e){
+    if(!isMobile()) return;
+    if(e.button !== 0 && e.pointerType === 'mouse') return;
+    if(e.target.closest('input, button, #tags-menu, .ftab')) return;
+    dragging = true;
+    activePointer = e.pointerId;
+    startY = e.clientY;
+    try { head.setPointerCapture(e.pointerId); } catch(err){}
+  });
+  head.addEventListener('pointermove', function(e){
+    if(!dragging || e.pointerId !== activePointer) return;
+    var dy = e.clientY - startY;
+    if(dy > 60){ dragging = false; activePointer = null; closePanel(); }
+    else if(dy < -30){ dragging = false; activePointer = null; openPanel(); }
+  });
+  head.addEventListener('pointerup', function(e){
+    if(!dragging || e.pointerId !== activePointer) return;
+    var dy = Math.abs(e.clientY - startY);
+    dragging = false;
+    activePointer = null;
+    if(dy < 8) togglePanel();
+  });
+  head.addEventListener('pointercancel', function(){
+    dragging = false; activePointer = null;
+  });
+  if(isMobile()){
+    panel.setAttribute('aria-hidden', 'true');
+  }
+  window.addEventListener('resize', function(){
+    if(!isMobile()){
+      panel.classList.remove('open');
+      panel.removeAttribute('aria-hidden');
+    } else {
+      if(!panel.classList.contains('open')) panel.setAttribute('aria-hidden', 'true');
+    }
+    map.invalidateSize();
+  });
+})();
+function makeDraggable(windowElement, handleElement) {
+  if (!windowElement || !handleElement) return;
+  var dragging = false, startX = 0, startY = 0, initialLeft = 0, initialTop = 0, activePointer = null;
+  handleElement.addEventListener('pointerdown', function(e) {
+    if (e.button !== 0 || !e.isPrimary) return;
+    if (e.target.closest('button')) return;
+    var rect = windowElement.getBoundingClientRect();
+    dragging = true; activePointer = e.pointerId;
+    startX = e.clientX; startY = e.clientY;
+    initialLeft = rect.left; initialTop = rect.top;
+    windowElement.style.transform = 'none';
+    windowElement.style.left = initialLeft + 'px';
+    windowElement.style.top = initialTop + 'px';
+    try { handleElement.setPointerCapture(e.pointerId); } catch(err){}
+    e.preventDefault();
+  });
+  handleElement.addEventListener('pointermove', function(e) {
+    if (!dragging || e.pointerId !== activePointer) return;
+    var deltaX = e.clientX - startX, deltaY = e.clientY - startY;
+    var maxLeft = window.innerWidth - 60, maxTop = window.innerHeight - 40;
+    var newLeft = Math.max(0, Math.min(initialLeft + deltaX, maxLeft));
+    var newTop = Math.max(0, Math.min(initialTop + deltaY, maxTop));
+    windowElement.style.left = newLeft + 'px'; windowElement.style.top = newTop + 'px';
+  });
+  function stopDragging(e) {
+    if (e.pointerId !== activePointer) return;
+    dragging = false; activePointer = null;
+  }
+  handleElement.addEventListener('pointerup', stopDragging);
+  handleElement.addEventListener('pointercancel', stopDragging);
+}
+if(!isMobile()){
+  makeDraggable(document.getElementById('modal'), document.getElementById('modal-head'));
+  makeDraggable(document.getElementById('detail-box'), document.getElementById('detail-head'));
+}
+window.addEventListener('orientationchange', function(){
+  setTimeout(function(){ map.invalidateSize(); }, 300);
+});
+(function(){
+  var dirty=false;
+  try {
+    var raw = safeGet('numismatica_v2');
+    if(raw){
+      var loaded = JSON.parse(raw);
+      if(Array.isArray(loaded)) coins = loaded;
+    }
+  } catch(e){ console.warn('load local coins failed:', e); }
+  coins.forEach(function(c){
+    if(!c.period){ c.period='rep'; dirty=true; }
+    if(!c.geo){ c.geo=emptyGeo(); dirty=true; }
+    if(typeof c.id!=='number'){ c.id=parseInt(c.id,10)||nextId++; dirty=true; }
+    if(c.id>=nextId){ nextId=c.id+1; dirty=true; }
+  });
+  if(dirty) persistLocal();
+  document.addEventListener('keydown',function(e){
+    if(e.key!=='Escape') return;
+    if(document.getElementById('confirm').classList.contains('open')) closeConfirm();
+    else if(document.getElementById('detail').classList.contains('open')) closeDetail();
+    else if(modalOpen()) closeModal();
+  });
+  initTagMenu();
+  initClistTouch();
+  renderList();
+  setTimeout(function(){ map.invalidateSize(); }, 500);
+})();
+</script>
+
+<div id="auth-screen">
+  <div id="auth-box">
+    <h2>MAPPED ROMAN NUMISMATIC COLLECTION</h2>
+    <p style="font-size:0.8rem; color:var(--text2); margin-bottom:15px;">Sign in to manage your collection</p>
+    <div id="auth-error"></div>
+    <input type="email" id="auth-email" placeholder="Email" autocomplete="username" inputmode="email" autocapitalize="off" spellcheck="false">
+    <input type="password" id="auth-password" placeholder="Password" autocomplete="current-password">
+    <button id="auth-submit" type="button" onclick="handleAuthSubmit()">SIGN IN</button>
+    <div style="margin-top:10px; display:flex; flex-direction:column; gap:5px;">
+      <div class="auth-switch" id="auth-switch-mode" onclick="toggleAuthMode()">Don't have an account? Register</div>
+      <div class="auth-switch" onclick="handleForgotPassword()" style="font-size:0.75rem; color:var(--text3);">Forgot password?</div>
+    </div>
+  </div>
+</div>
+
+<div id="verify-block-screen">
+  <div>
+    <h2 style="font-size:1rem; letter-spacing:0.1em; margin-bottom:20px;">EMAIL VERIFICATION REQUIRED</h2>
+    <p style="font-size:0.9rem; color:var(--text2); margin-bottom:20px; line-height:1.6;">
+      We sent a verification link to:<br>
+      <strong id="verify-email-display" style="color:var(--text); word-break:break-all;"></strong><br><br>
+      Click the link in your inbox, then press the button below.
+    </p>
+    <button onclick="checkVerificationNow()" style="width:100%; padding:12px; background:var(--text); color:var(--bg2); border:none; cursor:pointer; letter-spacing:0.08em; margin-bottom:10px; font-family:inherit;">I HAVE VERIFIED MY EMAIL</button>
+    <button onclick="resendVerificationEmail()" style="width:100%; padding:10px; background:transparent; border:1px solid var(--border2); color:var(--text2); cursor:pointer; font-size:0.75rem; margin-bottom:15px; font-family:inherit;">RESEND VERIFICATION EMAIL</button>
+    <div style="margin-top:15px;">
+      <span onclick="confirmLogout()" style="font-size:0.75rem; color:var(--text3); cursor:pointer; text-decoration:underline;">Logout and use another account</span>
+    </div>
+  </div>
+</div>
+
+<div id="custom-popup" class="overlay-custom">
+  <div class="box-custom">
+    <h3 id="popup-title" style="font-size:1rem; margin-bottom:15px; letter-spacing:0.05em;">MESSAGE</h3>
+    <p id="popup-message" style="font-size:0.9rem; color:var(--text2); margin-bottom:20px; line-height:1.5; white-space:pre-wrap; word-break:break-word;"></p>
+    <button onclick="closePopup()" style="background:var(--text); color:var(--bg2); border:none; padding:12px 20px; font-family:inherit; cursor:pointer; width:100%;">OK</button>
+  </div>
+</div>
+
+<div id="settings-modal" class="overlay-custom">
+  <div class="box-custom" style="max-width:380px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+      <h3 style="font-size:1rem; letter-spacing:0.05em;">SETTINGS</h3>
+      <button onclick="toggleSettings()" aria-label="Close" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color:var(--text3); min-width:36px; min-height:36px;">&times;</button>
+    </div>
+    <div style="display:flex; gap:10px; margin-bottom:20px; border-bottom:1px solid var(--border); padding-bottom:10px;">
+      <button class="settings-tab active" onclick="switchSettingsTab('email', event)" data-tab="email" style="background:none; border:none; cursor:pointer; font-size:0.8rem; padding:6px; color:var(--text); border-bottom:2px solid var(--text); font-family:inherit;">Email</button>
+      <button class="settings-tab" onclick="switchSettingsTab('password', event)" data-tab="password" style="background:none; border:none; cursor:pointer; font-size:0.8rem; padding:6px; color:var(--text2); font-family:inherit;">Password</button>
+      <button class="settings-tab" onclick="switchSettingsTab('2fa', event)" data-tab="2fa" style="background:none; border:none; cursor:pointer; font-size:0.8rem; padding:6px; color:var(--text2); font-family:inherit;">2FA</button>
+    </div>
+    <div id="settings-email-panel">
+      <p style="font-size:0.8rem; color:var(--text2); margin-bottom:10px; word-break:break-all;">Current Email: <strong id="current-email-display"></strong></p>
+      <input type="email" id="new-email" placeholder="New Email" autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false" style="width:100%; padding:12px; margin-bottom:10px; border:1px solid var(--border); background:var(--bg3); font-family:inherit; font-size:16px; outline:none;">
+      <button onclick="updateUserEmail()" style="width:100%; padding:12px; background:var(--text); color:var(--bg2); border:none; cursor:pointer; margin-bottom:10px; font-family:inherit;">UPDATE EMAIL</button>
+    </div>
+    <div id="settings-password-panel" style="display:none;">
+      <input type="password" id="current-password" placeholder="Current Password" autocomplete="current-password" style="width:100%; padding:12px; margin-bottom:10px; border:1px solid var(--border); background:var(--bg3); font-family:inherit; font-size:16px; outline:none;">
+      <input type="password" id="new-password" placeholder="New Password" autocomplete="new-password" style="width:100%; padding:12px; margin-bottom:10px; border:1px solid var(--border); background:var(--bg3); font-family:inherit; font-size:16px; outline:none;">
+      <button onclick="updateUserPassword()" style="width:100%; padding:12px; background:var(--text); color:var(--bg2); border:none; cursor:pointer; margin-bottom:10px; font-family:inherit;">UPDATE PASSWORD</button>
+    </div>
+    <div id="settings-2fa-panel" style="display:none;">
+      <p style="font-size:0.8rem; color:var(--text2); margin-bottom:10px;">Secure your account with an authenticator app.</p>
+      <button onclick="enable2FA()" style="width:100%; padding:12px; background:var(--text); color:var(--bg2); border:none; cursor:pointer; font-family:inherit;">ENABLE 2FA</button>
+    </div>
+    <div style="margin-top:20px; border-top:1px solid var(--border); padding-top:20px;">
+      <button onclick="logoutUser()" style="width:100%; padding:12px; background:transparent; border:1px solid var(--red); color:var(--red); cursor:pointer; font-family:inherit;">LOG OUT</button>
+    </div>
+  </div>
+</div>
+
+<div id="logout-confirm-modal" class="overlay-custom">
+  <div class="box-custom" style="max-width:320px; text-align:center;">
+    <h3 style="font-size:1rem; margin-bottom:15px; letter-spacing:0.05em;">LOG OUT</h3>
+    <p style="font-size:0.9rem; color:var(--text2); margin-bottom:20px; line-height:1.5;">Are you sure you want to log out?</p>
+    <div style="display:flex; gap:10px;">
+      <button onclick="closeLogoutConfirm()" style="flex:1; background:transparent; border:1px solid var(--border2); color:var(--text2); padding:12px; cursor:pointer; font-family:inherit;">CANCEL</button>
+      <button onclick="confirmLogout()" style="flex:1; background:var(--text); color:var(--bg2); border:none; padding:12px; cursor:pointer; font-family:inherit;">LOG OUT</button>
+    </div>
+  </div>
+</div>
+
+<div id="totp-prompt" class="overlay-custom">
+  <div class="box-custom" style="max-width:340px;">
+    <h3 style="font-size:1rem; margin-bottom:15px; letter-spacing:0.05em;">2FA VERIFICATION</h3>
+    <p style="font-size:0.85rem; color:var(--text2); margin-bottom:15px; line-height:1.5;">Enter the 6-digit code from your authenticator app:</p>
+    <input type="text" id="totp-code" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="one-time-code" style="width:100%; padding:12px; margin-bottom:12px; border:1px solid var(--border); background:var(--bg3); font-family:inherit; font-size:20px; text-align:center; letter-spacing:0.3em; outline:none;">
+    <div style="display:flex; gap:8px;">
+      <button onclick="cancelTotp()" style="flex:1; background:transparent; border:1px solid var(--border2); color:var(--text2); padding:12px; cursor:pointer; font-family:inherit;">CANCEL</button>
+      <button onclick="submitTotp()" style="flex:1; background:var(--text); color:var(--bg2); border:none; padding:12px; cursor:pointer; font-family:inherit;">CONFIRM</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+  import { getFirestore, collection, doc, setDoc, getDocs, deleteDoc, query, where } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  import { setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+  function humanizeAuthError(e) {
+    var map = {
+      'auth/invalid-email': 'The email address you entered is not valid. Please check it and try again.',
+      'auth/user-disabled': 'This account has been disabled. Please contact the administrator if you believe this is an error.',
+      'auth/user-not-found': 'No account was found with this email address. Please check the spelling or create a new account.',
+      'auth/wrong-password': 'The password you entered is incorrect. Please try again or use "Forgot password?" to reset it.',
+      'auth/invalid-credential': 'The email or password you entered is incorrect. Please check both fields and try again.',
+      'auth/invalid-login-credentials': 'The email or password you entered is incorrect. Please check both fields and try again.',
+      'auth/too-many-requests': 'Too many failed attempts have been made from this device. Please wait a few minutes before trying again.',
+      'auth/network-request-failed': 'The connection to the server failed. Please check your internet connection and try again.',
+      'auth/email-already-in-use': 'An account with this email address already exists. Please sign in instead, or use a different email.',
+      'auth/weak-password': 'The password you chose is too weak. Please use at least 6 characters.',
+      'auth/operation-not-allowed': 'This sign-in method is not currently enabled. Please contact the administrator.',
+      'auth/missing-email': 'Please enter your email address first, then click "Forgot password?".',
+      'auth/expired-action-code': 'This link has expired. Please request a new one and try again.',
+      'auth/invalid-action-code': 'This link is no longer valid. Please request a new one and try again.',
+      'auth/requires-recent-login': 'For security reasons, you must log in again before performing this operation. Please click LOGOUT, sign in, and try again.',
+      'auth/credential-already-in-use': 'This email address is already linked to another account. Please use a different one.',
+      'auth/multi-factor-auth-required': 'Two-factor verification is required for this account. Please complete the verification to continue.',
+      'auth/invalid-verification-code': 'The verification code you entered is not valid. Please check it and try again.'
+    };
+    if (e && e.code && map[e.code]) return map[e.code];
+    if (e && e.message) return e.message.replace(/^Firebase:\s*/i, '').replace(/\s*\(auth\/[^)]+\)\.?$/,'').trim();
+    return 'An unexpected error occurred. Please try again.';
+  }
+
+  var firebaseConfig = {
+    apiKey: "AIzaSyCNUZOPwefVZFTsD66qvVgELWtkUoWJIJE",
+    authDomain: "rncm-84799.firebaseapp.com",
+    projectId: "rncm-84799",
+    storageBucket: "rncm-84799.firebasestorage.app",
+    messagingSenderId: "48204932245",
+    appId: "1:48204932245:web:e066f8251d4d5f49b8a79c"
+  };
+
+  var app = initializeApp(firebaseConfig);
+  var auth = getAuth(app);
+  setPersistence(auth, browserLocalPersistence).catch(function(){});
+  var db = getFirestore(app);
+
+  var isRegisterMode = false;
+
+  window.showPopup = function(title, message) {
+    var settingsModal = document.getElementById('settings-modal');
+    if (settingsModal) settingsModal.classList.remove('open');
+    document.getElementById('popup-title').textContent = title;
+    document.getElementById('popup-message').textContent = message;
+    document.getElementById('custom-popup').classList.add('open');
+  };
+
+  window.closePopup = function() {
+    document.getElementById('custom-popup').classList.remove('open');
+  };
+
+  window.toggleAuthMode = function() {
+    isRegisterMode = !isRegisterMode;
+    document.getElementById('auth-submit').textContent = isRegisterMode ? 'REGISTER' : 'SIGN IN';
+    document.getElementById('auth-switch-mode').textContent = isRegisterMode ? 'Already have an account? Log in' : "Don't have an account? Register";
+    document.getElementById('auth-error').style.display = 'none';
+  };
+
+  window.handleAuthSubmit = async function() {
+    var email = document.getElementById('auth-email').value;
+    var password = document.getElementById('auth-password').value;
+    var btn = document.getElementById('auth-submit');
+    var err = document.getElementById('auth-error');
+    err.style.display = 'none';
+    btn.textContent = 'Loading…';
+    btn.disabled = true;
+    try {
+      if (isRegisterMode) {
+        var userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        await sendEmailVerification(userCredential.user);
+        isRegisterMode = false;
+        document.getElementById('auth-submit').textContent = 'SIGN IN';
+        document.getElementById('auth-switch-mode').textContent = "Don't have an account? Register";
+        showPopup("REGISTRATION SUCCESSFUL", "Please check your email inbox to verify your account.");
+      } else {
+        var uc = await signInWithEmailAndPassword(auth, email, password);
+        if (!uc.user.emailVerified) {
+          await sendEmailVerification(uc.user);
+        }
+        document.getElementById('auth-screen').style.display = 'none';
+      }
+    } catch (e) {
+      err.textContent = humanizeAuthError(e);
+      err.style.display = 'block';
+    } finally {
+      btn.textContent = isRegisterMode ? 'REGISTER' : 'SIGN IN';
+      btn.disabled = false;
+    }
+  };
+
+  window.logoutUser = function() {
+    document.getElementById('logout-confirm-modal').classList.add('open');
+    var settingsModal = document.getElementById('settings-modal');
+    if (settingsModal) settingsModal.classList.remove('open');
+  };
+
+  window.closeLogoutConfirm = function() {
+    document.getElementById('logout-confirm-modal').classList.remove('open');
+  };
+
+  window.confirmLogout = function() {
+    document.getElementById('logout-confirm-modal').classList.remove('open');
+    try {
+      localStorage.removeItem('numismatica_v2');
+      localStorage.removeItem('numismatica_nid');
+      localStorage.removeItem('numismatica_tags');
+    } catch(e){}
+    signOut(auth);
+  };
+
+  window.handleForgotPassword = async function() {
+    var email = document.getElementById('auth-email').value;
+    if (!email) {
+      showPopup("EMAIL REQUIRED", "Please enter your email address first, then click 'Forgot password'.");
+      return;
+    }
+    try {
+      await sendPasswordResetEmail(auth, email);
+      showPopup("EMAIL SENT", "We have sent a password reset link to your email. Please check your inbox (and spam folder).");
+    } catch (e) {
+      showPopup("ERROR", humanizeAuthError(e));
+    }
+  };
+
+  window.toggleSettings = function() {
+    var modal = document.getElementById('settings-modal');
+    if (modal.classList.contains('open')) {
+      modal.classList.remove('open');
+    } else {
+      modal.classList.add('open');
+      if (auth.currentUser) {
+        document.getElementById('current-email-display').textContent = auth.currentUser.email;
+      }
+      document.getElementById('new-email').value = '';
+      document.getElementById('current-password').value = '';
+      document.getElementById('new-password').value = '';
+      switchSettingsTab('email', { currentTarget: document.querySelector('.settings-tab[data-tab="email"]') });
+    }
+  };
+
+  window.switchSettingsTab = function(tab, ev) {
+    document.getElementById('settings-email-panel').style.display = tab === 'email' ? 'block' : 'none';
+    document.getElementById('settings-password-panel').style.display = tab === 'password' ? 'block' : 'none';
+    document.getElementById('settings-2fa-panel').style.display = tab === '2fa' ? 'block' : 'none';
+    document.querySelectorAll('.settings-tab').forEach(function(btn) {
+      btn.style.borderBottom = 'none';
+      btn.style.color = 'var(--text2)';
+    });
+    var activeBtn = ev && ev.currentTarget ? ev.currentTarget : document.querySelector('.settings-tab[data-tab="'+tab+'"]');
+    if (activeBtn) {
+      activeBtn.style.borderBottom = '2px solid var(--text)';
+      activeBtn.style.color = 'var(--text)';
+    }
+  };
+
+  window.updateUserEmail = async function() {
+    var newEmail = document.getElementById('new-email').value;
+    if (!newEmail) { showPopup("EMAIL REQUIRED", "Please enter a new email address."); return; }
+    if (!auth.currentUser) return;
+    try {
+      var mod = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js");
+      await mod.verifyBeforeUpdateEmail(auth.currentUser, newEmail);
+      showPopup("VERIFICATION SENT", "We sent a confirmation link to your NEW email address. Please click it to complete the change. Your current email remains active until you verify.");
+      document.getElementById('new-email').value = '';
+    } catch (e) {
+      if (e.code === 'auth/requires-recent-login') {
+        showPopup("SESSION EXPIRED", "For security reasons, you must log in again before changing your email. Please click LOGOUT, sign in, and try again.");
+      } else {
+        showPopup("ERROR", humanizeAuthError(e));
+      }
+    }
+  };
+
+  window.updateUserPassword = async function() {
+    var currentPassword = document.getElementById('current-password').value;
+    var newPassword = document.getElementById('new-password').value;
+    if (!currentPassword || !newPassword) { showPopup("FIELDS REQUIRED", "Please enter both your current and new password."); return; }
+    if (newPassword.length < 6) { showPopup("WEAK PASSWORD", "New password must be at least 6 characters."); return; }
+    if (!auth.currentUser) return;
+    try {
+      var mod = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js");
+      var credential = mod.EmailAuthProvider.credential(auth.currentUser.email, currentPassword);
+      await mod.reauthenticateWithCredential(auth.currentUser, credential);
+      await mod.updatePassword(auth.currentUser, newPassword);
+      showPopup("PASSWORD UPDATED", "Your password has been changed successfully.");
+      document.getElementById('current-password').value = '';
+      document.getElementById('new-password').value = '';
+    } catch (e) {
+      if (e.code === 'auth/wrong-password') {
+        showPopup("WRONG PASSWORD", "The current password you entered is incorrect. Please try again.");
+      } else if (e.code === 'auth/requires-recent-login') {
+        showPopup("SESSION EXPIRED", "For security reasons, your session is too old. Please log out and log back in to change your password.");
+      } else {
+        showPopup("ERROR", humanizeAuthError(e));
+      }
+    }
+  };
+
+  var _totpSecret = null;
+  window.enable2FA = async function() {
+    if (!auth.currentUser || !auth.currentUser.emailVerified) {
+      showPopup("ERROR", "Verify your email first.");
+      return;
+    }
+    try {
+      var mod = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js");
+      var multiFactor = mod.multiFactor;
+      var TotpMultiFactorGenerator = mod.TotpMultiFactorGenerator;
+      var mfaSession = await multiFactor(auth.currentUser).getSession();
+      var totpSecret = await TotpMultiFactorGenerator.generateSecret(mfaSession);
+      var url = totpSecret.generateQrCodeUrl(auth.currentUser.email, "RNCM");
+      _totpSecret = totpSecret;
+      showPopup("SCAN QR CODE", "Open this URL in your browser to see the QR code, scan it with your authenticator app, then enter the code in the next step:\n\n" + url);
+      document.getElementById('totp-code').value = '';
+      setTimeout(function(){
+        document.getElementById('totp-prompt').classList.add('open');
+        document.getElementById('totp-code').focus();
+      }, 400);
+    } catch (e) {
+      showPopup("ERROR", humanizeAuthError(e));
+    }
+  };
+
+  window.cancelTotp = function() {
+    document.getElementById('totp-prompt').classList.remove('open');
+    _totpSecret = null;
+  };
+  window.submitTotp = async function() {
+    var code = document.getElementById('totp-code').value.trim();
+    if (!code || !_totpSecret) return;
+    try {
+      var mod = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js");
+      var assertion = mod.TotpMultiFactorGenerator.assertionForEnrollment(_totpSecret, code);
+      await mod.multiFactor(auth.currentUser).enroll(assertion, "Authenticator App");
+      document.getElementById('totp-prompt').classList.remove('open');
+      _totpSecret = null;
+      showPopup("SUCCESS", "2FA enabled successfully.");
+    } catch (e) {
+      showPopup("ERROR", humanizeAuthError(e));
+    }
+  };
+
+  onAuthStateChanged(auth, async function(user) {
+    if (user) {
+      window.currentUser = user;
+      if (!user.emailVerified) {
+        document.getElementById('auth-screen').style.display = 'none';
+        document.getElementById('verify-block-screen').style.display = 'flex';
+        document.getElementById('verify-email-display').textContent = user.email;
+        var info = document.getElementById('user-info');
+        if (info) info.remove();
+        return;
+      }
+      document.getElementById('verify-block-screen').style.display = 'none';
+      document.getElementById('auth-screen').style.display = 'none';
+      var info2 = document.getElementById('user-info');
+      if (!info2) {
+        document.getElementById('hdr-right').insertAdjacentHTML('afterbegin', '<div id="user-info"></div>');
+        info2 = document.getElementById('user-info');
+      }
+      info2.innerHTML = '';
+      try {
+        await loadCoinsFromFirebase(user.uid);
+      } catch(e) {
+        console.error('Load coins error:', e);
+        showPopup('LOAD ERROR', 'Could not load your collection from the cloud. Your local coins are still available.');
+      }
+    } else {
+      document.getElementById('auth-screen').style.display = 'flex';
+      document.getElementById('verify-block-screen').style.display = 'none';
+      window.currentUser = null;
+      document.getElementById('auth-submit').textContent = 'SIGN IN';
+      document.getElementById('auth-password').value = '';
+      var info3 = document.getElementById('user-info');
+      if (info3) info3.remove();
+      coins = [];
+      renderList();
+      updateMap();
+      if (typeof renderMints === 'function') renderMints();
+    }
+  });
+
+  window.checkVerificationNow = async function() {
+    if (auth.currentUser) {
+      await auth.currentUser.reload();
+      if (auth.currentUser.emailVerified) {
+        window.location.reload();
+      } else {
+        showPopup("NOT VERIFIED YET", "Please check your inbox and click the verification link.");
+      }
+    }
+  };
+
+  window.resendVerificationEmail = async function() {
+    if (auth.currentUser) {
+      try {
+        var mod = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js");
+        await mod.sendEmailVerification(auth.currentUser);
+        showPopup("EMAIL SENT", "A new verification link has been sent to your email. Please check your inbox (and spam folder).");
+      } catch (e) {
+        showPopup("ERROR", humanizeAuthError(e));
+      }
+    }
+  };
+
+  window.loadCoinsFromFirebase = async function(uid) {
+    var coinsRef = collection(db, "coins");
+    var q = query(coinsRef, where("userId", "==", uid));
+    var querySnapshot = await getDocs(q);
+    var cloudCoins = [];
+    querySnapshot.forEach(function(d){ cloudCoins.push(d.data()); });
+    var byId = {};
+    coins.forEach(function(c){ byId[c.id] = c; });
+    cloudCoins.forEach(function(c){ byId[c.id] = c; });
+    coins = Object.keys(byId).map(function(k){ return byId[k]; });
+    coins.forEach(function(c){
+      if(typeof c.id !== 'number'){
+        c.id = parseInt(c.id, 10);
+        if(isNaN(c.id)) c.id = nextId++;
+      }
+      if(c.id >= nextId) nextId = c.id + 1;
+    });
+    renderList();
+    updateMap();
+    if (typeof renderMints === 'function') renderMints();
+  };
+</script>
+</body>
+</html>
