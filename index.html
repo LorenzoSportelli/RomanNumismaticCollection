@@ -2386,8 +2386,8 @@ fetch("https://cdn.jsdelivr.net/gh/klokantech/roman-empire@master/data/provinces
       else if (isTbl) map.setView(map.getCenter(), Math.max(map.getZoom(), 4));
     }, 250);
     if (!_touchInit) {
-      map.setMaxBounds(b.pad(0.4));
-      map.options.maxBoundsViscosity = 0.3;
+      map.setMaxBounds(b);
+      map.options.maxBoundsViscosity = 1.0;
     } else {
       map.setMaxBounds(b.pad(1.5));
       map.options.maxBoundsViscosity = 0.0;
