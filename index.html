@@ -19,7 +19,7 @@
   --red:#c0392b;--panel:300px;
   --space-fields:13px;
   --hdr-h:48px;
-  --handle-h:28px;
+  --handle-h:36px;
   --safe-top:env(safe-area-inset-top, 0px);
   --safe-bottom:env(safe-area-inset-bottom, 0px);
 }
@@ -31,6 +31,8 @@ html,body{
   overscroll-behavior:none;
   -webkit-text-size-adjust:100%;
 }
+body{visibility:hidden}
+body.ready{visibility:visible}
 #hdr{
   height:calc(var(--hdr-h) + var(--safe-top));
   background:var(--bg2);
@@ -382,10 +384,8 @@ html,body{
   #btn-settings{margin-right:4px;min-width:36px;min-height:36px}
   #hdr-right{margin-top:10px;gap:6px}
   #body{display:block;position:relative}
-  #mapwrap{
-    height:100%;
-    width:100%;
-  }
+  #mapwrap{height:100%;width:100%}
+  :root{--handle-h:44px}
   #panel{
     position:fixed;left:0;right:0;bottom:0;
     width:100%;height:64dvh;
@@ -421,12 +421,38 @@ html,body{
   #panel:not(.open) .filter-row{
     opacity:0;
     pointer-events:none;
+    height:0;
+    overflow:hidden;
   }
   #panel.open #collection-heading,
   #panel.open #srch,
   #panel.open .filter-row{
     opacity:1;
     pointer-events:auto;
+    height:auto;
+  }
+  #panel:not(.open) #panel-head .panel-handle-label{
+    display:flex;
+  }
+  #panel.open #panel-head .panel-handle-label{
+    display:none;
+  }
+  .panel-handle-label{
+    position:absolute;
+    top:14px;left:0;right:0;
+    display:none;
+    align-items:center;justify-content:center;gap:8px;
+    font-size:.62rem;letter-spacing:.18em;color:var(--text2);
+    font-weight:500;
+    pointer-events:none;
+  }
+  .panel-handle-label .arrow{
+    display:inline-block;
+    width:0;height:0;
+    border-left:4px solid transparent;
+    border-right:4px solid transparent;
+    border-bottom:5px solid var(--text3);
+    margin-bottom:1px;
   }
   #clist{height:calc(64dvh - 130px - var(--safe-bottom))}
   #map-controls{
@@ -443,11 +469,11 @@ html,body{
   #map-controls .btn{font-size:.55rem !important;padding:6px 8px !important;flex:1 0 auto}
   #btn-mobile-filters{
     display:block;position:absolute;
-    top:calc(12px + var(--safe-top) - var(--safe-top));
+    top:12px;
     right:8px;z-index:1100;
     background:var(--bg2);font-size:.6rem;padding:8px 12px;
     border:1px solid var(--border2);
-    margin-top:calc(12px + var(--safe-top));
+    margin-top:0;
   }
   #btn-mobile-filters.active{background:var(--bg3);border-color:var(--text)}
   #legend{
@@ -510,6 +536,33 @@ html,body{
     -webkit-user-select:none;user-select:none;
   }
 }
+@media (min-width: 600px) and (max-width: 1100px) and (pointer: coarse){
+  #hdr-title .t-long{display:none}
+  #hdr-title .t-short{display:inline}
+  #hdr-sub{display:none}
+  #panel{
+    width:320px;
+    border-radius:0;
+    height:100%;
+    transform:none;
+    transition:none;
+    position:relative;
+    border-top:none;
+    border-left:1px solid var(--border);
+    padding-bottom:0;
+  }
+  #panel-head{height:auto;padding:12px 14px 10px}
+  #panel:not(.open) #collection-heading,
+  #panel:not(.open) #srch,
+  #panel:not(.open) .filter-row{
+    opacity:1;pointer-events:auto;height:auto;
+  }
+  .panel-handle-label{display:none !important}
+  #body{display:flex;flex-direction:row}
+  #mapwrap{height:100%}
+  #clist{height:auto;flex:1}
+  #legend{left:50%;transform:translateX(-50%);bottom:12px}
+}
 @media (max-width: 380px){
   #hdr-title{font-size:.65rem}
   .radio-opt{font-size:.55rem;padding:10px 4px}
@@ -549,7 +602,7 @@ html,body{
     <div id="tt"></div>
     <div id="legend"><span>0</span><div id="legbar"></div><span id="legmax">0</span><div class="leg-hl"><i></i><span>SELECTION</span></div></div>
 
-    <button id="btn-mobile-filters" type="button" class="btn" onclick="toggleMobileFilters()">FILTRI</button>
+    <button id="btn-mobile-filters" type="button" class="btn" onclick="toggleMobileFilters()">FILTERS</button>
     <div id="map-controls-overlay" onclick="closeMobileFilters()"></div>
     <div id="map-controls">
       <div>
@@ -568,6 +621,7 @@ html,body{
 
   <div id="panel">
     <div id="panel-head">
+      <div class="panel-handle-label"><span class="arrow"></span><span>COLLECTION</span></div>
       <div id="collection-heading">
         <h2>COLLECTION</h2>
         <div id="tags-wrap">
@@ -1367,8 +1421,9 @@ function geoToOur(geoName){
   return null;
 }
 var _mobileInit = isMobile();
+var _isTablet = window.matchMedia('(min-width: 600px) and (max-width: 1100px) and (pointer: coarse)').matches;
 var map = L.map("map", {
-  zoom: 5, minZoom: _mobileInit ? 4 : 4.85, maxZoom: 8,
+  zoom: 5, minZoom: _mobileInit ? 2 : 4.85, maxZoom: 8,
   zoomSnap: 0.1, zoomDelta: 0.5,
   touchZoom: true, tap: true, tapTolerance: 15,
   bounceAtZoomLimits: false,
@@ -1555,30 +1610,35 @@ fetch("https://cdn.jsdelivr.net/gh/klokantech/roman-empire@master/data/provinces
       }
     }).addTo(map);
     var b = geoLayer.getBounds();
-    if (isMobile()) {
+    var isTbl = window.matchMedia('(min-width: 600px) and (max-width: 1100px) and (pointer: coarse)').matches;
+    if (isMobile() || isTbl) {
       map.fitBounds(b, { paddingTopLeft: [0, 0], paddingBottomRight: [0, 0] });
     } else {
       map.fitBounds(b, { padding: [20, 20] });
     }
     setTimeout(function(){
       map.invalidateSize();
-      if (isMobile()) map.setView(map.getCenter(), Math.max(map.getZoom(), 5));
+      if (isMobile()) map.setView(map.getCenter(), Math.max(map.getZoom(), 5.5));
+      else if (isTbl) map.setView(map.getCenter(), Math.max(map.getZoom(), 4.5));
     }, 250);
-    if (!isMobile()) {
-      map.setMaxBounds(b.pad(0.1));
-      map.options.maxBoundsViscosity = 0.8;
-    }
+    map.setMaxBounds(b.pad(0.5));
+    map.options.maxBoundsViscosity = 0.9;
     document.getElementById("loading").style.display="none";
     document.getElementById("legend").classList.add('ready');
     MINT_GEO_CACHE = {};
     updateMap();
+    document.body.classList.add('ready');
   })
-  .catch(function(e){ document.getElementById("loading").innerHTML="<b style='color:#c0392b'>Error: "+e.message+"</b>"; });
+  .catch(function(e){
+    document.getElementById("loading").innerHTML="<b style='color:#c0392b'>Error: "+e.message+"</b>";
+    document.body.classList.add('ready');
+  });
 setTimeout(function(){
   if(!geoLayer){
     var el = document.getElementById('loading');
     if (el) el.innerHTML = "<b>Map unavailable</b><small>Check your connection and reload.</small>";
   }
+  document.body.classList.add('ready');
 }, 15000);
 function postt(e){
   var r=mw.getBoundingClientRect();
@@ -1756,6 +1816,10 @@ function closeMobileFilters(){
   ov.classList.remove('open');
   b.classList.remove('active');
 }
+document.getElementById('map-controls-overlay').addEventListener('touchstart', function(e){
+  e.preventDefault();
+  closeMobileFilters();
+}, {passive:false});
 function isProvMode(){ return currentPeriod==='prov' && PDB.ready; }
 function isImpMode(){ return currentPeriod==='imp' && IDB.ready; }
 function isRepMode(){ return currentPeriod==='rep' && RDB.ready; }
