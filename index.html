@@ -1355,6 +1355,11 @@ body.ready{visibility:visible}
         <div class="radio-opt" id="r-rep" onclick="setPeriod('rep')">REPUBLICAN</div>
       </div>
     </div>
+    <div class="frow" style="position:relative">
+      <label>SEARCH REFERENCE <span style="font-size:.55rem;letter-spacing:.05em;color:var(--text3)">(type to autocomplete)</span></label>
+      <input id="f-ref-search" type="text" placeholder="e.g. RIC 207, RRC 44/5…" autocomplete="off">
+      <div id="ref-suggestions" class="ref-suggestions"></div>
+    </div>
     <div class="frow">
       <label>REFERENCE <span style="font-size:.55rem;letter-spacing:.05em;color:var(--text3)">(e.g. RRC 44/5 · RPC I 985 · RIC 207)</span></label>
       <input id="f-ref" type="text" placeholder="RIC 207">
