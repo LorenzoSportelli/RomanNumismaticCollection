@@ -3701,6 +3701,11 @@ window.addEventListener('orientationchange', function(){
   initClistTouch();
   renderList();
   setTimeout(function(){ map.invalidateSize(); }, 500);
+  
+  var defF = safeGet('numismatica_set_defFilter');
+  if (defF) setFilter(defF);
+  var defM = safeGet('numismatica_set_mapDef');
+  if (defM) setMintMode(defM);
 })();
 </script>
 
@@ -4005,7 +4010,7 @@ window.addEventListener('orientationchange', function(){
     }
   };
 
-  window.toggleSettings = function() {
+window.toggleSettings = function() {
     var modal = document.getElementById('settings-modal');
     if (modal.classList.contains('open')) {
       modal.classList.remove('open');
@@ -4014,6 +4019,11 @@ window.addEventListener('orientationchange', function(){
       if (auth.currentUser) {
         document.getElementById('settings-email-val').textContent = auth.currentUser.email;
       }
+      
+      var currentF = safeGet('numismatica_set_defFilter') || 'all';
+      var currentM = safeGet('numismatica_set_mapDef') || 'none';
+      document.getElementById('settings-def-filter').value = currentF;
+      document.getElementById('settings-map-def').value = currentM;
     }
   };
 
@@ -4266,10 +4276,10 @@ window.addEventListener('orientationchange', function(){
       if(c.id >= nextId) nextId = c.id + 1;
     });
     
-    var defF = safeGet('numismatica_set_defFilter');
-    if (defF) setFilter(defF);
-    var defM = safeGet('numismatica_set_mapDef');
-    if (defM) setMintMode(defM);
+    var defF = safeGet('numismatica_set_defFilter') || 'all';
+    setFilter(defF);
+    var defM = safeGet('numismatica_set_mapDef') || 'none';
+    setMintMode(defM);
     
     renderList();
     updateMap();
