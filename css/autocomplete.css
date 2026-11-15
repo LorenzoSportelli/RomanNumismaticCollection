@@ -1,0 +1,64 @@
+.ref-suggestions {
+  display: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  background: var(--paper-2);
+  border: 1px solid var(--rule-2);
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 100;
+  box-shadow: var(--shadow-md);
+  margin-top: 2px;
+}
+.ref-suggestions.open {
+  display: block;
+}
+.ref-suggestions::-webkit-scrollbar {
+  width: 5px;
+}
+.ref-suggestions::-webkit-scrollbar-thumb {
+  background: var(--rule-2);
+}
+.ref-suggestion {
+  padding: 8px 12px;
+  font-family: 'Inter', sans-serif;
+  font-size: .82rem;
+  color: var(--ink-2);
+  cursor: pointer;
+  border-bottom: 1px solid var(--paper-3);
+  letter-spacing: .02em;
+}
+.ref-suggestion:last-child {
+  border-bottom: none;
+}
+.ref-suggestion:hover {
+  background: var(--paper-3);
+  color: var(--ink);
+}
+.ref-suggestion strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+.ref-suggestion small {
+  color: var(--ink-3);
+  margin-left: 8px;
+  font-size: .7rem;
+}
+
+@media (max-width: 900px), (pointer: coarse) {
+  .ref-suggestion {
+    padding: 11px 12px;
+    font-size: 16px;
+  }
+  .ref-suggestion small {
+    display: block;
+    margin-left: 0;
+    margin-top: 3px;
+    font-size: .6rem;
+  }
+  .ref-suggestions {
+    max-height: min(42dvh, 280px);
+  }
+}
