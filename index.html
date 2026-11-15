@@ -27,7 +27,6 @@ html,body{
   overscroll-behavior:none;
   -webkit-text-size-adjust:100%;
 }
-
 #hdr{
   height:var(--hdr-h);
   background:var(--bg2);
@@ -44,6 +43,7 @@ html,body{
   margin-top:8px;pointer-events:none;
 }
 #hdr-title{font-size:1.05rem;letter-spacing:.12em;font-weight:600;white-space:nowrap}
+#hdr-title .t-short{display:none}
 #hdr-sub{font-size:.72rem;color:var(--text3);font-style:italic}
 #hdr-sep{flex:1}
 #hdr-right{margin-left:auto;display:flex;align-items:center;gap:12px;margin-top:14px}
@@ -61,11 +61,9 @@ html,body{
   margin-right:15px;color:var(--text2);
 }
 #btn-settings:hover{color:var(--text)}
-
 #body{display:flex;height:calc(100dvh - var(--hdr-h) - env(safe-area-inset-top))}
 #mapwrap{flex:1;position:relative;min-width:0}
 #map{width:100%;height:100%}
-
 #loading{
   position:absolute;inset:0;background:#f9f8f6ee;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
@@ -73,7 +71,6 @@ html,body{
 }
 #loading b{color:var(--text);letter-spacing:.1em;font-weight:400}
 #loading small{color:var(--text3);font-style:italic;font-size:.75rem}
-
 #tt{
   display:none;position:absolute;background:var(--bg2);
   border:1px solid var(--border2);padding:9px 13px;z-index:9999;
@@ -85,7 +82,6 @@ html,body{
 #tt .tl b{color:var(--text)}
 #tt .coins{margin-top:5px;font-size:.72rem;color:var(--text3);font-style:italic;border-top:1px solid var(--border);padding-top:4px}
 #tt .coin-item{color:var(--text2);padding:1px 0}
-
 #legend{
   position:absolute;bottom:18px;left:50%;transform:translateX(-50%);
   z-index:900;background:#f9f8f6cc;border:1px solid var(--border);
@@ -107,7 +103,6 @@ html,body{
 #legend .leg-hl{display:none;align-items:center;gap:5px;margin-left:10px;padding-left:10px;border-left:1px solid var(--border)}
 #legend .leg-hl i{display:inline-block;width:14px;height:9px;border:2px solid #2a7a4a;background:transparent}
 #legend.has-hl .leg-hl{display:flex}
-
 #map-controls{
   position:absolute;top:15px;right:15px;z-index:1000;
   display:flex;flex-direction:column;gap:8px;align-items:flex-end;
@@ -115,7 +110,6 @@ html,body{
 #map-controls > div{display:flex;gap:6px}
 #map-controls .btn{background:var(--bg2);font-size:0.6rem;padding:5px 10px}
 #btn-mobile-filters{display:none}
-
 #panel{
   width:var(--panel);background:var(--bg2);
   border-left:1px solid var(--border);
@@ -142,7 +136,6 @@ html,body{
 .tag-option input{accent-color:#555;cursor:pointer}
 .tag-option:hover{color:var(--text)}
 #tags-menu .tag-menu-title{font-size:.57rem;letter-spacing:.1em;color:var(--text3);padding-bottom:7px;border-bottom:1px solid var(--border);margin-bottom:5px;font-family:inherit}
-
 #srch{width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);font-family:inherit;font-size:.9rem;padding:6px 8px;outline:none}
 #srch:focus{border-color:var(--border2)}
 #srch::placeholder{color:var(--text3)}
@@ -150,12 +143,10 @@ html,body{
 .ftab{flex:1;background:transparent;border:1px solid var(--border);color:var(--text3);font-size:.58rem;letter-spacing:.08em;padding:4px 6px;cursor:pointer;transition:all .15s;font-family:inherit}
 .ftab.on{background:var(--text);border-color:var(--text);color:var(--bg2)}
 .ftab:hover:not(.on){border-color:var(--border2);color:var(--text2)}
-
 #clist{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
 #clist::-webkit-scrollbar{width:3px}
 #clist::-webkit-scrollbar-thumb{background:var(--border)}
 .empty-msg{padding:24px 14px;text-align:center;font-style:italic;color:var(--text3);font-size:.82rem}
-
 .crow{padding:12px 16px;border-bottom:1px solid #00000008;cursor:pointer;transition:background .1s;position:relative}
 .crow:hover{background:#00000005}
 .crow-ref{font-size:.85rem;font-weight:600;letter-spacing:.02em}
@@ -171,7 +162,6 @@ html,body{
 .ct-mat{color:#1f4747}
 .ct-reign{color:#5a3f1e}
 .ct-rep,.ct-imp,.ct-prov{color:var(--text2)}
-
 .crow-actions{float:right;display:flex;gap:3px;opacity:0;transition:opacity .15s}
 .crow:hover .crow-actions{opacity:1}
 .ca{
@@ -181,7 +171,6 @@ html,body{
 }
 .ca:hover{border-color:var(--border2);color:var(--text)}
 .ca.del:hover{border-color:var(--red);color:#c0392b}
-
 #foot{
   padding:7px 14px;border-top:1px solid var(--border);
   font-size:.62rem;color:var(--text3);flex-shrink:0;
@@ -189,7 +178,6 @@ html,body{
   padding-bottom:calc(7px + env(safe-area-inset-bottom));
 }
 #foot span{color:var(--text)}
-
 #overlay{
   display:none;position:fixed;inset:0;background:#00000044;z-index:2000;
   align-items:center;justify-content:center;
@@ -210,7 +198,6 @@ html,body{
 #modal-body::-webkit-scrollbar{width:3px}
 #modal-body::-webkit-scrollbar-thumb{background:var(--border)}
 #modal-foot{padding:12px 18px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end;flex-shrink:0;padding-bottom:calc(12px + env(safe-area-inset-bottom))}
-
 .frow{margin-bottom:var(--space-fields)}
 .frow label{display:block;font-size:.6rem;color:var(--text3);letter-spacing:.1em;margin-bottom:5px}
 .frow label span{color:var(--border2)}
@@ -227,14 +214,12 @@ html,body{
 .frow select option{background:var(--bg2);color:var(--text)}
 .fgrid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-fields)}
 .frow textarea{min-height:60px}
-
 .fsep{height:1px;background:var(--border);margin:22px 0 13px;position:relative}
 .fsep-label{
   position:absolute;left:50%;transform:translateX(-50%) translateY(-50%);
   background:var(--bg2);padding:0 10px;
   font-size:.58rem;color:var(--text3);letter-spacing:.1em;
 }
-
 .radio-group{display:flex;gap:8px}
 .radio-opt{
   flex:1;border:1px solid var(--border);padding:7px 10px;cursor:pointer;
@@ -243,7 +228,6 @@ html,body{
 }
 .radio-opt.on{border-color:var(--text);background:var(--bg3);color:var(--text)}
 .radio-opt:hover:not(.on){border-color:var(--border2);color:var(--text2)}
-
 .picker{position:relative}
 .pk-chips{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:4px}
 .pk-chips:empty{display:none}
@@ -260,6 +244,7 @@ html,body{
   max-height:170px;overflow-y:auto;
   background:var(--bg2);border:1px solid var(--border2);z-index:50;
   box-shadow:0 4px 20px #00000018;-webkit-overflow-scrolling:touch;
+  touch-action:pan-y;
 }
 .pk-list::-webkit-scrollbar{width:3px}
 .pk-list::-webkit-scrollbar-thumb{background:var(--border)}
@@ -270,7 +255,6 @@ html,body{
 .pk-none{padding:6px 9px;font-style:italic;font-size:.8rem;color:var(--text3)}
 .pk-hint{font-size:.58rem;color:var(--text3);letter-spacing:.05em;margin-top:4px;font-style:italic}
 .pk-hint:empty{display:none}
-
 #pk-provs .pk-chip{color:#1a3a5c}
 #pk-regions .pk-chip{color:#1e4a2a}
 #pk-subs .pk-chip{color:#5a3f1e}
@@ -283,7 +267,6 @@ html,body{
 #pk-imp-cities .pk-chip,#pk-rep-cities .pk-chip{color:#5c4308}
 #pk-rep-issuers .pk-chip,#pk-authorities .pk-chip{color:#5a3f1e}
 #pk-issuers .pk-chip{color:#4a3055}
-
 .btn{
   background:transparent;border:1px solid var(--border2);color:var(--text2);
   font-family:inherit;font-size:.65rem;letter-spacing:.1em;
@@ -293,13 +276,11 @@ html,body{
 .btn-gold{background:var(--text);border-color:var(--text);color:var(--bg2)}
 .btn-gold:hover{background:#333;color:var(--bg2);border-color:#333}
 .btn.active{background:var(--bg3);border-color:var(--text);color:var(--text)}
-
 #confirm{display:none;position:fixed;inset:0;background:#00000066;z-index:3000;align-items:center;justify-content:center;padding:16px}
 #confirm.open{display:flex}
 #confirm-box{background:var(--bg2);border:1px solid var(--border2);padding:24px 28px;text-align:center;max-width:340px;width:100%;max-height:90dvh;overflow-y:auto}
 #confirm-box p{font-style:italic;color:var(--text2);margin-bottom:14px;font-size:.95rem}
 #confirm-box .btns{display:flex;gap:8px;justify-content:center}
-
 #detail{display:none;position:fixed;inset:0;background:#00000044;z-index:2500;align-items:center;justify-content:center}
 #detail.open{display:flex}
 #detail-box{
@@ -322,12 +303,10 @@ html,body{
 .drow div{font-family:'Crimson Text',serif;font-size:.98rem;color:var(--text);white-space:pre-wrap;line-height:1.4}
 .dgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
 .dsep{height:1px;background:var(--border);margin:6px 0 14px}
-
 .leaflet-container{background:#e8e8e0;font-family:inherit}
 .leaflet-control-zoom a{background:var(--bg2)!important;color:var(--text)!important;border-color:var(--border)!important}
 .leaflet-control-attribution{font-size:7px!important;line-height:1.1!important;opacity:.65!important;background:rgba(249,248,246,.55)!important;color:#333!important;border:1px solid #d8d5cf!important;padding:2px 5px!important;border-radius:3px}
 .mint-marker{border-radius:50%;box-shadow:0 2px 5px rgba(0,0,0,.4)}
-
 #auth-screen{
   position:fixed;inset:0;background:var(--bg);z-index:999999;
   display:flex;align-items:center;justify-content:center;
@@ -356,7 +335,6 @@ html,body{
 #user-info{display:flex;align-items:center;gap:10px;font-size:.75rem;margin-right:15px}
 #btn-logout{background:transparent;border:1px solid var(--border);padding:3px 8px;cursor:pointer;font-size:.65rem;font-family:inherit}
 #btn-logout:hover{background:var(--red);color:#fff;border-color:var(--red)}
-
 #verify-block-screen{
   display:none;position:fixed;inset:0;background:var(--bg);z-index:999998;
   align-items:center;justify-content:center;padding:16px;
@@ -367,7 +345,6 @@ html,body{
   width:100%;max-width:420px;text-align:center;
   box-shadow:0 8px 40px #00000022;
 }
-
 .overlay-custom{
   display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);
   z-index:1000000;align-items:center;justify-content:center;padding:16px;
@@ -379,24 +356,25 @@ html,body{
   width:100%;max-width:340px;box-shadow:0 8px 40px #00000033;
   max-height:90dvh;overflow-y:auto;
 }
-  
 @media (max-width: 900px){
   #hdr{padding:0 12px;gap:6px}
   #hdr-left{
     position:static;transform:none;margin:0;
     flex:1;text-align:left;min-width:0;
+    display:flex;flex-direction:column;justify-content:center;
   }
-  #hdr-title{font-size:.72rem;letter-spacing:.06em;overflow:hidden;text-overflow:ellipsis}
-  #hdr-sub{font-size:.58rem}
+  #hdr-title{font-size:.72rem;letter-spacing:.06em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  #hdr-title .t-long{display:none}
+  #hdr-title .t-short{display:inline}
+  #hdr-sub{display:none}
   #hdr-count{display:none}
   #btn-add{font-size:0;padding:8px 10px;min-width:36px;min-height:36px}
   #btn-add::before{content:"+";font-size:1.2rem;line-height:1;font-weight:400}
   #btn-settings{margin-right:4px;min-width:36px;min-height:36px}
   #hdr-right{margin-top:10px;gap:6px}
-
   #body{display:block}
   #mapwrap{height:100%}
-
+  :root{--handle-h:28px}
   #panel{
     position:fixed;left:0;right:0;bottom:0;
     width:100%;height:64dvh;
@@ -410,23 +388,43 @@ html,body{
   }
   #panel.open{transform:translateY(0)}
   #panel-head{
-    padding-top:18px;
+    height:var(--handle-h);
+    padding:0;
+    overflow:hidden;
     touch-action:none;
     cursor:grab;
+    min-height:var(--handle-h);
+  }
+  #panel.open #panel-head{
+    height:auto;
+    padding:18px 14px 10px;
+    overflow:visible;
   }
   #panel-head::before{
     content:"";position:absolute;top:6px;left:50%;
     transform:translateX(-50%);
     width:40px;height:4px;border-radius:2px;background:var(--border2);
   }
+  #panel:not(.open) #collection-heading,
+  #panel:not(.open) #srch,
+  #panel:not(.open) .filter-row{
+    opacity:0;
+    pointer-events:none;
+  }
+  #panel.open #collection-heading,
+  #panel.open #srch,
+  #panel.open .filter-row{
+    opacity:1;
+    pointer-events:auto;
+  }
   #clist{height:calc(64dvh - 130px - env(safe-area-inset-bottom))}
-
   #map-controls{
-    top:auto;bottom:calc(var(--handle-h) + env(safe-area-inset-bottom) + 10px);
+    top:auto;bottom:calc(var(--handle-h) + env(safe-area-inset-bottom) + 56px);
     right:8px;display:none;flex-direction:column;align-items:stretch;
     background:var(--bg2);border:1px solid var(--border2);
     padding:8px;border-radius:6px;box-shadow:0 4px 20px #00000022;
     max-width:calc(100vw - 16px);
+    z-index:1050;
   }
   #map-controls.mobile-open{display:flex}
   #map-controls > div{flex-wrap:wrap;gap:4px}
@@ -434,12 +432,11 @@ html,body{
   #btn-mobile-filters{
     display:block;position:absolute;
     bottom:calc(var(--handle-h) + env(safe-area-inset-bottom) + 10px);
-    right:8px;z-index:1000;
+    right:8px;z-index:1100;
     background:var(--bg2);font-size:.6rem;padding:8px 12px;
     border:1px solid var(--border2);
   }
   #btn-mobile-filters.active{background:var(--bg3);border-color:var(--text)}
-
   #legend{
     bottom:calc(var(--handle-h) + env(safe-area-inset-bottom) + 10px);
     top:auto;left:8px;transform:none;
@@ -447,7 +444,6 @@ html,body{
   }
   #legbar{width:60px;height:7px}
   #legend .leg-hl{margin-left:6px;padding-left:6px}
-
   #modal, #detail-box{
     position:fixed;inset:0;
     transform:none;
@@ -463,7 +459,6 @@ html,body{
   #modal-body, #detail-body{padding:14px 14px}
   #modal-foot .btn, #detail-foot .btn{flex:1;padding:14px;font-size:.72rem}
   #modal-foot, #detail-foot{justify-content:stretch}
-
   .frow input, .frow select, .frow textarea{
     font-size:16px;padding:10px 12px;
   }
@@ -474,7 +469,7 @@ html,body{
   .pk-item small{display:block;margin-left:0;margin-top:2px;font-size:.7rem}
   .pk-chip{padding:4px 6px 4px 10px;font-size:.75rem}
   .pk-chip b{font-size:1.1rem;padding:4px;margin-left:4px}
-  .pk-list{max-height:40dvh}
+  .pk-list{max-height:min(40dvh, 260px)}
   .pk-hint{font-size:.7rem}
   .btn{padding:10px 16px;font-size:.72rem;min-height:44px}
   .radio-opt{padding:12px 6px;font-size:.6rem}
@@ -486,34 +481,27 @@ html,body{
   .crow-meta{font-size:.7rem;gap:0}
   .ctag + .ctag::before{margin:0 5px}
   #clist .empty-msg{font-size:.85rem}
-
   #srch{font-size:16px;padding:10px}
   .ftab{padding:8px 4px;font-size:.65rem;min-height:36px}
   .tag-option{padding:10px 4px;font-size:.78rem}
   #tags-menu{right:6px;width:min(220px,calc(100vw - 12px))}
   #tags-menu .tag-menu-title{font-size:.7rem}
-
   #confirm-box{padding:24px 20px;width:calc(100vw - 32px)}
   #confirm-box .btn{flex:1;padding:14px}
-
   #auth-box{padding:24px 20px}
   #auth-box h2{font-size:.95rem}
-
   .drow div{font-size:.92rem;line-height:1.45}
   .drow label{font-size:.65rem}
   .dgrid{grid-template-columns:1fr;gap:0}
-
   #map-controls .btn, #btn-mobile-filters, #legend, .btn, .ftab, .ca{
     -webkit-user-select:none;user-select:none;
   }
 }
-
 @media (max-width: 380px){
   #hdr-title{font-size:.65rem}
   .radio-opt{font-size:.55rem;padding:10px 4px}
   #hdr-right{margin-top:8px}
 }
-
 @media (max-width: 900px) and (max-height: 500px){
   #panel{height:80dvh}
   #clist{height:calc(80dvh - 130px - env(safe-area-inset-bottom))}
@@ -531,7 +519,7 @@ html,body{
     </svg>
   </button>
   <div id="hdr-left">
-    <div id="hdr-title">MAPPED ROMAN NUMISMATIC COLLECTION</div>
+    <div id="hdr-title"><span class="t-long">MAPPED ROMAN NUMISMATIC COLLECTION</span><span class="t-short">ROMAN NUMISMATICS</span></div>
     <div id="hdr-sub">Provinces at AD 117</div>
   </div>
   <div id="hdr-sep"></div>
@@ -548,7 +536,7 @@ html,body{
     <div id="tt"></div>
     <div id="legend"><span>0</span><div id="legbar"></div><span id="legmax">0</span><div class="leg-hl"><i></i><span>SELECTION</span></div></div>
 
-    <button id="btn-mobile-filters" type="button" class="btn" onclick="toggleMobileFilters()">FILTERS</button>
+    <button id="btn-mobile-filters" type="button" class="btn" onclick="toggleMobileFilters()">FILTRI</button>
     <div id="map-controls">
       <div>
         <button id="btn-mints-none" class="btn" onclick="setMintMode('none')">NO MINTS</button>
@@ -601,7 +589,6 @@ html,body{
     <button type="button" aria-label="Close" onclick="closeModal()">&#215;</button>
   </div>
   <div id="modal-body">
-
     <div class="frow">
       <label>PERIOD</label>
       <div class="radio-group">
@@ -610,12 +597,10 @@ html,body{
         <div class="radio-opt" id="r-rep" onclick="setPeriod('rep')">REPUBLICAN</div>
       </div>
     </div>
-
     <div class="frow">
       <label>REFERENCE <span style="font-size:.55rem;letter-spacing:.05em;color:var(--text3)">(e.g. RRC 44/5 · RPC I 985 · RIC 207)</span></label>
       <input id="f-ref" type="text" placeholder="RIC 207">
     </div>
-
     <div id="block-main-geography" style="display:none">
       <div class="fsep"><div class="fsep-label">GEOGRAPHY</div></div>
       <div class="fgrid">
@@ -655,7 +640,6 @@ html,body{
         </div>
       </div>
     </div>
-
     <div id="block-prov-chrono" style="display:none">
       <div class="fsep"><div class="fsep-label">REIGN &amp; MAGISTRATE</div></div>
       <div class="fgrid">
@@ -678,7 +662,6 @@ html,body{
       </div>
       <div class="pk-hint" id="prov-hint"></div>
     </div>
-
     <div id="block-prov-geography" style="position:relative;">
       <button type="button" class="btn" onclick="clearProvGeography()" style="position:absolute;top:8px;right:0;padding:4px 12px;font-size:.6rem;border-color:var(--border);background:var(--bg2);z-index:10;">CLEAR</button>
       <div class="fsep"><div class="fsep-label">GEOGRAPHY</div></div>
@@ -718,7 +701,6 @@ html,body{
         <div class="pk-hint" id="geo-hint"></div>
       </div>
     </div>
-
     <div id="block-imp-geography" style="display:none">
       <div class="fsep"><div class="fsep-label">GEOGRAPHY</div></div>
       <div class="fgrid">
@@ -758,9 +740,7 @@ html,body{
         </div>
       </div>
     </div>
-
     <div class="fsep"><div class="fsep-label">ISSUE</div></div>
-
     <div id="block-rep" style="display:none">
       <div class="fgrid">
         <div class="frow">
@@ -777,7 +757,6 @@ html,body{
         </div>
       </div>
     </div>
-
     <div id="block-imp" style="display:none">
       <div class="fgrid">
         <div class="frow">
@@ -798,7 +777,6 @@ html,body{
         </div>
       </div>
     </div>
-
     <div id="block-prov">
       <div class="fgrid">
         <div class="frow">
@@ -811,9 +789,7 @@ html,body{
         </div>
       </div>
     </div>
-
     <div class="fsep"><div class="fsep-label">CHARACTERISTICS</div></div>
-
     <div class="fgrid">
       <div class="frow">
         <label>METAL</label>
@@ -832,7 +808,6 @@ html,body{
         <input id="f-date" type="text" placeholder="e.g. 211-208 BC; AD 138-141">
       </div>
     </div>
-
     <div class="frow">
       <label>DESCRIPTION (obverse / reverse)</label>
       <textarea id="f-desc" placeholder="Helmeted head of Roma / Dioscuri on horseback…"></textarea>
@@ -841,7 +816,6 @@ html,body{
       <label>NOTES</label>
       <textarea id="f-notes" placeholder="Weight, diameter, condition, provenance…" style="min-height:48px"></textarea>
     </div>
-
   </div>
   <div id="modal-foot">
     <button class="btn" onclick="closeModal()">CANCEL</button>
@@ -877,7 +851,6 @@ html,body{
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
 <script>
-
 function slug(s){ return String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,''); }
 function norm(s){ return String(s||'').trim().replace(/\s+/g,' ').toLowerCase(); }
 function normMint(s){
@@ -888,12 +861,10 @@ function isMobile(){ return window.matchMedia('(max-width: 900px)').matches; }
 function safeGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
 function safeSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){ console.warn('localStorage set failed:',e); } }
 function safeRemove(k){ try{ localStorage.removeItem(k); }catch(e){} }
-
 function debounce(fn, ms){
   var t=null;
   return function(){ var args=arguments, ctx=this; clearTimeout(t); t=setTimeout(function(){ fn.apply(ctx,args); }, ms); };
 }
-
 var MINT_ALIASES = {
   'laodicea ad lycum': ['laodiceia ad lycum','laodicea ad mare','laodiceia ad mare'],
   'antioch':           ['antioch syria','antiochia','antioch on the orontes'],
@@ -918,7 +889,6 @@ function canonicalMint(name){
   }
   return n;
 }
-
 var PROVS = [
   "Achaia","Aegyptus","Africa Proconsularis","Alpes Cottiae","Alpes Graiae et Poeninae","Alpes Maritimae",
   "Aquitania","Arabia","Armenia Mesopotamia","Asia","Baetica","Belgica","Bithynia et Pontus","Britannia",
@@ -932,7 +902,6 @@ var PROVS = [
   "Italia — Regio VII — Etruria","Italia — Regio VIII — Aemilia",
   "Italia — Regio IX — Liguria","Italia — Regio X — Venetia et Histria","Italia — Regio XI — Transpadana"
 ];
-
 var GEO_MAP = {
   "Achaia":"Achaia","Aegyptus":"Aegyptus","Africa Proconsularis":"Africa Proconsularis",
   "Alpes Cottiae":"Alpes Cottiae","Alpes Graiae et Poeninae":"Alpes Graiae et Poeninae","Alpes Maritimae":"Alpes Maritimae",
@@ -951,11 +920,9 @@ var GEO_MAP = {
   "VI":"Italia — Regio VI — Umbria et Ager Gallicus","VII":"Italia — Regio VII — Etruria","VIII":"Italia — Regio VIII — Aemilia",
   "IX":"Italia — Regio IX — Liguria","X":"Italia — Regio X — Venetia et Histria","XI":"Italia — Regio XI — Transpadana"
 };
-
 var REGIONS = [];
 var SUBREGIONS = [];
 var CITIES = [];
-
 var REGION_PROVINCES = {
   "Aegina":["Achaia"],"Aeolis":["Asia"],"Africa":["Africa Proconsularis"],"Arabia":["Arabia"],
   "Armenia":["Armenia Mesopotamia"],"Mesopotamia":["Armenia Mesopotamia"],"Attica":["Achaia"],
@@ -975,7 +942,6 @@ var REGION_PROVINCES = {
   "Sarmata":[],"Sarmatia":[],"Sicily":["Sicilia"],"Syria":["Syria"],"Thessaly":["Macedonia"],"Thrace":["Thracia"],
   "Troas":["Asia"],"Uncertain":[]
 };
-
 var LEGACY_SUB_IDS = {
   "sub-cilicia-trachea":"sub-cilicia-cilicia-trachea",
   "sub-cilicia-pedias":"sub-cilicia-cilicia-pedias",
@@ -983,7 +949,6 @@ var LEGACY_SUB_IDS = {
   "sub-pelop-argolis":"sub-peloponnesus-argolis",
   "sub-pelop-laconia":"sub-peloponnesus-laconia"
 };
-
 var PDB = {
   ready:false, error:null,
   cities:[], cityById:{}, cityByKey:{}, cityByName:{},
@@ -992,21 +957,18 @@ var PDB = {
   mags:[], magById:{},
   tuples:[]
 };
-
 var allMintsData = [];
 var currentMintMode = 'none';
 var mintsLayer = null;
 var MINT_TYPES = {};
 var MINT_GEO_CACHE = {};
 var REIGN_ORDER = [];
-
 var MINT_COORD_OVERRIDES = {
   'Apollonia, Illyria':[40.720583,19.470413],'Canusium':[41.2167,16.0667],'Corcyra':[39.6072,19.9183],
   'Laodiceia ad Lycum':[37.83686,29.10797],'Luceria':[41.508065,15.335065],'Massalia':[43.3,5.367],
   'Messana':[38.189444,15.55],'Metapontum':[40.383641,16.824332],'Neapolis':[40.8514,14.2628],
   'Osca':[42.1397,-0.4085],'Salpesa':[37.181512,-5.781536],'Narbo':[43.183,3.0],'Antioch, Syria':[36.2,36.15]
 };
-
 function parseCSV(text){
   if(!text) return [];
   if(text.charCodeAt(0)===0xFEFF) text=text.slice(1);
@@ -1061,7 +1023,6 @@ function fetchFirst(paths){
     });
   }, Promise.reject(new Error('no path')));
 }
-
 function pdbAddCity(name, region, sub, rpc){
   var key=norm(name)+'|'+norm(region);
   if(PDB.cityByKey[key]) return PDB.cityByKey[key];
@@ -1120,7 +1081,6 @@ function isClientKing(reign){
   return !!(info && info.kind && /client king/i.test(info.kind));
 }
 function reignLabel(reign){ return isClientKing(reign) ? reign + ' *' : reign; }
-
 function buildProvDB(magRows, cityRows){
   if(cityRows.length){
     var r0=cityRows[0];
@@ -1169,11 +1129,9 @@ function buildProvDB(magRows, cityRows){
     }); });
   });
   PDB.cities.forEach(function(c){ if(!withMag[c.id]) PDB.tuples.push({r:null,m:null,c:c.id,g:c.region,s:c.sub||null}); });
-
   PDB.ready=true;
   applyProvDB();
 }
-
 function applyProvDB(){
   CITIES=PDB.cities; SUBREGIONS=PDB.subs;
   var set={}; Object.keys(REGION_PROVINCES).forEach(function(r){ set[r]=true; }); PDB.regions.forEach(function(r){ set[r]=true; });
@@ -1185,7 +1143,6 @@ function applyProvDB(){
   try { if (mintsLayer && currentMintMode !== 'none') renderMints(); } catch(e){}
 }
 function setProvHint(t){ document.getElementById('prov-hint').textContent=t; }
-
 setProvHint('Loading CSV data…');
 Promise.all([
   fetchFirst(['magistrati.csv','magistrates.csv']).catch(function(e){ console.error('magistrati:', e); return ''; }),
@@ -1205,11 +1162,9 @@ Promise.all([
   console.error('Errore caricamento CSV:', e);
   setProvHint('CSV not loaded ('+e.message+'). Open the page through a local web server.');
 });
-
 var IMP_AUTHORITIES = ["Aemilian","Allectus","Amandus","Anonymous","Anthemius","Antoninus Pius","Arcadius","Augustus","Aurelian","Aureolus","Avitus","Balbinus","Basiliscus","Bonosus","Burgundians or Franks","Caracalla","Carausius","Carinus","Carus","Claudius","Claudius II Gothicus","Clodius Albinus","Clodius Macer","Commodus","Constans","Constantine I","Constantine II","Constantine III","Constantius Chlorus","Constantius II","Diadumenian","Didius Julianus","Diocletian","Domitian","Domitian II","Domitius Alexander","Dryantilla","Elagabalus","Eugenius","Flavius Marcus","Florianus","Gaius/Caligula","Galba","Galerius","Gallienus","Geta","Glycerius","Gordian I","Gordian II","Gordian III","Gratian","Hadrian","Honorius","Hostilian","Joannes","Jotapianus","Jovianus","Jovinus","Julian of Pannonia","Julian the Apostate","Julius Nepos","Laelianus","Leo I","Leo II","Leontius","Libius Severus","Licinius","Macrianus Minor","Macrinus","Magnentius","Magnus Maximus","Majorian","Mar. Silbannacus","Marcian","Marcus Aurelius","Marius","Maxentius","Maximian","Maximinus Daia","Maximinus Thrax","Maximus","Maximus of Barcelona","Nero","Nerva","Non-imperial African coinages","Numerian","Odoacer","Olybrius","Otho","Pacatianus","Pertinax","Pescennius Niger","Petronius Maximus","Philip the Arab","Postumus","Priscus Attalus","Probus","Procopius","Pupienus","Quietus","Quintillus","Regalianus","Romulus Augustulus","Saturninus","Septimius Severus","Severus Alexander","Severus II","Sponsianus","Suevi","Tacitus","Tetricus I","Theodosius I","Theodosius II","Tiberius","Titus","Trajan","Trajan Decius","Trebonianus Gallus","Uranius Antoninus","Vabalathus","Valens","Valentinian I","Valentinian II","Valentinian III","Valerian","Vespasian","Victorinus","Visigoths","Vitellius","Volusian","Zeno","Zenobia"];
 var IMP_ISSUERS = ["A. Licinius Nerva Silianus","Apronius","C. Annius Pollio","C. Antistius Reginus","C. Antistius Vetus","C. Asinius Gallus","C. Cassius Celer","C. Gallius Lupercus","C. Marcius Censorinus","C. Marius C F Tro","C. Naevius Capella","C. Plotius Rufus","C. Rubellius Blandus","C. Sulpicius Platorinus","Claudius Pulcher","Cn. PISO Cn.F","Cossus Cornelius Lentulus","Galus","L. Aelius Lamia","L. Aquillius Florus","L. Caninius Gallus","L. Lentulus","L. Mescinius Rufus","L. Naevius Surdinus","L. Valerius Catullus","L. Vinicius","Livineius Regulus","M. Durmius","M. Maecilius Tullus","M. Salvius Otho","M. Sanquinius","Messalla","P. Betilienus Bassus","P. Carisius","P. Licinius Stolo","P. Lurius Agrippa","P. Petronius Turpilianus","P. Silius P.","Q. Aelius Lamia","Q. Rustius","Sex. Nonius Quinctilianus","Sisenna","Statilius Taurus","T. Quinctius Crispinus Sulpicianus","Ti. Sempronius Graccus","Volusus Valerius Messalla"];
 var IMP_CITIES = ["Rome","Constantinople","Alexandria","Ambianum","Antioch of Pisidia","Antioch, Syria","Aquileia","Arelate","Arelate comitatensian mint","Barcino","Caesaraugusta","Caesarea in Cappadocia","Camulodunum","Carnuntum","Carthage","Cologne","Colonia Patricia","Comitatensian","Cyrene","Cyzicus","Eastern Mint","Emerita","Emisa","Ephesus","Heraclea","Laodicea ad Mare","Londinium","Lugdunum","Mainz","Mediolanum","Narbo","Nemausus","Nicaea (Gallia)","Nicomedia","Ostia","Pergamum","Ravenna","Ravenna comitatensian mint","Rotomagus","Samos","Serdica","Sirmium","Siscia","Southern Gallic Mint","Tarraco","Thessalonica","Ticinum","Trier","Tripolis","Uncertain value","Vienne","Viminacium"];
-
 var IMP_GEO_TREE = {
   "Africa": {"Africa": ["Africa", "Zeugitana"],"Cyrenaica": ["Cyrenaica"],"Egypt": ["Egypt"]},
   "Asia": {"Asia": ["Asia", "Asia Minor"],"Bithynia": ["Bithynia"],"Cappadocia": ["Cappadocia"],"Ionia": ["Ionia", "Islands off Ionia"],"Mysia": ["Mysia"],"Pisidia": ["Pisidia"],"Syria": ["Syria", "Commagene", "Judaea", "Phoenicia", "Seleucis and Pieria"]},
@@ -1219,7 +1174,6 @@ var IMP_GEO_TREE = {
     "Macedon": ["Macedon", "Bisaltian District"],"Pannonia": ["Pannonia"],"Peloponnesus": ["Peloponnesus", "Achaea"],"Thrace": ["Thrace", "Inland Cities of Thrace", "Moesia Superior", "Moesia", "The European Coast of the Propontis"]
   }
 };
-
 var IMP_CITY_TO_SUB = {
   "Rome": "Italy", "Ostia": "Italy", "Ravenna": "Italy", "Ravenna comitatensian mint": "Italy","Mediolanum": "Italy", "Aquileia": "Italy", "Ticinum": "Italy",
   "Constantinople": "Thrace", "Serdica": "Thrace", "Thessalonica": "Macedon","Sirmium": "Pannonia", "Siscia": "Pannonia", "Viminacium": "Moesia Superior", "Carnuntum": "Pannonia",
@@ -1245,10 +1199,8 @@ var IMP_MAP_TO_PROVS = {
   "Bisaltian District": ["Macedonia"],"Inland Cities of Thrace": ["Thracia"],"The European Coast of the Propontis": ["Thracia"],"Asia Minor": ["Asia"],"Islands off Ionia": ["Asia"],"Commagene": ["Syria"],"Judaea": ["Iudaea"],"Phoenicia": ["Syria"],"Seleucis and Pieria": ["Syria"],"Zeugitana": ["Africa Proconsularis"],
   "Rome": ["Italia"], "Ostia": ["Italia"], "Ravenna": ["Italia"], "Ravenna comitatensian mint": ["Italia"],"Mediolanum": ["Italia"], "Aquileia": ["Italia"], "Ticinum": ["Italia"],"Constantinople": ["Thracia"], "Serdica": ["Thracia"], "Thessalonica": ["Macedonia"],"Sirmium": ["Pannonia Inferior"], "Siscia": ["Pannonia Superior"], "Viminacium": ["Moesia Superior"], "Carnuntum": ["Pannonia Superior"],"Alexandria": ["Aegyptus"], "Cyrene": ["Creta et Cyrene"], "Carthage": ["Africa Proconsularis"],"Antioch, Syria": ["Syria"], "Emisa": ["Syria"], "Laodicea ad Mare": ["Syria"],"Tripolis": ["Syria"], "Caesarea in Cappadocia": ["Galatia et Cappadocia"],"Antioch of Pisidia": ["Galatia et Cappadocia"], "Ephesus": ["Asia"], "Pergamum": ["Asia"],"Samos": ["Asia"], "Cyzicus": ["Asia"], "Nicomedia": ["Bithynia et Pontus"], "Heraclea": ["Bithynia et Pontus"],"Lugdunum": ["Lugdunensis"], "Arelate": ["Narbonensis"], "Arelate comitatensian mint": ["Narbonensis"],"Narbo": ["Narbonensis"], "Vienne": ["Narbonensis"], "Ambianum": ["Belgica"],"Rotomagus": ["Lugdunensis"], "Nemausus": ["Narbonensis"], "Nicaea (Gallia)": ["Alpes Maritimae"],"Trier": ["Belgica"], "Cologne": ["Germania Inferior"], "Mainz": ["Germania Superior"],"Londinium": ["Britannia"], "Camulodunum": ["Britannia"],"Tarraco": ["Tarraconensis"], "Emerita": ["Lusitania"], "Colonia Patricia": ["Baetica"],"Barcino": ["Tarraconensis"], "Caesaraugusta": ["Tarraconensis"]
 };
-
 var IDB = { ready: true, authorities: IMP_AUTHORITIES, issuers: IMP_ISSUERS, cities: IMP_CITIES, tree: IMP_GEO_TREE, cityToSub: IMP_CITY_TO_SUB, cityToSubsub: IMP_CITY_TO_SUBSUB, tuples: [] };
 IMP_AUTHORITIES.forEach(function(a){ IMP_ISSUERS.forEach(function(i){ IDB.tuples.push({ a: a, i: i }); }); });
-
 var REP_CITIES = [
   "Antioch, Syria","Apollonia, Illyria","Canusium","Corcyra","Eastern Roman Mint",
   "Italy (Central)","Italy (North)","Italy (South)","Italy (Southeast)",
@@ -1279,7 +1231,6 @@ var REP_MAP_TO_PROVS = {
 };
 var REP_ISSUERS = [];
 var RDB = { ready: true, issuers: [], cities: REP_CITIES, tree: REP_GEO_TREE, cityToSub: REP_CITY_TO_SUB, cityToSubsub: REP_CITY_TO_SUBSUB, tuples: [] };
-
 fetchFirst(['issuer.csv'])
   .then(function(text){
     var rows = parseCSV(text);
@@ -1294,7 +1245,6 @@ fetchFirst(['issuer.csv'])
     rebuildMintTypeIndex();
   })
   .catch(function(e){ console.warn("issuer.csv non caricato:", e); });
-
 function subById(id){ if(!id) return null; return PDB.subById[id]||PDB.subById[LEGACY_SUB_IDS[id]]||null; }
 function cityById(id){ if(!id) return null; return PDB.cityById[id]||null; }
 function subLabel(s){ return s ? s.name+' ('+s.region+')' : ''; }
@@ -1318,12 +1268,10 @@ function normGeo(g){
     cities:Array.isArray(g.cities)?g.cities.slice():[]
   };
 }
-
 const STEPS = [
   [207,207,207],[121,160,211],[128,172,160],[171,197,132],[236,213,120],[239,201,96],[243,184,75],[242,171,61],
   [241,157,52],[238,143,46],[234,127,41],[229,111,38],[223,96,35],[218,79,31],[214,61,28],[211,44,25]
 ];
-
 var coins = [];
 var nextId = parseInt(safeGet('numismatica_nid') || '1', 10) || 1;
 var editId = null;
@@ -1332,7 +1280,6 @@ var detailId = null;
 var filterMode = 'all';
 var currentPeriod = 'prov';
 var currentCoinFilter = 'all';
-
 var TAG_ORDER = ['province','region','city','authority','magistrate','metal'];
 var visibleTags = (function(){
   try{
@@ -1361,11 +1308,8 @@ function initTagMenu(){
     });
   });
   document.addEventListener('click',function(e){ if(!wrap.contains(e.target)){ menu.classList.remove('open'); } });
-  document.addEventListener('touchstart',function(e){ if(!wrap.contains(e.target)){ menu.classList.remove('open'); } }, {passive:true});
   menu.addEventListener('click',function(e){ e.stopPropagation(); });
-  menu.addEventListener('touchstart',function(e){ e.stopPropagation(); }, {passive:true});
 }
-
 var _saveLocalTimer = null;
 function persistLocal(){
   clearTimeout(_saveLocalTimer);
@@ -1395,7 +1339,6 @@ function save(coinToSync){
     });
   }
 }
-
 function val2color(v, mx) {
   if (!v || !mx) return "rgb(" + STEPS[0].join(",") + ")";
   var idx = Math.ceil((v / mx) * (STEPS.length - 1));
@@ -1409,22 +1352,32 @@ function geoToOur(geoName){
   for(var k in GEO_MAP){ if(k.toLowerCase() === low) return GEO_MAP[k]; }
   return null;
 }
-
+var _mobileInit = isMobile();
 var map = L.map("map", {
-  zoom: 4.85, minZoom: 4.85, maxZoom: 8, zoomSnap: 0.1, zoomDelta: 0.5,
-  touchZoom: true, tap: true, tapTolerance: 15, bounceAtZoomLimits: false,
-  doubleClickZoom: !isMobile()
+  zoom: 4.85, minZoom: _mobileInit ? 3 : 4.85, maxZoom: 8,
+  zoomSnap: 0.1, zoomDelta: 0.5,
+  touchZoom: true, tap: true, tapTolerance: 15,
+  bounceAtZoomLimits: false,
+  doubleClickZoom: _mobileInit,
+  scrollWheelZoom: !_mobileInit
 });
+if (_mobileInit) {
+  map.zoomControl.remove();
+}
 map.createPane('provincesPane'); map.getPane('provincesPane').style.zIndex = 400;
 map.createPane('mintsPane'); map.getPane('mintsPane').style.zIndex = 650;
 map.createPane('mintsTooltipPane'); map.getPane('mintsTooltipPane').style.zIndex = 700;
-
 var tt=document.getElementById("tt");
 var mw=document.getElementById("mapwrap");
 var geoLayer=null;
-
 mintsLayer = L.layerGroup().addTo(map);
-
+map.on('click', function(){
+  if (isMobile() && tt.style.display === 'block') {
+    tt.style.display = 'none';
+    tt.dataset.prov = '';
+    updateMap();
+  }
+});
 function provinceOfMint(mintName){
   if(!mintName) return null;
   var canon = canonicalMint(mintName);
@@ -1505,7 +1458,6 @@ function coinInMapProvince(c, ourName){
   }
   return provinces.indexOf(ourName) >= 0;
 }
-
 var _provCountCache = {};
 function provCount(ourName){
   if (ourName in _provCountCache) return _provCountCache[ourName];
@@ -1522,7 +1474,6 @@ function getMax(gl){
   });
   return m;
 }
-
 fetch("https://cdn.jsdelivr.net/gh/klokantech/roman-empire@master/data/provinces.geojson")
   .then(function(r){if(!r.ok)throw new Error("HTTP "+r.status);return r.json();})
   .then(function(data){
@@ -1533,32 +1484,59 @@ fetch("https://cdn.jsdelivr.net/gh/klokantech/roman-empire@master/data/provinces
         var geoName=feat.properties&&feat.properties.name||"";
         var ourName=geoToOur(geoName);
         var hideTimer = null;
+
+        function showTooltip(e){
+          var pc = ourName ? coins.filter(function(c){ return coinInMapProvince(c, ourName); }) : [];
+          var html="<strong>"+(ourName||geoName)+"</strong>";
+          html+="<div class='tl'>Coins: <b>"+pc.length+"</b></div>";
+          if(pc.length){
+            html+="<div class='coins'>";
+            pc.slice(0,4).forEach(function(c){
+              var label=c.ref||(c.period==='rep'?c.mag:c.period==='imp'?c.imp:(c.provImp||c.reign))||c.denom||'—';
+              html+="<div class='coin-item'>"+esc(label)+(c.denom&&c.ref?" · "+esc(c.denom):"")+"</div>";
+            });
+            if(pc.length>4)html+="<div class='coin-item'>…and "+(pc.length-4)+" more</div>";
+            html+="</div>";
+          }
+          tt.innerHTML=html;
+          tt.style.display="block";
+          tt.dataset.prov = ourName || '';
+          postt(e.originalEvent || e);
+        }
+        function hideTooltip(){
+          tt.style.display = 'none';
+          tt.dataset.prov = '';
+          clearTimeout(hideTimer);
+          updateMap();
+        }
+
         lyr.on({
           mouseover:function(e){
+            if (L.Browser.mobile) return;
             lyr.setStyle({weight:2,color:"#e8c020",fillOpacity:.95});
             lyr.bringToFront();
-            var pc = ourName ? coins.filter(function(c){ return coinInMapProvince(c, ourName); }) : [];
-            var html="<strong>"+(ourName||geoName)+"</strong>";
-            html+="<div class='tl'>Coins: <b>"+pc.length+"</b></div>";
-            if(pc.length){
-              html+="<div class='coins'>";
-              pc.slice(0,4).forEach(function(c){
-                var label=c.ref||(c.period==='rep'?c.mag:c.period==='imp'?c.imp:(c.provImp||c.reign))||c.denom||'—';
-                html+="<div class='coin-item'>"+esc(label)+(c.denom&&c.ref?" · "+esc(c.denom):"")+"</div>";
-              });
-              if(pc.length>4)html+="<div class='coin-item'>…and "+(pc.length-4)+" more</div>";
-              html+="</div>";
-            }
-            tt.innerHTML=html;
-            tt.style.display="block";
-            postt(e.originalEvent);
-            if (L.Browser.mobile) {
-              clearTimeout(hideTimer);
-              hideTimer = setTimeout(function(){ tt.style.display="none"; }, 3000);
-            }
+            showTooltip(e);
           },
-          mousemove:function(e){postt(e.originalEvent);},
-          mouseout:function(){ if(!L.Browser.mobile) { tt.style.display="none"; updateMap(); } }
+          mousemove:function(e){
+            if (L.Browser.mobile) return;
+            postt(e.originalEvent);
+          },
+          mouseout:function(){
+            if (L.Browser.mobile) return;
+            hideTooltip();
+          },
+          click:function(e){
+            if (!L.Browser.mobile) return;
+            if (tt.style.display === 'block' && tt.dataset.prov === (ourName || '')) {
+              hideTooltip();
+              return;
+            }
+            lyr.setStyle({weight:2,color:"#e8c020",fillOpacity:.95});
+            lyr.bringToFront();
+            showTooltip(e);
+            clearTimeout(hideTimer);
+            hideTimer = setTimeout(function(){ hideTooltip(); }, 3500);
+          }
         });
       }
     }).addTo(map);
@@ -1568,22 +1546,22 @@ fetch("https://cdn.jsdelivr.net/gh/klokantech/roman-empire@master/data/provinces
     } else {
       map.fitBounds(b, { padding: [20, 20] });
     }
-    map.setMaxBounds(b.pad(0.1));
-    map.options.maxBoundsViscosity = 0.8;
+    if (!isMobile()) {
+      map.setMaxBounds(b.pad(0.1));
+      map.options.maxBoundsViscosity = 0.8;
+    }
     document.getElementById("loading").style.display="none";
     document.getElementById("legend").classList.add('ready');
     MINT_GEO_CACHE = {};
     updateMap();
   })
   .catch(function(e){ document.getElementById("loading").innerHTML="<b style='color:#c0392b'>Error: "+e.message+"</b>"; });
-
 setTimeout(function(){
   if(!geoLayer){
     var el = document.getElementById('loading');
     if (el) el.innerHTML = "<b>Map unavailable</b><small>Check your connection and reload.</small>";
   }
 }, 15000);
-
 function postt(e){
   var r=mw.getBoundingClientRect();
   var x=e.clientX-r.left+14;
@@ -1596,7 +1574,6 @@ function postt(e){
   if(y<8) y=8;
   tt.style.left=x+"px";tt.style.top=y+"px";
 }
-
 var highlightSet = {};
 function setHighlight(list){
   highlightSet = {};
@@ -1631,7 +1608,6 @@ function updateMap(){
   });
   hl.forEach(function(l){ l.bringToFront(); });
 }
-
 function addMintType(name, type){
   if(!name) return;
   var canon = canonicalMint(name);
@@ -1661,7 +1637,6 @@ function mintVisible(mintName, ownedSet){
   if (!types) return isOwned;
   return !!types[currentCoinFilter];
 }
-
 fetch('mints.json')
   .then(function(r){ return r.json(); })
   .then(function(data){
@@ -1672,7 +1647,6 @@ fetch('mints.json')
     setFilter('all');
   })
   .catch(function(err){ console.error("Errore caricamento mints.json:", err); });
-
 var _mintsRaf = null;
 function renderMints() {
   if (!mintsLayer) return;
@@ -1734,23 +1708,27 @@ function setMintMode(mode) {
   else if (mode === 'mine') bMine.classList.add('active');
   else if (mode === 'all') bAll.classList.add('active');
   renderMints();
+  if (isMobile()) {
+    document.getElementById('map-controls').classList.remove('mobile-open');
+    document.getElementById('btn-mobile-filters').classList.remove('active');
+  }
 }
-
 function setFilter(mode, btn){
   filterMode = mode;
   currentCoinFilter = mode;
-
   document.querySelectorAll('.ftab').forEach(function(b){
     b.classList.toggle('on', b.dataset.filter === mode);
   });
-  
   document.querySelectorAll('#map-controls [data-filter]').forEach(function(b){
     b.classList.toggle('active', b.dataset.filter === mode);
   });
-
   renderList();
   updateMap();
   renderMints();
+  if (isMobile()) {
+    document.getElementById('map-controls').classList.remove('mobile-open');
+    document.getElementById('btn-mobile-filters').classList.remove('active');
+  }
 }
 function toggleMobileFilters(){
   var c = document.getElementById('map-controls');
@@ -1758,7 +1736,14 @@ function toggleMobileFilters(){
   c.classList.toggle('mobile-open');
   b.classList.toggle('active');
 }
-
+document.addEventListener('click', function(e){
+  var c = document.getElementById('map-controls');
+  var b = document.getElementById('btn-mobile-filters');
+  if (!isMobile() || !c.classList.contains('mobile-open')) return;
+  if (c.contains(e.target) || b.contains(e.target)) return;
+  c.classList.remove('mobile-open');
+  b.classList.remove('active');
+});
 function isProvMode(){ return currentPeriod==='prov' && PDB.ready; }
 function isImpMode(){ return currentPeriod==='imp' && IDB.ready; }
 function isRepMode(){ return currentPeriod==='rep' && RDB.ready; }
@@ -1785,12 +1770,10 @@ function setPeriod(p){
     previewHighlight();
   }
 }
-
 var geoSel = emptyGeo();
 var magSel = [];
 var reignSel = '';
 var DIMS = ['r','m','c'];
-
 function provSelection(){ return { r: [], m: magSel.slice(), c: geoSel.cities.slice() }; }
 function tupleOk(t, sel, skip){
   if(skip!=='r' && sel.r.length && sel.r.indexOf(t.r)<0) return false;
@@ -1844,7 +1827,6 @@ function updateProvHint(){
   }
   setProvHint('Compatible: '+facet('m',sel).length+' magistrates · '+facet('c',sel).length+' cities');
 }
-
 function provGeoAdd(key, id){
   if (key === 'regions') {
     if (geoSel.regions.indexOf(id) < 0) geoSel.regions.push(id);
@@ -1911,7 +1893,6 @@ function clearProvGeography(){
   pkRenderAll();
   previewHighlight();
 }
-
 var impGeoSel = { regions: [], subs: [], subsubs: [], cities: [] };
 var impAuthSel = [];
 var impIssuerSel = [];
@@ -2011,7 +1992,6 @@ function impGeoRemove(key, id) {
     g.cities = g.cities.filter(function(c){ return subsIn.indexOf(IDB.cityToSub[c]) < 0; });
   }
 }
-
 var repGeoSel = { regions: [], subs: [], subsubs: [], cities: [] };
 var repIssuerSel = [];
 var RDIMS = ['i'];
@@ -2094,11 +2074,9 @@ function repGeoRemove(key, id) {
     g.cities = g.cities.filter(function(c){ return subsIn.indexOf(RDB.cityToSub[c]) < 0; });
   }
 }
-
 function byLabel(a,b){ return a.label.localeCompare(b.label); }
 var IMP_KEY_MAP = {impregions:'regions', impsubs:'subs', impsubsubs:'subsubs', impcities:'cities'};
 var REP_KEY_MAP = {repregions:'regions', repsubs:'subs', repsubsubs:'subsubs', repcities:'cities'};
-
 var PICKERS = {
   reign:{ el:'pk-reign', single:true,
     items:function(){
@@ -2263,7 +2241,6 @@ var PICKERS = {
     },
     get:function(){ return repIssuerSel; }, set:function(v){ repIssuerSel = v; }, label:function(id){ return id; } }
 };
-
 function pkRender(key){
   var P=PICKERS[key], root=document.getElementById(P.el); if(!root) return;
   var chips=root.querySelector('.pk-chips'), list=root.querySelector('.pk-list'), inp=root.querySelector('.pk-in');
@@ -2280,7 +2257,6 @@ function pkRender(key){
   }).join('')+(items.length>300?'<div class="pk-none">…'+(items.length-300)+' more — refine the search</div>':'');
 }
 function pkRenderAll(){ Object.keys(PICKERS).forEach(pkRender); updateGeoHint(); }
-
 function pkAdd(key,id){
   if (IMP_KEY_MAP[key]) { impGeoAdd(IMP_KEY_MAP[key], id); pkAfterChange(key); return; }
   if (REP_KEY_MAP[key]) { repGeoAdd(REP_KEY_MAP[key], id); pkAfterChange(key); return; }
@@ -2327,12 +2303,14 @@ function updateGeoHint(){
   var provs = resolveProvinces(geoSel, '');
   hint.textContent = provs.length ? 'Map highlight: '+provs.join(' · ') : '';
 }
-
 var _pkDebounce = {};
 (function initPickers(){
   Object.keys(PICKERS).forEach(function(key){
     var P=PICKERS[key], root=document.getElementById(P.el); if(!root) return;
     var inp=root.querySelector('.pk-in');
+    var listEl = root.querySelector('.pk-list');
+    var touchStartX = 0, touchStartY = 0, touchMoved = false;
+
     inp.addEventListener('focus',function(){
       pkCloseAll();
       root.classList.add('open');
@@ -2351,29 +2329,56 @@ var _pkDebounce = {};
       if(e.key==='Escape') root.classList.remove('open');
       if(e.key==='Backspace' && !inp.value){ var v=P.get(); if(v.length) pkRemove(key,v[v.length-1]); }
     });
-    var onListTap = function(e){
-      var it=e.target.closest('.pk-item'); if(!it) return;
-      e.preventDefault(); e.stopPropagation();
-      pkAdd(key,it.getAttribute('data-id'));
-      root.classList.add('open'); inp.focus();
-    };
-    root.querySelector('.pk-list').addEventListener('mousedown', onListTap);
-    root.querySelector('.pk-list').addEventListener('touchstart', onListTap, {passive:false});
-    root.querySelector('.pk-chips').addEventListener('click',function(e){
-      if(e.target.tagName==='B') pkRemove(key,e.target.getAttribute('data-id'));
-    });
-    root.querySelector('.pk-chips').addEventListener('touchstart',function(e){
-      if(e.target.tagName==='B'){ e.preventDefault(); pkRemove(key,e.target.getAttribute('data-id')); }
-    }, {passive:false});
-  });
-  var docClose = function(e){ if(!e.target.closest('.picker')) pkCloseAll(); };
-  document.addEventListener('mousedown',docClose);
-  document.addEventListener('touchstart',docClose, {passive:true});
-})();
 
+    listEl.addEventListener('touchstart', function(e){
+      var t = e.touches[0];
+      touchStartX = t.clientX;
+      touchStartY = t.clientY;
+      touchMoved = false;
+    }, {passive:true});
+    listEl.addEventListener('touchmove', function(e){
+      var t = e.touches[0];
+      if (Math.abs(t.clientY - touchStartY) > 8 || Math.abs(t.clientX - touchStartX) > 8) {
+        touchMoved = true;
+      }
+    }, {passive:true});
+    listEl.addEventListener('touchend', function(e){
+      if (touchMoved) return;
+      var target = document.elementFromPoint(touchStartX, touchStartY);
+      var it = target && target.closest ? target.closest('.pk-item') : null;
+      if (!it) return;
+      e.preventDefault();
+      e.stopPropagation();
+      pkAdd(key, it.getAttribute('data-id'));
+      root.classList.add('open');
+      inp.focus();
+    }, {passive:false});
+
+    listEl.addEventListener('mousedown', function(e){
+      if (L.Browser && L.Browser.mobile) return;
+      var it = e.target.closest('.pk-item');
+      if (!it) return;
+      e.preventDefault();
+      e.stopPropagation();
+      pkAdd(key, it.getAttribute('data-id'));
+      root.classList.add('open');
+      inp.focus();
+    });
+
+    root.querySelector('.pk-chips').addEventListener('click',function(e){
+      if(e.target.tagName==='B'){
+        e.preventDefault();
+        e.stopPropagation();
+        pkRemove(key,e.target.getAttribute('data-id'));
+      }
+    });
+  });
+  document.addEventListener('click',function(e){
+    if(!e.target.closest('.picker')) pkCloseAll();
+  });
+})();
 function $v(id){ return document.getElementById(id).value.trim(); }
 function $set(id,v){ document.getElementById(id).value=v==null?'':v; }
-
 var _previewT = null;
 function previewHighlight(){
   clearTimeout(_previewT);
@@ -2404,7 +2409,6 @@ function _doPreviewHighlight(){
   }
   setHighlight(provinces);
   updateGeoHint();
-
   var clearBtn = document.querySelector('#block-prov-geography button[onclick="clearProvGeography()"]');
   if (clearBtn) {
     var hasGeo = geoSel.provs.length > 0 || geoSel.regions.length > 0 || geoSel.subs.length > 0 || geoSel.cities.length > 0;
@@ -2465,7 +2469,6 @@ function closeModal(){
   document.getElementById('overlay').classList.remove('open');
   pkCloseAll(); editId=null; clearHighlight();
 }
-
 function saveCoin(){
   var isProv = currentPeriod === 'prov';
   var isImp = currentPeriod === 'imp';
@@ -2514,7 +2517,6 @@ function saveCoin(){
     repSubs: isRep ? repGeoSel.subs.slice() : [],
     repSubsubs: isRep ? repGeoSel.subsubs.slice() : []
   };
-
   if(editId!=null){
     var i=coins.findIndex(function(x){ return x.id===editId; });
     if(i>=0){ c.created=coins[i].created; coins[i]=c; }
@@ -2523,24 +2525,19 @@ function saveCoin(){
     c.created=Date.now();
     coins.push(c);
   }
-
   coins = coins.filter(function(x){ return x.id !== c.id; });
   coins.push(c);
-
   save(c);
-
   closeModal();
   renderList();
   updateMap();
   if (typeof renderMints === 'function') renderMints();
 }
-
 var _searchT = null;
 function onSearchInput(){
   clearTimeout(_searchT);
   _searchT = setTimeout(renderList, 150);
 }
-
 function periodName(p){ return p==='rep'?'Republican':p==='imp'?'Imperial':'Provincial'; }
 function coinAuthority(c){
   if(c.period==='rep') return c.mag||'';
@@ -2576,7 +2573,6 @@ function searchText(c){
   return norm([c.ref,c.prov,c.mint,c.mag,c.auth,c.imp,c.impAuth,c.provImp,c.provAuth,c.reign,c.metal,c.denom,c.date,c.desc,c.notes,
     periodName(c.period), coinMagNames(c).join(' '), gn.provs.join(' '), gn.regions.join(' '), gn.subs.join(' '), gn.cities.join(' ')].join(' | '));
 }
-
 var _clistTouchStartY = 0, _clistTouchMoved = false;
 function initClistTouch(){
   var el = document.getElementById('clist');
@@ -2592,7 +2588,6 @@ function crowClick(id){
   if(_clistTouchMoved) return;
   openDetail(id);
 }
-
 function renderList(){
   var q=norm(document.getElementById('srch').value);
   var list=coins.filter(function(c){
@@ -2641,7 +2636,6 @@ function renderList(){
   document.getElementById('hc').textContent=coins.length;
   document.getElementById('fcount').textContent=list.length;
 }
-
 function drow(label,val){ return val ? '<div class="drow"><label>'+label+'</label><div>'+esc(val)+'</div></div>' : ''; }
 function openDetail(id){
   var c=coins.find(function(x){ return x.id===id; }); if(!c) return;
@@ -2689,7 +2683,6 @@ function openDetail(id){
 }
 function closeDetail(){ document.getElementById('detail').classList.remove('open'); detailId=null; clearHighlight(); }
 function editFromDetail(){ var id=detailId; closeDetail(); openModal(id); }
-
 function askDelete(id){ deleteId=id; document.getElementById('confirm').classList.add('open'); }
 function closeConfirm(){ deleteId=null; document.getElementById('confirm').classList.remove('open'); }
 function doDelete(){
@@ -2697,12 +2690,10 @@ function doDelete(){
     var idToDelete = deleteId;
     coins = coins.filter(function(c){ return c.id!==idToDelete; });
     if(detailId===idToDelete) closeDetail();
-
     save();
     renderList();
     updateMap();
     if (typeof renderMints === 'function') renderMints();
-
     if (window.currentUser) {
       import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js").then(function(mod){
         import("https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js").then(function(appMod){
@@ -2715,7 +2706,6 @@ function doDelete(){
   }
   closeConfirm();
 }
-
 function openPanel(){
   if(!isMobile()) return;
   var p = document.getElementById('panel');
@@ -2737,7 +2727,6 @@ function togglePanel(){
   var head = document.getElementById('panel-head');
   var panel = document.getElementById('panel');
   var startY = 0, dragging = false, activePointer = null;
-
   head.addEventListener('pointerdown', function(e){
     if(!isMobile()) return;
     if(e.button !== 0 && e.pointerType === 'mouse') return;
@@ -2763,7 +2752,6 @@ function togglePanel(){
   head.addEventListener('pointercancel', function(){
     dragging = false; activePointer = null;
   });
-
   if(isMobile()){
     panel.setAttribute('aria-hidden', 'true');
   }
@@ -2776,7 +2764,6 @@ function togglePanel(){
     }
   });
 })();
-
 function makeDraggable(windowElement, handleElement) {
   if (!windowElement || !handleElement) return;
   var dragging = false, startX = 0, startY = 0, initialLeft = 0, initialTop = 0, activePointer = null;
@@ -2812,7 +2799,6 @@ if(!isMobile()){
   makeDraggable(document.getElementById('modal'), document.getElementById('modal-head'));
   makeDraggable(document.getElementById('detail-box'), document.getElementById('detail-head'));
 }
-
 (function(){
   var dirty=false;
   try {
@@ -2829,7 +2815,6 @@ if(!isMobile()){
     if(c.id>=nextId){ nextId=c.id+1; dirty=true; }
   });
   if(dirty) persistLocal();
-
   document.addEventListener('keydown',function(e){
     if(e.key!=='Escape') return;
     if(document.getElementById('confirm').classList.contains('open')) closeConfirm();
@@ -2847,11 +2832,9 @@ if(!isMobile()){
     <h2>MAPPED ROMAN NUMISMATIC COLLECTION</h2>
     <p style="font-size:0.8rem; color:var(--text2); margin-bottom:15px;">Sign in to manage your collection</p>
     <div id="auth-error"></div>
-
     <input type="email" id="auth-email" placeholder="Email" autocomplete="username" inputmode="email" autocapitalize="off" spellcheck="false">
     <input type="password" id="auth-password" placeholder="Password" autocomplete="current-password">
     <button id="auth-submit" type="button" onclick="handleAuthSubmit()">SIGN IN</button>
-
     <div style="margin-top:10px; display:flex; flex-direction:column; gap:5px;">
       <div class="auth-switch" id="auth-switch-mode" onclick="toggleAuthMode()">Don't have an account? Register</div>
       <div class="auth-switch" onclick="handleForgotPassword()" style="font-size:0.75rem; color:var(--text3);">Forgot password?</div>
@@ -2889,30 +2872,25 @@ if(!isMobile()){
       <h3 style="font-size:1rem; letter-spacing:0.05em;">SETTINGS</h3>
       <button onclick="toggleSettings()" aria-label="Close" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color:var(--text3); min-width:36px; min-height:36px;">&times;</button>
     </div>
-
     <div style="display:flex; gap:10px; margin-bottom:20px; border-bottom:1px solid var(--border); padding-bottom:10px;">
       <button class="settings-tab active" onclick="switchSettingsTab('email', event)" data-tab="email" style="background:none; border:none; cursor:pointer; font-size:0.8rem; padding:6px; color:var(--text); border-bottom:2px solid var(--text); font-family:inherit;">Email</button>
       <button class="settings-tab" onclick="switchSettingsTab('password', event)" data-tab="password" style="background:none; border:none; cursor:pointer; font-size:0.8rem; padding:6px; color:var(--text2); font-family:inherit;">Password</button>
       <button class="settings-tab" onclick="switchSettingsTab('2fa', event)" data-tab="2fa" style="background:none; border:none; cursor:pointer; font-size:0.8rem; padding:6px; color:var(--text2); font-family:inherit;">2FA</button>
     </div>
-
     <div id="settings-email-panel">
       <p style="font-size:0.8rem; color:var(--text2); margin-bottom:10px; word-break:break-all;">Current Email: <strong id="current-email-display"></strong></p>
       <input type="email" id="new-email" placeholder="New Email" autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false" style="width:100%; padding:12px; margin-bottom:10px; border:1px solid var(--border); background:var(--bg3); font-family:inherit; font-size:16px; outline:none;">
       <button onclick="updateUserEmail()" style="width:100%; padding:12px; background:var(--text); color:var(--bg2); border:none; cursor:pointer; margin-bottom:10px; font-family:inherit;">UPDATE EMAIL</button>
     </div>
-
     <div id="settings-password-panel" style="display:none;">
       <input type="password" id="current-password" placeholder="Current Password" autocomplete="current-password" style="width:100%; padding:12px; margin-bottom:10px; border:1px solid var(--border); background:var(--bg3); font-family:inherit; font-size:16px; outline:none;">
       <input type="password" id="new-password" placeholder="New Password" autocomplete="new-password" style="width:100%; padding:12px; margin-bottom:10px; border:1px solid var(--border); background:var(--bg3); font-family:inherit; font-size:16px; outline:none;">
       <button onclick="updateUserPassword()" style="width:100%; padding:12px; background:var(--text); color:var(--bg2); border:none; cursor:pointer; margin-bottom:10px; font-family:inherit;">UPDATE PASSWORD</button>
     </div>
-
     <div id="settings-2fa-panel" style="display:none;">
       <p style="font-size:0.8rem; color:var(--text2); margin-bottom:10px;">Secure your account with an authenticator app.</p>
       <button onclick="enable2FA()" style="width:100%; padding:12px; background:var(--text); color:var(--bg2); border:none; cursor:pointer; font-family:inherit;">ENABLE 2FA</button>
     </div>
-
     <div style="margin-top:20px; border-top:1px solid var(--border); padding-top:20px;">
       <button onclick="logoutUser()" style="width:100%; padding:12px; background:transparent; border:1px solid var(--red); color:var(--red); cursor:pointer; font-family:inherit;">LOG OUT</button>
     </div>
@@ -2992,7 +2970,7 @@ if(!isMobile()){
 
   window.showPopup = function(title, message) {
     var settingsModal = document.getElementById('settings-modal');
-    if (settingsModal) settingsModal.style.display = 'none';
+    if (settingsModal) settingsModal.classList.remove('open');
     document.getElementById('popup-title').textContent = title;
     document.getElementById('popup-message').textContent = message;
     document.getElementById('custom-popup').classList.add('open');
@@ -3017,7 +2995,6 @@ if(!isMobile()){
     err.style.display = 'none';
     btn.textContent = 'Loading…';
     btn.disabled = true;
-
     try {
       if (isRegisterMode) {
         var userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -3096,7 +3073,6 @@ if(!isMobile()){
     document.getElementById('settings-email-panel').style.display = tab === 'email' ? 'block' : 'none';
     document.getElementById('settings-password-panel').style.display = tab === 'password' ? 'block' : 'none';
     document.getElementById('settings-2fa-panel').style.display = tab === '2fa' ? 'block' : 'none';
-
     document.querySelectorAll('.settings-tab').forEach(function(btn) {
       btn.style.borderBottom = 'none';
       btn.style.color = 'var(--text2)';
@@ -3151,7 +3127,7 @@ if(!isMobile()){
     }
   };
 
-  var _totpSecret = null, _totpAssertion = null;
+  var _totpSecret = null;
   window.enable2FA = async function() {
     if (!auth.currentUser || !auth.currentUser.emailVerified) {
       showPopup("ERROR", "Verify your email first.");
@@ -3264,12 +3240,10 @@ if(!isMobile()){
     var querySnapshot = await getDocs(q);
     var cloudCoins = [];
     querySnapshot.forEach(function(d){ cloudCoins.push(d.data()); });
-
     var byId = {};
     coins.forEach(function(c){ byId[c.id] = c; });
     cloudCoins.forEach(function(c){ byId[c.id] = c; });
     coins = Object.keys(byId).map(function(k){ return byId[k]; });
-
     coins.forEach(function(c){
       if(typeof c.id !== 'number'){
         c.id = parseInt(c.id, 10);
@@ -3277,7 +3251,6 @@ if(!isMobile()){
       }
       if(c.id >= nextId) nextId = c.id + 1;
     });
-
     renderList();
     updateMap();
     if (typeof renderMints === 'function') renderMints();
