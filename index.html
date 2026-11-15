@@ -46,9 +46,11 @@ body.ready{visibility:visible}
   position:absolute;left:50%;transform:translateX(-50%);
   text-align:center;display:flex;flex-direction:column;gap:2px;
   margin-top:8px;pointer-events:none;
+  max-width:calc(100% - 200px);
 }
 #hdr-title{font-size:1.05rem;letter-spacing:.12em;font-weight:600;white-space:nowrap}
 #hdr-title .t-short{display:none}
+#hdr-title .t-mob{display:none}
 #hdr-sub{font-size:.72rem;color:var(--text3);font-style:italic}
 #hdr-sep{flex:1}
 #hdr-right{margin-left:auto;display:flex;align-items:center;gap:12px;margin-top:14px}
@@ -130,6 +132,7 @@ body.ready{visibility:visible}
 #panel-head h2{font-size:.65rem;color:var(--text);letter-spacing:.12em;font-weight:500;margin-bottom:8px}
 #collection-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
 #collection-heading h2{margin-bottom:0}
+.panel-handle-label{display:none}
 #tags-wrap{position:relative;z-index:1600}
 #btn-tags{
   background:transparent;border:1px solid var(--border);color:var(--text2);
@@ -377,6 +380,7 @@ body.ready{visibility:visible}
   #hdr-title{font-size:.72rem;letter-spacing:.06em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   #hdr-title .t-long{display:none}
   #hdr-title .t-short{display:inline}
+  #hdr-title .t-mob{display:none}
   #hdr-sub{display:none}
   #hdr-count{display:none}
   #btn-add{font-size:0;padding:8px 10px;min-width:36px;min-height:36px}
@@ -539,7 +543,9 @@ body.ready{visibility:visible}
 @media (min-width: 600px) and (max-width: 1100px) and (pointer: coarse){
   #hdr-title .t-long{display:none}
   #hdr-title .t-short{display:inline}
-  #hdr-sub{display:none}
+  #hdr-title .t-mob{display:none}
+  #hdr-sub{display:block;padding:0 8px}
+  .panel-handle-label{display:none !important}
   #panel{
     width:320px;
     border-radius:0;
@@ -557,14 +563,17 @@ body.ready{visibility:visible}
   #panel:not(.open) .filter-row{
     opacity:1;pointer-events:auto;height:auto;
   }
-  .panel-handle-label{display:none !important}
   #body{display:flex;flex-direction:row}
   #mapwrap{height:100%}
   #clist{height:auto;flex:1}
   #legend{left:50%;transform:translateX(-50%);bottom:12px}
+  #hdr{padding:0 20px}
+  #hdr-left{position:absolute;left:50%;transform:translateX(-50%);max-width:calc(100% - 320px)}
+  #hdr-count{display:block}
+  #hdr-sub{display:block}
 }
 @media (max-width: 380px){
-  #hdr-title{font-size:.65rem}
+  #hdr-title{font-size:.62rem}
   .radio-opt{font-size:.55rem;padding:10px 4px}
   #hdr-right{margin-top:8px}
 }
@@ -585,7 +594,7 @@ body.ready{visibility:visible}
     </svg>
   </button>
   <div id="hdr-left">
-    <div id="hdr-title"><span class="t-long">MAPPED ROMAN NUMISMATIC COLLECTION</span><span class="t-short">ROMAN NUMISMATICS</span></div>
+    <div id="hdr-title"><span class="t-long">MAPPED ROMAN NUMISMATIC COLLECTION</span><span class="t-short">ROMAN NUMISMATICS</span><span class="t-mob">ROMAN NUMISMA…</span></div>
     <div id="hdr-sub">Provinces at AD 117</div>
   </div>
   <div id="hdr-sep"></div>
@@ -926,6 +935,8 @@ function normMint(s){
 }
 function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
 function isMobile(){ return window.matchMedia('(max-width: 900px)').matches; }
+function isTablet(){ return window.matchMedia('(min-width: 600px) and (max-width: 1100px) and (pointer: coarse)').matches; }
+function isTouchDevice(){ return 'ontouchstart' in window || navigator.maxTouchPoints > 0; }
 function safeGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
 function safeSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){ console.warn('localStorage set failed:',e); } }
 function safeRemove(k){ try{ localStorage.removeItem(k); }catch(e){} }
@@ -1421,9 +1432,9 @@ function geoToOur(geoName){
   return null;
 }
 var _mobileInit = isMobile();
-var _isTablet = window.matchMedia('(min-width: 600px) and (max-width: 1100px) and (pointer: coarse)').matches;
+var _touchInit = isTouchDevice();
 var map = L.map("map", {
-  zoom: 5, minZoom: _mobileInit ? 2 : 4.85, maxZoom: 8,
+  zoom: 5, minZoom: _touchInit ? 2 : 4.85, maxZoom: 8,
   zoomSnap: 0.1, zoomDelta: 0.5,
   touchZoom: true, tap: true, tapTolerance: 15,
   bounceAtZoomLimits: false,
@@ -1619,7 +1630,7 @@ fetch("https://cdn.jsdelivr.net/gh/klokantech/roman-empire@master/data/provinces
     setTimeout(function(){
       map.invalidateSize();
       if (isMobile()) map.setView(map.getCenter(), Math.max(map.getZoom(), 5.5));
-      else if (isTbl) map.setView(map.getCenter(), Math.max(map.getZoom(), 4.5));
+      else if (isTbl) map.setView(map.getCenter(), Math.max(map.getZoom(), 4));
     }, 250);
     map.setMaxBounds(b.pad(0.5));
     map.options.maxBoundsViscosity = 0.9;
