@@ -2396,18 +2396,15 @@ fetch("https://cdn.jsdelivr.net/gh/klokantech/roman-empire@master/data/provinces
     document.getElementById("legend").classList.add('ready');
     MINT_GEO_CACHE = {};
     updateMap();
-    document.body.classList.add('ready');
   })
   .catch(function(e){
     document.getElementById("loading").innerHTML="<b style='color:#c0392b'>Error: "+e.message+"</b>";
-    document.body.classList.add('ready');
   });
 setTimeout(function(){
   if(!geoLayer){
     var el = document.getElementById('loading');
     if (el) el.innerHTML = "<b>Map unavailable</b><small>Check your connection and reload.</small>";
   }
-  document.body.classList.add('ready');
 }, 15000);
 function postt(e){
   var r=mw.getBoundingClientRect();
@@ -3711,6 +3708,12 @@ window.addEventListener('orientationchange', function(){
   if (defF) setFilter(defF);
   var defM = safeGet('numismatica_set_mapDef');
   if (defM) setMintMode(defM);
+  
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      document.body.classList.add('ready');
+    });
+  });
 })();
 </script>
 
