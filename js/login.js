@@ -14,7 +14,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 setPersistence(auth, browserLocalPersistence).catch(() => {});
-const db = getFirestore(app);
 
 let isRegisterMode = false;
 
@@ -85,7 +84,6 @@ window.handleAuthSubmit = async function() {
   const email = document.getElementById('auth-email').value;
   const password = document.getElementById('auth-password').value;
   const btn = document.getElementById('auth-submit');
-  const rememberMe = document.getElementById('remember-me').checked;
 
   showError(null);
   btn.textContent = 'Loading...';
