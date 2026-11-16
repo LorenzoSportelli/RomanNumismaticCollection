@@ -513,36 +513,6 @@
 <script src="js/ui.js"></script>
 <script src="js/autocomplete.js"></script>
 <script type="module" src="js/firebase.js"></script>
-<div id="auth-screen">
-  <div id="auth-box">
-    <h2>MAPPED ROMAN NUMISMATIC COLLECTION</h2>
-    <p style="font-size:0.8rem; color:var(--text2); margin-bottom:15px;">Sign in to manage your collection</p>
-    <div id="auth-error"></div>
-    <input type="email" id="auth-email" placeholder="Email" autocomplete="username" inputmode="email" autocapitalize="off" spellcheck="false">
-    <input type="password" id="auth-password" placeholder="Password" autocomplete="current-password">
-    <button id="auth-submit" type="button" onclick="handleAuthSubmit()">SIGN IN</button>
-    <div style="margin-top:10px; display:flex; flex-direction:column; gap:5px;">
-      <div class="auth-switch" id="auth-switch-mode" onclick="toggleAuthMode()">Don't have an account? Register</div>
-      <div class="auth-switch" onclick="handleForgotPassword()" style="font-size:0.75rem; color:var(--text3);">Forgot password?</div>
-    </div>
-  </div>
-</div>
-
-<div id="verify-block-screen">
-  <div>
-    <h2 style="font-size:1rem; letter-spacing:0.1em; margin-bottom:20px;">EMAIL VERIFICATION REQUIRED</h2>
-    <p style="font-size:0.9rem; color:var(--text2); margin-bottom:20px; line-height:1.6;">
-      We sent a verification link to:<br>
-      <strong id="verify-email-display" style="color:var(--text); word-break:break-all;"></strong><br><br>
-      Click the link in your inbox, then press the button below.
-    </p>
-    <button onclick="checkVerificationNow()" style="width:100%; padding:12px; background:var(--text); color:var(--bg2); border:none; cursor:pointer; letter-spacing:0.08em; margin-bottom:10px; font-family:inherit;">I HAVE VERIFIED MY EMAIL</button>
-    <button onclick="resendVerificationEmail()" style="width:100%; padding:10px; background:transparent; border:1px solid var(--border2); color:var(--text2); cursor:pointer; font-size:0.75rem; margin-bottom:15px; font-family:inherit;">RESEND VERIFICATION EMAIL</button>
-    <div style="margin-top:15px;">
-      <span onclick="confirmLogout()" style="font-size:0.75rem; color:var(--text3); cursor:pointer; text-decoration:underline;">Logout and use another account</span>
-    </div>
-  </div>
-</div>
 
 <div id="custom-popup" class="overlay-custom">
   <div class="box-custom">
