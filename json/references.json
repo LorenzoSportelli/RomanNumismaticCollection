@@ -1,0 +1,12 @@
+[
+  {"ref":"RIC 207","authority":"Trajan","denom":"Denarius","metal":"Silver","date":"AD 103-111"},
+  {"ref":"RIC 208","authority":"Trajan","denom":"Denarius","metal":"Silver","date":"AD 103-111"},
+  {"ref":"RIC 209","authority":"Trajan","denom":"Denarius","metal":"Silver","date":"AD 103-111"},
+  {"ref":"RIC 254","authority":"Severus Alexander","denom":"Denarius","metal":"Silver","date":"AD 231-235"},
+  {"ref":"RIC 44/5","authority":"Anonymous","denom":"Denarius","metal":"Silver","date":"211-208 BC"},
+  {"ref":"RIC 44/6","authority":"Anonymous","denom":"Denarius","metal":"Silver","date":"211-208 BC"},
+  {"ref":"RRC 207/1","authority":"Trajan","denom":"Denarius","metal":"Silver","date":"AD 103-111"},
+  {"ref":"RPC I 985","authority":"Augustus","denom":"As","metal":"Bronze","date":"27 BC - AD 14"},
+  {"ref":"RPC I 986","authority":"Augustus","denom":"As","metal":"Bronze","date":"27 BC - AD 14"},
+  {"ref":"RIC 207 var","authority":"Trajan","denom":"Denarius","metal":"Silver","date":"AD 103-111"}
+]

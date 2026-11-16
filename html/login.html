@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NarratioNummi - Login</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+
+<div class="login-container">
+  <div class="login-left">
+    <div class="login-left-overlay"></div>
+    <div class="login-brand">
+      <img src="img/logo.png" alt="NarratioNummi Logo" class="logo-img" onerror="this.style.display='none'; document.getElementById('fallback-logo').style.display='block';">
+      <h1 id="fallback-logo" style="display:none;">NARRATIO<span>NUMMI</span></h1>
+      <p>The Art of Ancient Numismatics</p>
+    </div>
+  </div>
+
+  <div class="login-right">
+    <div class="login-box">
+      
+      <div class="auth-header">
+        <h2 id="auth-title">Welcome Back</h2>
+        <p id="auth-subtitle">Sign in to your collection</p>
+      </div>
+
+      <div id="auth-error" class="auth-error"></div>
+
+      <form id="auth-form" onsubmit="event.preventDefault(); handleAuthSubmit();">
+        <div class="input-group">
+          <label for="auth-email">Email Address</label>
+          <input type="email" id="auth-email" placeholder="collector@example.com" required autocomplete="username" inputmode="email" spellcheck="false">
+        </div>
+        
+        <div class="input-group">
+          <label for="auth-password">Password</label>
+          <input type="password" id="auth-password" placeholder="••••••••" required autocomplete="current-password">
+        </div>
+
+        <div class="form-actions">
+          <label class="remember-me">
+            <input type="checkbox" id="remember-me" checked> Remember me
+          </label>
+          <a href="#" onclick="handleForgotPassword()" class="forgot-link">Forgot password?</a>
+        </div>
+
+        <button type="submit" id="auth-submit" class="btn-primary">Sign In</button>
+      </form>
+
+      <div class="auth-switch">
+        <span id="auth-switch-text">Don't have an account?</span>
+        <a href="#" id="auth-switch-mode" onclick="toggleAuthMode()">Create one</a>
+      </div>
+
+      <div class="login-footer">
+        <div class="legal-links">
+          <a href="#">Privacy Policy</a>
+          <span>•</span>
+          <a href="#">Terms & Conditions</a>
+        </div>
+        <p class="copyright">&copy; 2024 NarratioNummi. All rights reserved.</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div id="custom-popup" class="overlay-custom">
+  <div class="box-custom">
+    <h3 id="popup-title">MESSAGE</h3>
+    <p id="popup-message"></p>
+    <button onclick="closePopup()" class="btn-primary">OK</button>
+  </div>
+</div>
+
+<script type="module" src="js/login.js"></script>
+
+</body>
+</html>

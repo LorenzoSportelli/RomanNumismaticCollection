@@ -1,0 +1,4531 @@
+[
+  {
+    "id": "rpc-1",
+    "name": "Abydus",
+    "lat": 40.196017,
+    "lng": 26.406964,
+    "type": "city"
+  },
+  {
+    "id": "rpc-2",
+    "name": "Accilaeum",
+    "lat": 38.445,
+    "lng": 30.63,
+    "type": "city"
+  },
+  {
+    "id": "rpc-3",
+    "name": "Acmonea",
+    "lat": 38.658746,
+    "lng": 29.775001,
+    "type": "city"
+  },
+  {
+    "id": "rpc-4",
+    "name": "Acrasus",
+    "lat": 39.1,
+    "lng": 27.67,
+    "type": "city"
+  },
+  {
+    "id": "rpc-5",
+    "name": "Adana",
+    "lat": 36.986559,
+    "lng": 35.338677,
+    "type": "city"
+  },
+  {
+    "id": "rpc-6",
+    "name": "Adramyteum",
+    "lat": 39.4954983,
+    "lng": 26.9375178,
+    "type": "city"
+  },
+  {
+    "id": "rpc-7",
+    "name": "Aegae",
+    "lat": 38.820323,
+    "lng": 27.174421,
+    "type": "city"
+  },
+  {
+    "id": "rpc-8",
+    "name": "Aegeae",
+    "lat": 36.7695548,
+    "lng": 35.7886505,
+    "type": "city"
+  },
+  {
+    "id": "rpc-9",
+    "name": "Aelia Capitolina",
+    "lat": 31.77,
+    "lng": 35.23,
+    "type": "city"
+  },
+  {
+    "id": "rpc-10",
+    "name": "Aezani",
+    "lat": 39.197142,
+    "lng": 29.617577,
+    "type": "city"
+  },
+  {
+    "id": "rpc-11",
+    "name": "Alexandria",
+    "lat": 39.76128,
+    "lng": 26.152555,
+    "type": "city"
+  },
+  {
+    "id": "rpc-12",
+    "name": "Alexandria",
+    "lat": 31.201435,
+    "lng": 29.909773,
+    "type": "city"
+  },
+  {
+    "id": "rpc-13",
+    "name": "Alia",
+    "lat": 38.907367,
+    "lng": 29.913185,
+    "type": "city"
+  },
+  {
+    "id": "rpc-14",
+    "name": "Amastris",
+    "lat": 41.746969,
+    "lng": 32.385648,
+    "type": "city"
+  },
+  {
+    "id": "rpc-15",
+    "name": "Amisus",
+    "lat": 41.292721,
+    "lng": 36.3313,
+    "type": "city"
+  },
+  {
+    "id": "rpc-16",
+    "name": "Amorium",
+    "lat": 39.026452,
+    "lng": 31.2665749,
+    "type": "city"
+  },
+  {
+    "id": "rpc-17",
+    "name": "Anazarbus",
+    "lat": 37.256404,
+    "lng": 35.898549,
+    "type": "city"
+  },
+  {
+    "id": "rpc-18",
+    "name": "Ancyra",
+    "lat": 39.943198,
+    "lng": 32.860538,
+    "type": "city"
+  },
+  {
+    "id": "rpc-19",
+    "name": "Ancyra",
+    "lat": 39.1558245,
+    "lng": 28.8550855,
+    "type": "city"
+  },
+  {
+    "id": "rpc-20",
+    "name": "Andeda",
+    "lat": 37.27201,
+    "lng": 30.259927,
+    "type": "city"
+  },
+  {
+    "id": "rpc-21",
+    "name": "Anemurium",
+    "lat": 36.024269,
+    "lng": 32.8026,
+    "type": "city"
+  },
+  {
+    "id": "rpc-22",
+    "name": "Anineta",
+    "lat": 37.933423,
+    "lng": 28.443642,
+    "type": "city"
+  },
+  {
+    "id": "rpc-23",
+    "name": "Antandrus",
+    "lat": 39.5785,
+    "lng": 26.791496,
+    "type": "city"
+  },
+  {
+    "id": "rpc-24",
+    "name": "Antioch",
+    "lat": 38.304239,
+    "lng": 31.189704,
+    "type": "city"
+  },
+  {
+    "id": "rpc-25",
+    "name": "Antioch",
+    "lat": 36.2,
+    "lng": 36.15,
+    "type": "city"
+  },
+  {
+    "id": "rpc-26",
+    "name": "Antioch ad Cragum",
+    "lat": 36.15025,
+    "lng": 32.428758,
+    "type": "city"
+  },
+  {
+    "id": "rpc-27",
+    "name": "Antioch ad Maeandrum",
+    "lat": 37.8734,
+    "lng": 28.5742,
+    "type": "city"
+  },
+  {
+    "id": "rpc-28",
+    "name": "Apamea",
+    "lat": 40.376389,
+    "lng": 28.883333,
+    "type": "city"
+  },
+  {
+    "id": "rpc-29",
+    "name": "Apamea",
+    "lat": 38.071,
+    "lng": 30.166,
+    "type": "city"
+  },
+  {
+    "id": "rpc-30",
+    "name": "Aphrodisias",
+    "lat": 37.708964,
+    "lng": 28.722332,
+    "type": "city"
+  },
+  {
+    "id": "rpc-31",
+    "name": "Apollonia ad Rhyndacum",
+    "lat": 40.175097,
+    "lng": 28.6808035,
+    "type": "city"
+  },
+  {
+    "id": "rpc-32",
+    "name": "Apollonoshieron",
+    "lat": 38.045,
+    "lng": 28.830556,
+    "type": "city"
+  },
+  {
+    "id": "rpc-33",
+    "name": "Appia",
+    "lat": 39.024583,
+    "lng": 29.982729,
+    "type": "city"
+  },
+  {
+    "id": "rpc-34",
+    "name": "Aspendus",
+    "lat": 36.9382,
+    "lng": 31.1732,
+    "type": "city"
+  },
+  {
+    "id": "rpc-35",
+    "name": "Assus",
+    "lat": 39.491621,
+    "lng": 26.339656,
+    "type": "city"
+  },
+  {
+    "id": "rpc-36",
+    "name": "Attaea",
+    "lat": 39.515977,
+    "lng": 28.115927,
+    "type": "city"
+  },
+  {
+    "id": "rpc-37",
+    "name": "Attalea",
+    "lat": 36.8939,
+    "lng": 30.7003,
+    "type": "city"
+  },
+  {
+    "id": "rpc-38",
+    "name": "Attuda",
+    "lat": 37.838479,
+    "lng": 28.803125,
+    "type": "city"
+  },
+  {
+    "id": "rpc-39",
+    "name": "Augusta",
+    "lat": 37.245212,
+    "lng": 35.344087,
+    "type": "city"
+  },
+  {
+    "id": "rpc-40",
+    "name": "Baris",
+    "lat": 37.871,
+    "lng": 30.3239,
+    "type": "city"
+  },
+  {
+    "id": "rpc-41",
+    "name": "Blaundus",
+    "lat": 38.356771,
+    "lng": 29.210608,
+    "type": "city"
+  },
+  {
+    "id": "rpc-44",
+    "name": "Bria",
+    "lat": 38.300984,
+    "lng": 29.7418785,
+    "type": "city"
+  },
+  {
+    "id": "rpc-45",
+    "name": "Bruzus",
+    "lat": 38.527568,
+    "lng": 30.172588,
+    "type": "city"
+  },
+  {
+    "id": "rpc-46",
+    "name": "Byzantium",
+    "lat": 41.01224,
+    "lng": 28.976018,
+    "type": "city"
+  },
+  {
+    "id": "rpc-47",
+    "name": "Cadi",
+    "lat": 39.043048,
+    "lng": 29.411526,
+    "type": "city"
+  },
+  {
+    "id": "rpc-48",
+    "name": "Caesarea",
+    "lat": 38.733333,
+    "lng": 35.483333,
+    "type": "city"
+  },
+  {
+    "id": "rpc-49",
+    "name": "Caesarea Germanica",
+    "lat": 40.166667,
+    "lng": 28.883333,
+    "type": "city"
+  },
+  {
+    "id": "rpc-50",
+    "name": "Caesarea Maritima",
+    "lat": 32.501832,
+    "lng": 34.900416,
+    "type": "city"
+  },
+  {
+    "id": "rpc-51",
+    "name": "Came",
+    "lat": 39.33536,
+    "lng": 27.925873,
+    "type": "city"
+  },
+  {
+    "id": "rpc-52",
+    "name": "Carallia",
+    "lat": 36.678196,
+    "lng": 31.91116,
+    "type": "city"
+  },
+  {
+    "id": "rpc-53",
+    "name": "Casae",
+    "lat": 36.838503,
+    "lng": 31.951278,
+    "type": "city"
+  },
+  {
+    "id": "rpc-54",
+    "name": "Celenderis",
+    "lat": 36.142487,
+    "lng": 33.318106,
+    "type": "city"
+  },
+  {
+    "id": "rpc-55",
+    "name": "Ceretapa Diocaesarea",
+    "lat": 37.550986,
+    "lng": 29.741952,
+    "type": "city"
+  },
+  {
+    "id": "rpc-56",
+    "name": "Cibyra",
+    "lat": 37.1593,
+    "lng": 29.4963,
+    "type": "city"
+  },
+  {
+    "id": "rpc-57",
+    "name": "Cidyessus",
+    "lat": 38.747507,
+    "lng": 30.185775,
+    "type": "city"
+  },
+  {
+    "id": "rpc-59",
+    "name": "Clazomenae",
+    "lat": 38.373889,
+    "lng": 26.785278,
+    "type": "city"
+  },
+  {
+    "id": "rpc-60",
+    "name": "Codrula",
+    "lat": 37.436975,
+    "lng": 30.351609,
+    "type": "city"
+  },
+  {
+    "id": "rpc-61",
+    "name": "Coela",
+    "lat": 40.207121,
+    "lng": 26.367552,
+    "type": "city"
+  },
+  {
+    "id": "rpc-62",
+    "name": "Colbasa",
+    "lat": 37.424422,
+    "lng": 30.404975,
+    "type": "city"
+  },
+  {
+    "id": "rpc-63",
+    "name": "Colophon",
+    "lat": 37.9935,
+    "lng": 27.198,
+    "type": "city"
+  },
+  {
+    "id": "rpc-64",
+    "name": "Colossae",
+    "lat": 37.790552,
+    "lng": 29.259161,
+    "type": "city"
+  },
+  {
+    "id": "rpc-65",
+    "name": "Colybrassus",
+    "lat": 36.7347571,
+    "lng": 31.9643784,
+    "type": "city"
+  },
+  {
+    "id": "rpc-66",
+    "name": "Comama",
+    "lat": 37.3213,
+    "lng": 30.3371,
+    "type": "city"
+  },
+  {
+    "id": "rpc-67",
+    "name": "Cotiaeum",
+    "lat": 39.419629,
+    "lng": 29.985689,
+    "type": "city"
+  },
+  {
+    "id": "rpc-68",
+    "name": "Cremna",
+    "lat": 37.500139,
+    "lng": 30.6911,
+    "type": "city"
+  },
+  {
+    "id": "rpc-69",
+    "name": "Cyme",
+    "lat": 38.761848,
+    "lng": 26.942154,
+    "type": "city"
+  },
+  {
+    "id": "rpc-70",
+    "name": "Cyzicus",
+    "lat": 40.381323,
+    "lng": 27.892255,
+    "type": "city"
+  },
+  {
+    "id": "rpc-71",
+    "name": "Daldis",
+    "lat": 38.668404,
+    "lng": 28.142602,
+    "type": "city"
+  },
+  {
+    "id": "rpc-73",
+    "name": "Dardanus",
+    "lat": 40.079727,
+    "lng": 26.37442,
+    "type": "city"
+  },
+  {
+    "id": "rpc-74",
+    "name": "Dioshieron",
+    "lat": 38.227646,
+    "lng": 28.083254,
+    "type": "city"
+  },
+  {
+    "id": "rpc-75",
+    "name": "Docimeum",
+    "lat": 38.862583,
+    "lng": 30.750706,
+    "type": "city"
+  },
+  {
+    "id": "rpc-76",
+    "name": "Dorylaeum",
+    "lat": 39.77489,
+    "lng": 30.51684,
+    "type": "city"
+  },
+  {
+    "id": "rpc-78",
+    "name": "Edessa",
+    "lat": 37.176482,
+    "lng": 38.776168,
+    "type": "city"
+  },
+  {
+    "id": "rpc-79",
+    "name": "Elaea",
+    "lat": 38.941644,
+    "lng": 27.055256,
+    "type": "city"
+  },
+  {
+    "id": "rpc-80",
+    "name": "Emesa",
+    "lat": 34.751899,
+    "lng": 36.724237,
+    "type": "city"
+  },
+  {
+    "id": "rpc-81",
+    "name": "Ephesus",
+    "lat": 37.939722,
+    "lng": 27.340833,
+    "type": "city"
+  },
+  {
+    "id": "rpc-82",
+    "name": "Epiphanea",
+    "lat": 36.9618923333,
+    "lng": 36.1544146667,
+    "type": "city"
+  },
+  {
+    "id": "rpc-83",
+    "name": "Eriza",
+    "lat": 37.43,
+    "lng": 29.47,
+    "type": "city"
+  },
+  {
+    "id": "rpc-84",
+    "name": "Etenna",
+    "lat": 36.993117,
+    "lng": 31.438444,
+    "type": "city"
+  },
+  {
+    "id": "rpc-85",
+    "name": "Eucarpia",
+    "lat": 38.486522,
+    "lng": 30.113951,
+    "type": "city"
+  },
+  {
+    "id": "rpc-86",
+    "name": "Eumenea",
+    "lat": 38.321795,
+    "lng": 29.845162,
+    "type": "city"
+  },
+  {
+    "id": "rpc-87",
+    "name": "Flaviopolis",
+    "lat": 37.3664785,
+    "lng": 36.1015675,
+    "type": "city"
+  },
+  {
+    "id": "rpc-88",
+    "name": "Germe",
+    "lat": 39.36872,
+    "lng": 27.690683,
+    "type": "city"
+  },
+  {
+    "id": "rpc-89",
+    "name": "Hadrianeia",
+    "lat": 39.59133,
+    "lng": 28.634216,
+    "type": "city"
+  },
+  {
+    "id": "rpc-91",
+    "name": "Hadriani ad Olympum",
+    "lat": 39.906135,
+    "lng": 28.998851,
+    "type": "city"
+  },
+  {
+    "id": "rpc-92",
+    "name": "Hadrianopolis",
+    "lat": 41.666667,
+    "lng": 26.566667,
+    "type": "city"
+  },
+  {
+    "id": "rpc-93",
+    "name": "Hadrianopolis",
+    "lat": 38.232144,
+    "lng": 31.637066,
+    "type": "city"
+  },
+  {
+    "id": "rpc-94",
+    "name": "Hadrianotherae",
+    "lat": 39.60672,
+    "lng": 27.910653,
+    "type": "city"
+  },
+  {
+    "id": "rpc-95",
+    "name": "Halicarnassus",
+    "lat": 37.035173,
+    "lng": 27.41724,
+    "type": "city"
+  },
+  {
+    "id": "rpc-96",
+    "name": "Harpasa",
+    "lat": 37.796623,
+    "lng": 28.362084,
+    "type": "city"
+  },
+  {
+    "id": "rpc-97",
+    "name": "Hermocapelia",
+    "lat": 38.921548,
+    "lng": 27.614993,
+    "type": "city"
+  },
+  {
+    "id": "rpc-98",
+    "name": "Hierapolis-Castabala",
+    "lat": 37.1806978,
+    "lng": 36.1887932,
+    "type": "city"
+  },
+  {
+    "id": "rpc-99",
+    "name": "Hieropolis",
+    "lat": 38.461767,
+    "lng": 30.197699,
+    "type": "city"
+  },
+  {
+    "id": "rpc-100",
+    "name": "Hydisus",
+    "lat": 37.162268,
+    "lng": 27.800872,
+    "type": "city"
+  },
+  {
+    "id": "rpc-101",
+    "name": "Hydrela",
+    "lat": 37.985022,
+    "lng": 29.05322,
+    "type": "city"
+  },
+  {
+    "id": "rpc-102",
+    "name": "Hyllarima",
+    "lat": 37.498214,
+    "lng": 28.347059,
+    "type": "city"
+  },
+  {
+    "id": "rpc-103",
+    "name": "Hypaepa",
+    "lat": 38.248459,
+    "lng": 27.962914,
+    "type": "city"
+  },
+  {
+    "id": "rpc-104",
+    "name": "Hyrcanis",
+    "lat": 38.667539,
+    "lng": 27.667099,
+    "type": "city"
+  },
+  {
+    "id": "rpc-105",
+    "name": "Hyrgaleis",
+    "lat": 38.25,
+    "lng": 29.25,
+    "type": "city"
+  },
+  {
+    "id": "rpc-106",
+    "name": "Ilium",
+    "lat": 39.9575,
+    "lng": 26.238889,
+    "type": "city"
+  },
+  {
+    "id": "rpc-107",
+    "name": "Ionopolis Abonoteichos",
+    "lat": 41.976878,
+    "lng": 33.762407,
+    "type": "city"
+  },
+  {
+    "id": "rpc-108",
+    "name": "Isinda",
+    "lat": 37.0675,
+    "lng": 30.1619,
+    "type": "city"
+  },
+  {
+    "id": "rpc-110",
+    "name": "Laerte",
+    "lat": 36.51916,
+    "lng": 32.153301,
+    "type": "city"
+  },
+  {
+    "id": "rpc-111",
+    "name": "Lampsacus",
+    "lat": 40.346685,
+    "lng": 26.699162,
+    "type": "city"
+  },
+  {
+    "id": "rpc-113",
+    "name": "Laodicea ad Lycum",
+    "lat": 37.8359393239,
+    "lng": 29.1073887789,
+    "type": "city"
+  },
+  {
+    "id": "rpc-114",
+    "name": "Lyrbe",
+    "lat": 36.873988,
+    "lng": 31.475921,
+    "type": "city"
+  },
+  {
+    "id": "rpc-115",
+    "name": "Lysias",
+    "lat": 38.25,
+    "lng": 29.75,
+    "type": "city"
+  },
+  {
+    "id": "rpc-116",
+    "name": "Maeonia",
+    "lat": 38.535161,
+    "lng": 28.491469,
+    "type": "city"
+  },
+  {
+    "id": "rpc-117",
+    "name": "Magnesia ad Maeandrum",
+    "lat": 37.853091,
+    "lng": 27.533091,
+    "type": "city"
+  },
+  {
+    "id": "rpc-118",
+    "name": "Magnesia ad Sipylum",
+    "lat": 38.613056,
+    "lng": 27.425833,
+    "type": "city"
+  },
+  {
+    "id": "rpc-119",
+    "name": "Magnesia",
+    "lat": 39.34,
+    "lng": 22.92,
+    "type": "city"
+  },
+  {
+    "id": "rpc-120",
+    "name": "Magydus",
+    "lat": 36.849798,
+    "lng": 30.800301,
+    "type": "city"
+  },
+  {
+    "id": "rpc-121",
+    "name": "Mallus",
+    "lat": 36.7395805,
+    "lng": 35.453557,
+    "type": "city"
+  },
+  {
+    "id": "rpc-122",
+    "name": "Maronea",
+    "lat": 40.906369156402,
+    "lng": 25.519129544214,
+    "type": "city"
+  },
+  {
+    "id": "rpc-123",
+    "name": "Mastaura",
+    "lat": 37.944529,
+    "lng": 28.363927,
+    "type": "city"
+  },
+  {
+    "id": "rpc-124",
+    "name": "Methymna",
+    "lat": 39.366667,
+    "lng": 26.166667,
+    "type": "city"
+  },
+  {
+    "id": "rpc-125",
+    "name": "Metropolis",
+    "lat": 38.123992,
+    "lng": 27.324524,
+    "type": "city"
+  },
+  {
+    "id": "rpc-126",
+    "name": "Metropolis",
+    "lat": 38.241194,
+    "lng": 30.490599,
+    "type": "city"
+  },
+  {
+    "id": "rpc-127",
+    "name": "Midaeum",
+    "lat": 39.800085,
+    "lng": 30.844764,
+    "type": "city"
+  },
+  {
+    "id": "rpc-128",
+    "name": "Miletopolis",
+    "lat": 40.083458,
+    "lng": 28.316486,
+    "type": "city"
+  },
+  {
+    "id": "rpc-129",
+    "name": "Miletus",
+    "lat": 37.530233,
+    "lng": 27.278369,
+    "type": "city"
+  },
+  {
+    "id": "rpc-130",
+    "name": "Mopsus",
+    "lat": 36.958568,
+    "lng": 35.6238689,
+    "type": "city"
+  },
+  {
+    "id": "rpc-131",
+    "name": "Mylasa",
+    "lat": 37.316667,
+    "lng": 27.783333,
+    "type": "city"
+  },
+  {
+    "id": "rpc-132",
+    "name": "Myrina",
+    "lat": 38.840097,
+    "lng": 26.985537,
+    "type": "city"
+  },
+  {
+    "id": "rpc-133",
+    "name": "Mytilene",
+    "lat": 39.104812,
+    "lng": 26.552371,
+    "type": "city"
+  },
+  {
+    "id": "rpc-134",
+    "name": "Nacolea",
+    "lat": 39.478001,
+    "lng": 30.718444,
+    "type": "city"
+  },
+  {
+    "id": "rpc-135",
+    "name": "Neapolis",
+    "lat": 32.220859,
+    "lng": 35.262892,
+    "type": "city"
+  },
+  {
+    "id": "rpc-136",
+    "name": "Neapolis ad Harpasum",
+    "lat": 37.690157,
+    "lng": 28.397699,
+    "type": "city"
+  },
+  {
+    "id": "rpc-137",
+    "name": "Neocaesarea",
+    "lat": 40.583333,
+    "lng": 36.95,
+    "type": "city"
+  },
+  {
+    "id": "rpc-138",
+    "name": "Nicaea",
+    "lat": 40.429,
+    "lng": 29.7195,
+    "type": "city"
+  },
+  {
+    "id": "rpc-139",
+    "name": "Nicomedia",
+    "lat": 40.766667,
+    "lng": 29.916667,
+    "type": "city"
+  },
+  {
+    "id": "rpc-140",
+    "name": "Nicopolis",
+    "lat": 39.008011,
+    "lng": 20.736054,
+    "type": "city"
+  },
+  {
+    "id": "rpc-141",
+    "name": "Nysa",
+    "lat": 37.887783,
+    "lng": 28.151194,
+    "type": "city"
+  },
+  {
+    "id": "rpc-142",
+    "name": "Ococleia",
+    "lat": 38.45,
+    "lng": 29.95,
+    "type": "city"
+  },
+  {
+    "id": "rpc-143",
+    "name": "Olbasa",
+    "lat": 37.303094,
+    "lng": 29.994758,
+    "type": "city"
+  },
+  {
+    "id": "rpc-145",
+    "name": "Otrus",
+    "lat": 38.451497,
+    "lng": 29.958841,
+    "type": "city"
+  },
+  {
+    "id": "rpc-146",
+    "name": "Paltus",
+    "lat": 35.272667,
+    "lng": 35.927407,
+    "type": "city"
+  },
+  {
+    "id": "rpc-147",
+    "name": "Panemoteichus",
+    "lat": 37.264347,
+    "lng": 30.500706,
+    "type": "city"
+  },
+  {
+    "id": "rpc-148",
+    "name": "Parium",
+    "lat": 40.420499,
+    "lng": 27.069096,
+    "type": "city"
+  },
+  {
+    "id": "rpc-149",
+    "name": "Pednelissus",
+    "lat": 37.2137522,
+    "lng": 30.9344825,
+    "type": "city"
+  },
+  {
+    "id": "rpc-150",
+    "name": "Peltae",
+    "lat": 38.1588566,
+    "lng": 29.63974,
+    "type": "city"
+  },
+  {
+    "id": "rpc-151",
+    "name": "Pergamum",
+    "lat": 39.116667,
+    "lng": 27.183333,
+    "type": "city"
+  },
+  {
+    "id": "rpc-152",
+    "name": "Perge",
+    "lat": 36.962229,
+    "lng": 30.855068,
+    "type": "city"
+  },
+  {
+    "id": "rpc-153",
+    "name": "Perinthus",
+    "lat": 40.971013,
+    "lng": 27.952973,
+    "type": "city"
+  },
+  {
+    "id": "rpc-154",
+    "name": "Perperene",
+    "lat": 39.240505,
+    "lng": 26.962332,
+    "type": "city"
+  },
+  {
+    "id": "rpc-155",
+    "name": "Philadelphia",
+    "lat": 38.30468,
+    "lng": 28.530904,
+    "type": "city"
+  },
+  {
+    "id": "rpc-156",
+    "name": "Philomelium",
+    "lat": 38.356716,
+    "lng": 31.429822,
+    "type": "city"
+  },
+  {
+    "id": "rpc-157",
+    "name": "Phocaea",
+    "lat": 38.670353,
+    "lng": 26.753208,
+    "type": "city"
+  },
+  {
+    "id": "rpc-158",
+    "name": "Pionia",
+    "lat": 39.626196,
+    "lng": 27.579568,
+    "type": "city"
+  },
+  {
+    "id": "rpc-159",
+    "name": "Poemanenum",
+    "lat": 40.07897,
+    "lng": 27.892299,
+    "type": "city"
+  },
+  {
+    "id": "rpc-160",
+    "name": "Pogla",
+    "lat": 37.301977,
+    "lng": 30.2599525,
+    "type": "city"
+  },
+  {
+    "id": "rpc-161",
+    "name": "Pompeiopolis",
+    "lat": 36.7426583,
+    "lng": 34.5378936,
+    "type": "city"
+  },
+  {
+    "id": "rpc-162",
+    "name": "Poroselene",
+    "lat": 39.336684,
+    "lng": 26.654808,
+    "type": "city"
+  },
+  {
+    "id": "rpc-163",
+    "name": "Priene",
+    "lat": 37.659722,
+    "lng": 27.297778,
+    "type": "city"
+  },
+  {
+    "id": "rpc-165",
+    "name": "Prusa ad Olympum",
+    "lat": 40.183333,
+    "lng": 29.066667,
+    "type": "city"
+  },
+  {
+    "id": "rpc-166",
+    "name": "Prymnessus",
+    "lat": 38.697462,
+    "lng": 30.569147,
+    "type": "city"
+  },
+  {
+    "id": "rpc-167",
+    "name": "Rhesaena",
+    "lat": 36.848658,
+    "lng": 40.056065,
+    "type": "city"
+  },
+  {
+    "id": "rpc-168",
+    "name": "Sagalassus",
+    "lat": 37.6801,
+    "lng": 30.5253,
+    "type": "city"
+  },
+  {
+    "id": "rpc-169",
+    "name": "Saitta",
+    "lat": 38.703021,
+    "lng": 28.624,
+    "type": "city"
+  },
+  {
+    "id": "rpc-170",
+    "name": "Samos",
+    "lat": 37.689444,
+    "lng": 26.943056,
+    "type": "city"
+  },
+  {
+    "id": "rpc-171",
+    "name": "Sardis",
+    "lat": 38.488314,
+    "lng": 28.040286,
+    "type": "city"
+  },
+  {
+    "id": "rpc-172",
+    "name": "Scepsis",
+    "lat": 39.82554,
+    "lng": 26.688003,
+    "type": "city"
+  },
+  {
+    "id": "rpc-173",
+    "name": "Sebaste",
+    "lat": 38.496089,
+    "lng": 29.655699,
+    "type": "city"
+  },
+  {
+    "id": "rpc-174",
+    "name": "Claudioseleucia",
+    "lat": 37.894362,
+    "lng": 30.622264,
+    "type": "city"
+  },
+  {
+    "id": "rpc-175",
+    "name": "Seleucia ad Calycadnum",
+    "lat": 36.381739,
+    "lng": 33.927572,
+    "type": "city"
+  },
+  {
+    "id": "rpc-176",
+    "name": "Selge",
+    "lat": 37.228321,
+    "lng": 31.127926,
+    "type": "city"
+  },
+  {
+    "id": "rpc-177",
+    "name": "Selinus-Traianopolis",
+    "lat": 36.2581165,
+    "lng": 32.2834969,
+    "type": "city"
+  },
+  {
+    "id": "rpc-178",
+    "name": "Siblia",
+    "lat": 37.75,
+    "lng": 29.57,
+    "type": "city"
+  },
+  {
+    "id": "rpc-179",
+    "name": "Side",
+    "lat": 36.7724,
+    "lng": 31.3934,
+    "type": "city"
+  },
+  {
+    "id": "rpc-180",
+    "name": "Sillyum",
+    "lat": 36.990721,
+    "lng": 30.98638,
+    "type": "city"
+  },
+  {
+    "id": "rpc-181",
+    "name": "Sinope",
+    "lat": 42.025776,
+    "lng": 35.143037,
+    "type": "city"
+  },
+  {
+    "id": "rpc-182",
+    "name": "Iocharax",
+    "lat": 38.7,
+    "lng": 30.0,
+    "type": "city"
+  },
+  {
+    "id": "rpc-183",
+    "name": "Smyrna",
+    "lat": 38.423889,
+    "lng": 27.142778,
+    "type": "city"
+  },
+  {
+    "id": "rpc-184",
+    "name": "Sparta",
+    "lat": 37.073678,
+    "lng": 22.430937,
+    "type": "city"
+  },
+  {
+    "id": "rpc-185",
+    "name": "Stratonicea Hadrianopolis",
+    "lat": 39.142114,
+    "lng": 27.801765,
+    "type": "city"
+  },
+  {
+    "id": "rpc-186",
+    "name": "Syedra",
+    "lat": 36.4464809,
+    "lng": 32.1489653,
+    "type": "city"
+  },
+  {
+    "id": "rpc-187",
+    "name": "Synaus",
+    "lat": 39.0923209,
+    "lng": 28.981736,
+    "type": "city"
+  },
+  {
+    "id": "rpc-188",
+    "name": "Synnada",
+    "lat": 38.533333,
+    "lng": 30.55,
+    "type": "city"
+  },
+  {
+    "id": "rpc-189",
+    "name": "Tabala",
+    "lat": 38.612168,
+    "lng": 28.803373,
+    "type": "city"
+  },
+  {
+    "id": "rpc-190",
+    "name": "Tarsus",
+    "lat": 36.916667,
+    "lng": 34.9,
+    "type": "city"
+  },
+  {
+    "id": "rpc-191",
+    "name": "Temenothyrae",
+    "lat": 38.676609,
+    "lng": 29.412739,
+    "type": "city"
+  },
+  {
+    "id": "rpc-192",
+    "name": "Temnus",
+    "lat": 38.671912,
+    "lng": 27.196998,
+    "type": "city"
+  },
+  {
+    "id": "rpc-193",
+    "name": "Teos",
+    "lat": 38.199104,
+    "lng": 26.837477,
+    "type": "city"
+  },
+  {
+    "id": "rpc-194",
+    "name": "Themisonium",
+    "lat": 37.3834,
+    "lng": 29.55877,
+    "type": "city"
+  },
+  {
+    "id": "rpc-195",
+    "name": "Thessalonica",
+    "lat": 40.633333,
+    "lng": 22.95,
+    "type": "city"
+  },
+  {
+    "id": "rpc-196",
+    "name": "Thyatira",
+    "lat": 38.898515,
+    "lng": 27.849235,
+    "type": "city"
+  },
+  {
+    "id": "rpc-197",
+    "name": "Tiberiopolis",
+    "lat": 39.374622,
+    "lng": 29.32414,
+    "type": "city"
+  },
+  {
+    "id": "rpc-198",
+    "name": "Tityassus",
+    "lat": 37.700415,
+    "lng": 31.401349,
+    "type": "city"
+  },
+  {
+    "id": "rpc-199",
+    "name": "Tium",
+    "lat": 41.558949,
+    "lng": 32.0224,
+    "type": "city"
+  },
+  {
+    "id": "rpc-200",
+    "name": "Traianopolis",
+    "lat": 38.713925,
+    "lng": 29.517157,
+    "type": "city"
+  },
+  {
+    "id": "rpc-201",
+    "name": "Tralles",
+    "lat": 37.8444,
+    "lng": 27.8458,
+    "type": "city"
+  },
+  {
+    "id": "rpc-202",
+    "name": "Tripolis",
+    "lat": 38.061104,
+    "lng": 28.971748,
+    "type": "city"
+  },
+  {
+    "id": "rpc-203",
+    "name": "Tyre",
+    "lat": 33.2737132,
+    "lng": 35.1949382,
+    "type": "city"
+  },
+  {
+    "id": "rpc-205",
+    "name": "Viminacium",
+    "lat": 44.716471,
+    "lng": 21.166605,
+    "type": "city"
+  },
+  {
+    "id": "rpc-207",
+    "name": "Abdera",
+    "lat": 40.95,
+    "lng": 24.983333,
+    "type": "city"
+  },
+  {
+    "id": "rpc-210",
+    "name": "Abila",
+    "lat": 32.683121,
+    "lng": 35.869214,
+    "type": "city"
+  },
+  {
+    "id": "rpc-220",
+    "name": "Adada",
+    "lat": 37.5916,
+    "lng": 30.9951,
+    "type": "city"
+  },
+  {
+    "id": "rpc-224",
+    "name": "Adraa",
+    "lat": 32.625139,
+    "lng": 36.116233,
+    "type": "city"
+  },
+  {
+    "id": "rpc-231",
+    "name": "Aegium",
+    "lat": 38.252707,
+    "lng": 22.081952,
+    "type": "city"
+  },
+  {
+    "id": "rpc-234",
+    "name": "Aenus",
+    "lat": 40.725137629305,
+    "lng": 26.084782283456,
+    "type": "city"
+  },
+  {
+    "id": "rpc-237",
+    "name": "Alabanda",
+    "lat": 37.597785,
+    "lng": 27.958833,
+    "type": "city"
+  },
+  {
+    "id": "rpc-241",
+    "name": "Alexandria ad Issum",
+    "lat": 36.5841815,
+    "lng": 36.173273,
+    "type": "city"
+  },
+  {
+    "id": "rpc-243",
+    "name": "Alinda",
+    "lat": 37.559238,
+    "lng": 27.83834,
+    "type": "city"
+  },
+  {
+    "id": "rpc-245",
+    "name": "Amasea",
+    "lat": 40.678674,
+    "lng": 35.8278,
+    "type": "city"
+  },
+  {
+    "id": "rpc-249",
+    "name": "Amblada",
+    "lat": 37.520983,
+    "lng": 31.737947,
+    "type": "city"
+  },
+  {
+    "id": "rpc-254",
+    "name": "Amphipolis",
+    "lat": 40.823597,
+    "lng": 23.846565,
+    "type": "city"
+  },
+  {
+    "id": "rpc-255",
+    "name": "Amyzon",
+    "lat": 37.608639,
+    "lng": 27.710824,
+    "type": "city"
+  },
+  {
+    "id": "rpc-258",
+    "name": "Anchialus",
+    "lat": 42.555937,
+    "lng": 27.641374,
+    "type": "city"
+  },
+  {
+    "id": "rpc-264",
+    "name": "Andros",
+    "lat": 37.833333,
+    "lng": 24.933333,
+    "type": "city"
+  },
+  {
+    "id": "rpc-270",
+    "name": "Anticyra",
+    "lat": 38.375439,
+    "lng": 22.626059,
+    "type": "city"
+  },
+  {
+    "id": "rpc-277",
+    "name": "Antioch ad Euphratem",
+    "lat": 37.110367,
+    "lng": 37.86555,
+    "type": "city"
+  },
+  {
+    "id": "rpc-278",
+    "name": "Antioch ad Hippum",
+    "lat": 32.778841,
+    "lng": 35.659411,
+    "type": "city"
+  },
+  {
+    "id": "rpc-287",
+    "name": "Apollonia",
+    "lat": 40.716667,
+    "lng": 19.466667,
+    "type": "city"
+  },
+  {
+    "id": "rpc-288",
+    "name": "Apollonia Mordiaeum",
+    "lat": 38.078904,
+    "lng": 30.457168,
+    "type": "city"
+  },
+  {
+    "id": "rpc-291",
+    "name": "Apollonia Pontica",
+    "lat": 42.417162,
+    "lng": 27.69646,
+    "type": "city"
+  },
+  {
+    "id": "rpc-292",
+    "name": "Apollonia Salbace",
+    "lat": 37.51511,
+    "lng": 29.039064,
+    "type": "city"
+  },
+  {
+    "id": "rpc-294",
+    "name": "Apollonis",
+    "lat": 38.898866,
+    "lng": 27.684641,
+    "type": "city"
+  },
+  {
+    "id": "rpc-298",
+    "name": "Bostra",
+    "lat": 32.517831,
+    "lng": 36.48369,
+    "type": "city"
+  },
+  {
+    "id": "rpc-299",
+    "name": "Aradus",
+    "lat": 34.858397,
+    "lng": 35.859448,
+    "type": "city"
+  },
+  {
+    "id": "rpc-301",
+    "name": "Argos",
+    "lat": 37.616667,
+    "lng": 22.716667,
+    "type": "city"
+  },
+  {
+    "id": "rpc-302",
+    "name": "Ariassus",
+    "lat": 37.1549,
+    "lng": 30.4885,
+    "type": "city"
+  },
+  {
+    "id": "rpc-304",
+    "name": "Ascalon",
+    "lat": 31.669994,
+    "lng": 34.54556,
+    "type": "city"
+  },
+  {
+    "id": "rpc-309",
+    "name": "Athens",
+    "lat": 37.974722,
+    "lng": 23.7225,
+    "type": "city"
+  },
+  {
+    "id": "rpc-311",
+    "name": "Attalea",
+    "lat": 39.25,
+    "lng": 27.75,
+    "type": "city"
+  },
+  {
+    "id": "rpc-320",
+    "name": "Augusta Traiana",
+    "lat": 42.42378,
+    "lng": 25.624922,
+    "type": "city"
+  },
+  {
+    "id": "rpc-321",
+    "name": "Bagis",
+    "lat": 38.665537,
+    "lng": 29.157916,
+    "type": "city"
+  },
+  {
+    "id": "rpc-323",
+    "name": "Barata",
+    "lat": 37.442747,
+    "lng": 33.1088365,
+    "type": "city"
+  },
+  {
+    "id": "rpc-324",
+    "name": "Bargasa",
+    "lat": 37.614949,
+    "lng": 28.412351,
+    "type": "city"
+  },
+  {
+    "id": "rpc-326",
+    "name": "Bargylia",
+    "lat": 37.195722,
+    "lng": 27.586569,
+    "type": "city"
+  },
+  {
+    "id": "rpc-329",
+    "name": "Beroea",
+    "lat": 36.202753,
+    "lng": 37.149317,
+    "type": "city"
+  },
+  {
+    "id": "rpc-330",
+    "name": "Berytus",
+    "lat": 33.899285,
+    "lng": 35.521306,
+    "type": "city"
+  },
+  {
+    "id": "rpc-332",
+    "name": "Bithynium Claudiopolis",
+    "lat": 40.753484,
+    "lng": 31.630039,
+    "type": "city"
+  },
+  {
+    "id": "rpc-334",
+    "name": "Bizya",
+    "lat": 41.572702,
+    "lng": 27.765289,
+    "type": "city"
+  },
+  {
+    "id": "rpc-342",
+    "name": "Botrys",
+    "lat": 34.251074,
+    "lng": 35.657598,
+    "type": "city"
+  },
+  {
+    "id": "rpc-343",
+    "name": "Briula",
+    "lat": 37.961027,
+    "lng": 28.649583,
+    "type": "city"
+  },
+  {
+    "id": "rpc-347",
+    "name": "Byblus",
+    "lat": 34.119501,
+    "lng": 35.646846,
+    "type": "city"
+  },
+  {
+    "id": "rpc-355",
+    "name": "Caesarea ad Libanum",
+    "lat": 34.534907,
+    "lng": 36.038558,
+    "type": "city"
+  },
+  {
+    "id": "rpc-360",
+    "name": "Caesarea Paneas",
+    "lat": 33.247099,
+    "lng": 35.693736,
+    "type": "city"
+  },
+  {
+    "id": "rpc-362",
+    "name": "Calchedon",
+    "lat": 40.983393,
+    "lng": 29.025789,
+    "type": "city"
+  },
+  {
+    "id": "rpc-364",
+    "name": "Callatis",
+    "lat": 43.817152,
+    "lng": 28.58275,
+    "type": "city"
+  },
+  {
+    "id": "rpc-367",
+    "name": "Canatha",
+    "lat": 32.75421,
+    "lng": 36.618201,
+    "type": "city"
+  },
+  {
+    "id": "rpc-368",
+    "name": "Capitolias",
+    "lat": 32.597779,
+    "lng": 35.858043,
+    "type": "city"
+  },
+  {
+    "id": "rpc-371",
+    "name": "Carrhae",
+    "lat": 36.866351,
+    "lng": 39.028865,
+    "type": "city"
+  },
+  {
+    "id": "rpc-372",
+    "name": "Carystus",
+    "lat": 38.016541,
+    "lng": 24.420381,
+    "type": "city"
+  },
+  {
+    "id": "rpc-374",
+    "name": "Cassandrea",
+    "lat": 40.193696,
+    "lng": 23.327812,
+    "type": "city"
+  },
+  {
+    "id": "rpc-378",
+    "name": "Ceramus",
+    "lat": 37.041038,
+    "lng": 27.961103,
+    "type": "city"
+  },
+  {
+    "id": "rpc-379",
+    "name": "Cerasus",
+    "lat": 40.919134,
+    "lng": 38.397931,
+    "type": "city"
+  },
+  {
+    "id": "rpc-382",
+    "name": "Cestrus",
+    "lat": 36.228763,
+    "lng": 32.352377,
+    "type": "city"
+  },
+  {
+    "id": "rpc-383",
+    "name": "Chalcis",
+    "lat": 38.457139,
+    "lng": 23.62194,
+    "type": "city"
+  },
+  {
+    "id": "rpc-384",
+    "name": "Chalcis ad Belum",
+    "lat": 36.007956,
+    "lng": 37.009719,
+    "type": "city"
+  },
+  {
+    "id": "rpc-385",
+    "name": "Chersonesus",
+    "lat": 44.611627,
+    "lng": 33.493302,
+    "type": "city"
+  },
+  {
+    "id": "rpc-386",
+    "name": "Chios",
+    "lat": 38.374769,
+    "lng": 26.136818,
+    "type": "city"
+  },
+  {
+    "id": "rpc-389",
+    "name": "Cidrama",
+    "lat": 37.354017,
+    "lng": 29.129469,
+    "type": "city"
+  },
+  {
+    "id": "rpc-392",
+    "name": "Cilbiani Superiores",
+    "lat": 38.25,
+    "lng": 28.25,
+    "type": "city"
+  },
+  {
+    "id": "rpc-393",
+    "name": "Cius",
+    "lat": 40.432469,
+    "lng": 29.15639,
+    "type": "city"
+  },
+  {
+    "id": "rpc-395",
+    "name": "Claudia Leucas",
+    "lat": 35.195844,
+    "lng": 35.958453,
+    "type": "city"
+  },
+  {
+    "id": "rpc-396",
+    "name": "Ninica Claudiopolis",
+    "lat": 36.637504,
+    "lng": 33.447321,
+    "type": "city"
+  },
+  {
+    "id": "rpc-400",
+    "name": "Cnidus",
+    "lat": 36.690171,
+    "lng": 27.371637,
+    "type": "city"
+  },
+  {
+    "id": "rpc-416",
+    "name": "Comana",
+    "lat": 40.377306,
+    "lng": 36.610679,
+    "type": "city"
+  },
+  {
+    "id": "rpc-417",
+    "name": "Conana",
+    "lat": 37.952804,
+    "lng": 30.509682,
+    "type": "city"
+  },
+  {
+    "id": "rpc-419",
+    "name": "Coracesium",
+    "lat": 36.546394,
+    "lng": 31.988335,
+    "type": "city"
+  },
+  {
+    "id": "rpc-421",
+    "name": "Corcyra",
+    "lat": 39.60444,
+    "lng": 19.924457,
+    "type": "city"
+  },
+  {
+    "id": "rpc-422",
+    "name": "Corinth",
+    "lat": 37.933333,
+    "lng": 22.933333,
+    "type": "city"
+  },
+  {
+    "id": "rpc-423",
+    "name": "Coropissus",
+    "lat": 36.8278366,
+    "lng": 33.4685183,
+    "type": "city"
+  },
+  {
+    "id": "rpc-425",
+    "name": "Corycus",
+    "lat": 36.467249,
+    "lng": 34.148625,
+    "type": "city"
+  },
+  {
+    "id": "rpc-427",
+    "name": "Cos",
+    "lat": 36.8958903,
+    "lng": 27.2904682,
+    "type": "city"
+  },
+  {
+    "id": "rpc-432",
+    "name": "Creteia-Flaviopolis",
+    "lat": 40.798795,
+    "lng": 32.195317,
+    "type": "city"
+  },
+  {
+    "id": "rpc-434",
+    "name": "Cybistra",
+    "lat": 37.517006,
+    "lng": 34.078761,
+    "type": "city"
+  },
+  {
+    "id": "rpc-435",
+    "name": "Cydonia",
+    "lat": 35.516667,
+    "lng": 24.016667,
+    "type": "city"
+  },
+  {
+    "id": "rpc-438",
+    "name": "Cyrenaica",
+    "lat": 32.823041,
+    "lng": 21.85727,
+    "type": "city"
+  },
+  {
+    "id": "rpc-440",
+    "name": "Cyrrhus",
+    "lat": 36.734662,
+    "lng": 36.948956,
+    "type": "city"
+  },
+  {
+    "id": "rpc-444",
+    "name": "Dalisandus",
+    "lat": 37.320986,
+    "lng": 33.185664,
+    "type": "city"
+  },
+  {
+    "id": "rpc-445",
+    "name": "Damascus",
+    "lat": 33.513,
+    "lng": 36.292,
+    "type": "city"
+  },
+  {
+    "id": "rpc-448",
+    "name": "Delphi",
+    "lat": 38.484114,
+    "lng": 22.502106,
+    "type": "city"
+  },
+  {
+    "id": "rpc-449",
+    "name": "Demetrias",
+    "lat": 33.511612,
+    "lng": 36.309102,
+    "type": "city"
+  },
+  {
+    "id": "rpc-450",
+    "name": "Derbe",
+    "lat": 37.348025,
+    "lng": 33.362018,
+    "type": "city"
+  },
+  {
+    "id": "rpc-451",
+    "name": "Deultum",
+    "lat": 42.4,
+    "lng": 27.266667,
+    "type": "city"
+  },
+  {
+    "id": "rpc-452",
+    "name": "Diocaesarea",
+    "lat": 36.580651,
+    "lng": 33.924976,
+    "type": "city"
+  },
+  {
+    "id": "rpc-453",
+    "name": "Diocleia",
+    "lat": 38.682465,
+    "lng": 29.942013,
+    "type": "city"
+  },
+  {
+    "id": "rpc-454",
+    "name": "Dionysopolis",
+    "lat": 43.42563,
+    "lng": 28.162771,
+    "type": "city"
+  },
+  {
+    "id": "rpc-456",
+    "name": "Dionysopolis",
+    "lat": 38.233858,
+    "lng": 29.411864,
+    "type": "city"
+  },
+  {
+    "id": "rpc-460",
+    "name": "Dium",
+    "lat": 40.172688,
+    "lng": 22.486065,
+    "type": "city"
+  },
+  {
+    "id": "rpc-463",
+    "name": "Doliche",
+    "lat": 37.153671,
+    "lng": 37.359985,
+    "type": "city"
+  },
+  {
+    "id": "rpc-464",
+    "name": "Dora",
+    "lat": 32.615982,
+    "lng": 34.927477,
+    "type": "city"
+  },
+  {
+    "id": "rpc-467",
+    "name": "Edessa",
+    "lat": 40.80226,
+    "lng": 22.05076,
+    "type": "city"
+  },
+  {
+    "id": "rpc-471",
+    "name": "Elaeus",
+    "lat": 40.054457,
+    "lng": 26.223326,
+    "type": "city"
+  },
+  {
+    "id": "rpc-472",
+    "name": "Elaeusa-Sebaste",
+    "lat": 36.483812,
+    "lng": 34.174114,
+    "type": "city"
+  },
+  {
+    "id": "rpc-474",
+    "name": "Elis",
+    "lat": 37.893508,
+    "lng": 21.375639,
+    "type": "city"
+  },
+  {
+    "id": "rpc-478",
+    "name": "Epidaurus",
+    "lat": 37.63328,
+    "lng": 23.160067,
+    "type": "city"
+  },
+  {
+    "id": "rpc-481",
+    "name": "Eresus",
+    "lat": 39.168611,
+    "lng": 25.931389,
+    "type": "city"
+  },
+  {
+    "id": "rpc-483",
+    "name": "Eretria",
+    "lat": 38.383333,
+    "lng": 23.783333,
+    "type": "city"
+  },
+  {
+    "id": "rpc-484",
+    "name": "Erythrae",
+    "lat": 38.381944,
+    "lng": 26.479047,
+    "type": "city"
+  },
+  {
+    "id": "rpc-490",
+    "name": "Euippe",
+    "lat": 37.787596,
+    "lng": 28.086631,
+    "type": "city"
+  },
+  {
+    "id": "rpc-493",
+    "name": "Euromus",
+    "lat": 37.378355,
+    "lng": 27.673196,
+    "type": "city"
+  },
+  {
+    "id": "rpc-496",
+    "name": "Gaba",
+    "lat": 32.61367,
+    "lng": 35.144592,
+    "type": "city"
+  },
+  {
+    "id": "rpc-497",
+    "name": "Gabala",
+    "lat": 35.378062,
+    "lng": 35.922327,
+    "type": "city"
+  },
+  {
+    "id": "rpc-498",
+    "name": "Gadara",
+    "lat": 32.655548,
+    "lng": 35.677841,
+    "type": "city"
+  },
+  {
+    "id": "rpc-499",
+    "name": "Gangra-Germanicopolis",
+    "lat": 40.647446,
+    "lng": 33.514489,
+    "type": "city"
+  },
+  {
+    "id": "rpc-500",
+    "name": "Gargara",
+    "lat": 39.533479,
+    "lng": 26.538692,
+    "type": "city"
+  },
+  {
+    "id": "rpc-501",
+    "name": "Gaza",
+    "lat": 31.510975,
+    "lng": 34.458046,
+    "type": "city"
+  },
+  {
+    "id": "rpc-502",
+    "name": "Gerasa",
+    "lat": 32.276465,
+    "lng": 35.892081,
+    "type": "city"
+  },
+  {
+    "id": "rpc-503",
+    "name": "Germanicia Caesarea",
+    "lat": 37.586682,
+    "lng": 36.925326,
+    "type": "city"
+  },
+  {
+    "id": "rpc-504",
+    "name": "Germanicopolis",
+    "lat": 36.640309,
+    "lng": 32.892184,
+    "type": "city"
+  },
+  {
+    "id": "rpc-507",
+    "name": "Grimenothyrae",
+    "lat": 38.6737171,
+    "lng": 29.5923615,
+    "type": "city"
+  },
+  {
+    "id": "rpc-519",
+    "name": "Heraclea Pontica",
+    "lat": 41.284722,
+    "lng": 31.414722,
+    "type": "city"
+  },
+  {
+    "id": "rpc-521",
+    "name": "Heraclea Salbace",
+    "lat": 37.6235,
+    "lng": 28.9847,
+    "type": "city"
+  },
+  {
+    "id": "rpc-523",
+    "name": "Heraclea Sintica",
+    "lat": 41.433395,
+    "lng": 23.250111,
+    "type": "city"
+  },
+  {
+    "id": "rpc-525",
+    "name": "Hierapolis",
+    "lat": 37.926925,
+    "lng": 29.127859,
+    "type": "city"
+  },
+  {
+    "id": "rpc-527",
+    "name": "Hierapolis",
+    "lat": 36.526118,
+    "lng": 37.954539,
+    "type": "city"
+  },
+  {
+    "id": "rpc-529",
+    "name": "Hierapolis-Comana",
+    "lat": 38.3313252358,
+    "lng": 36.3239848355,
+    "type": "city"
+  },
+  {
+    "id": "rpc-533",
+    "name": "Hierocaesarea",
+    "lat": 38.756891,
+    "lng": 27.787742,
+    "type": "city"
+  },
+  {
+    "id": "rpc-543",
+    "name": "Iasus",
+    "lat": 37.278149,
+    "lng": 27.585572,
+    "type": "city"
+  },
+  {
+    "id": "rpc-545",
+    "name": "Iconium",
+    "lat": 37.847054,
+    "lng": 32.5161,
+    "type": "city"
+  },
+  {
+    "id": "rpc-551",
+    "name": "Ios",
+    "lat": 36.716667,
+    "lng": 25.333333,
+    "type": "city"
+  },
+  {
+    "id": "rpc-552",
+    "name": "Iotape",
+    "lat": 36.319837,
+    "lng": 32.235969,
+    "type": "city"
+  },
+  {
+    "id": "rpc-554",
+    "name": "Irenopolis",
+    "lat": 37.249515,
+    "lng": 36.462152,
+    "type": "city"
+  },
+  {
+    "id": "rpc-556",
+    "name": "Isaura",
+    "lat": 37.190126,
+    "lng": 32.24503,
+    "type": "city"
+  },
+  {
+    "id": "rpc-560",
+    "name": "Istrus",
+    "lat": 44.5475,
+    "lng": 28.774722,
+    "type": "city"
+  },
+  {
+    "id": "rpc-562",
+    "name": "Iulia",
+    "lat": 38.854427,
+    "lng": 30.547365,
+    "type": "city"
+  },
+  {
+    "id": "rpc-563",
+    "name": "Iulia Gordus",
+    "lat": 38.876702,
+    "lng": 28.31421,
+    "type": "city"
+  },
+  {
+    "id": "rpc-565",
+    "name": "Iuliopolis",
+    "lat": 40.127261,
+    "lng": 31.562376,
+    "type": "city"
+  },
+  {
+    "id": "rpc-582",
+    "name": "Lamus",
+    "lat": 36.2407,
+    "lng": 32.450363,
+    "type": "city"
+  },
+  {
+    "id": "rpc-585",
+    "name": "Laodicea ad Mare",
+    "lat": 35.516667,
+    "lng": 35.783333,
+    "type": "city"
+  },
+  {
+    "id": "rpc-587",
+    "name": "Lappa",
+    "lat": 35.28658,
+    "lng": 24.336077,
+    "type": "city"
+  },
+  {
+    "id": "rpc-588",
+    "name": "Laranda",
+    "lat": 37.181514,
+    "lng": 33.216363,
+    "type": "city"
+  },
+  {
+    "id": "rpc-589",
+    "name": "Lebedus",
+    "lat": 38.077883,
+    "lng": 26.964722,
+    "type": "city"
+  },
+  {
+    "id": "rpc-593",
+    "name": "Lystra",
+    "lat": 37.6635415,
+    "lng": 32.2113776,
+    "type": "city"
+  },
+  {
+    "id": "rpc-600",
+    "name": "Thespiae",
+    "lat": 38.303559,
+    "lng": 23.158322,
+    "type": "city"
+  },
+  {
+    "id": "rpc-606",
+    "name": "Marathus",
+    "lat": 34.8265,
+    "lng": 35.908186,
+    "type": "city"
+  },
+  {
+    "id": "rpc-608",
+    "name": "Marcianopolis",
+    "lat": 43.22504,
+    "lng": 27.585033,
+    "type": "city"
+  },
+  {
+    "id": "rpc-613",
+    "name": "Megalopolis-Sebasteia",
+    "lat": 39.750377,
+    "lng": 37.015335,
+    "type": "city"
+  },
+  {
+    "id": "rpc-614",
+    "name": "Megara",
+    "lat": 37.985078,
+    "lng": 23.340163,
+    "type": "city"
+  },
+  {
+    "id": "rpc-615",
+    "name": "Melus",
+    "lat": 36.743864,
+    "lng": 24.423276,
+    "type": "city"
+  },
+  {
+    "id": "rpc-616",
+    "name": "Mesambria",
+    "lat": 42.660417,
+    "lng": 27.7181,
+    "type": "city"
+  },
+  {
+    "id": "rpc-627",
+    "name": "Minoa",
+    "lat": 36.821263,
+    "lng": 25.861108,
+    "type": "city"
+  },
+  {
+    "id": "rpc-631",
+    "name": "Mostene",
+    "lat": 38.2,
+    "lng": 27.7,
+    "type": "city"
+  },
+  {
+    "id": "rpc-634",
+    "name": "Myndus",
+    "lat": 37.0563587,
+    "lng": 27.2296357,
+    "type": "city"
+  },
+  {
+    "id": "rpc-640",
+    "name": "Nacrasa",
+    "lat": 39.059088,
+    "lng": 27.705557,
+    "type": "city"
+  },
+  {
+    "id": "rpc-642",
+    "name": "Naxos",
+    "lat": 37.103871,
+    "lng": 25.377595,
+    "type": "city"
+  },
+  {
+    "id": "rpc-648",
+    "name": "Neoclaudiopolis",
+    "lat": 41.153629,
+    "lng": 35.462095,
+    "type": "city"
+  },
+  {
+    "id": "rpc-651",
+    "name": "Nicaea Cilbianorum",
+    "lat": 38.161899,
+    "lng": 28.088427,
+    "type": "city"
+  },
+  {
+    "id": "rpc-657",
+    "name": "Nicopolis ad Istrum",
+    "lat": 43.217925,
+    "lng": 25.612232,
+    "type": "city"
+  },
+  {
+    "id": "rpc-659",
+    "name": "Nicopolis ad Lycum",
+    "lat": 40.160511,
+    "lng": 38.139381,
+    "type": "city"
+  },
+  {
+    "id": "rpc-660",
+    "name": "Nicopolis ad Mestum",
+    "lat": 41.605833,
+    "lng": 23.815278,
+    "type": "city"
+  },
+  {
+    "id": "rpc-661",
+    "name": "Nicopolis Seleucidis",
+    "lat": 37.025361,
+    "lng": 36.631648,
+    "type": "city"
+  },
+  {
+    "id": "rpc-663",
+    "name": "Nicopolis-Emmaus",
+    "lat": 31.83926,
+    "lng": 34.989193,
+    "type": "city"
+  },
+  {
+    "id": "rpc-667",
+    "name": "Nisibis",
+    "lat": 37.066667,
+    "lng": 41.216667,
+    "type": "city"
+  },
+  {
+    "id": "rpc-670",
+    "name": "Nysa-Scythopolis",
+    "lat": 32.504649,
+    "lng": 35.504002,
+    "type": "city"
+  },
+  {
+    "id": "rpc-672",
+    "name": "Odessus",
+    "lat": 43.212074,
+    "lng": 27.908595,
+    "type": "city"
+  },
+  {
+    "id": "rpc-673",
+    "name": "Olba",
+    "lat": 36.584856,
+    "lng": 33.964987,
+    "type": "city"
+  },
+  {
+    "id": "rpc-676",
+    "name": "Olbia",
+    "lat": 46.691895,
+    "lng": 31.901597,
+    "type": "city"
+  },
+  {
+    "id": "rpc-678",
+    "name": "Orthosia",
+    "lat": 37.827987,
+    "lng": 28.252865,
+    "type": "city"
+  },
+  {
+    "id": "rpc-680",
+    "name": "Orthosia",
+    "lat": 34.5124579,
+    "lng": 35.9546085,
+    "type": "city"
+  },
+  {
+    "id": "rpc-683",
+    "name": "Pagae",
+    "lat": 38.084923,
+    "lng": 23.197116,
+    "type": "city"
+  },
+  {
+    "id": "rpc-684",
+    "name": "Palaeobeudus",
+    "lat": 38.547839,
+    "lng": 30.642464,
+    "type": "city"
+  },
+  {
+    "id": "rpc-685",
+    "name": "Palaeopolis",
+    "lat": 37.496187,
+    "lng": 29.995409,
+    "type": "city"
+  },
+  {
+    "id": "rpc-690",
+    "name": "Pappa Tiberia",
+    "lat": 37.904232,
+    "lng": 31.923399,
+    "type": "city"
+  },
+  {
+    "id": "rpc-693",
+    "name": "Parlais",
+    "lat": 38.017643,
+    "lng": 30.782716,
+    "type": "city"
+  },
+  {
+    "id": "rpc-694",
+    "name": "Paros",
+    "lat": 37.08579,
+    "lng": 25.150728,
+    "type": "city"
+  },
+  {
+    "id": "rpc-695",
+    "name": "Patras",
+    "lat": 38.25,
+    "lng": 21.733333,
+    "type": "city"
+  },
+  {
+    "id": "rpc-696",
+    "name": "Pautalia",
+    "lat": 42.281134,
+    "lng": 22.688244,
+    "type": "city"
+  },
+  {
+    "id": "rpc-699",
+    "name": "Pella",
+    "lat": 40.760033,
+    "lng": 22.525642,
+    "type": "city"
+  },
+  {
+    "id": "rpc-701",
+    "name": "Pella",
+    "lat": 32.449809,
+    "lng": 35.613423,
+    "type": "city"
+  },
+  {
+    "id": "rpc-712",
+    "name": "Pessinus",
+    "lat": 39.333889,
+    "lng": 31.584444,
+    "type": "city"
+  },
+  {
+    "id": "rpc-713",
+    "name": "Petra",
+    "lat": 30.328611,
+    "lng": 35.441944,
+    "type": "city"
+  },
+  {
+    "id": "rpc-714",
+    "name": "Philadelphia",
+    "lat": 36.620268,
+    "lng": 33.03945,
+    "type": "city"
+  },
+  {
+    "id": "rpc-718",
+    "name": "Philadelphia",
+    "lat": 31.930983,
+    "lng": 35.926084,
+    "type": "city"
+  },
+  {
+    "id": "rpc-719",
+    "name": "Philippi",
+    "lat": 41.013056,
+    "lng": 24.286389,
+    "type": "city"
+  },
+  {
+    "id": "rpc-720",
+    "name": "Philippopolis",
+    "lat": 42.143739,
+    "lng": 24.749842,
+    "type": "city"
+  },
+  {
+    "id": "rpc-726",
+    "name": "Phoenice",
+    "lat": 39.912324,
+    "lng": 20.057744,
+    "type": "city"
+  },
+  {
+    "id": "rpc-727",
+    "name": "Pholegandros",
+    "lat": 36.616667,
+    "lng": 24.9,
+    "type": "city"
+  },
+  {
+    "id": "rpc-729",
+    "name": "Pitane",
+    "lat": 38.928297,
+    "lng": 26.937453,
+    "type": "city"
+  },
+  {
+    "id": "rpc-730",
+    "name": "Plotinopolis",
+    "lat": 41.358625,
+    "lng": 26.499702,
+    "type": "city"
+  },
+  {
+    "id": "rpc-734",
+    "name": "Pompeiopolis",
+    "lat": 41.513889,
+    "lng": 34.214722,
+    "type": "city"
+  },
+  {
+    "id": "rpc-741",
+    "name": "Prostanna",
+    "lat": 37.864632,
+    "lng": 30.838521,
+    "type": "city"
+  },
+  {
+    "id": "rpc-745",
+    "name": "Prusias ad Hypium",
+    "lat": 40.833333,
+    "lng": 31.15,
+    "type": "city"
+  },
+  {
+    "id": "rpc-748",
+    "name": "Ptolemais",
+    "lat": 32.921776,
+    "lng": 35.077005,
+    "type": "city"
+  },
+  {
+    "id": "rpc-750",
+    "name": "Raphanea",
+    "lat": 34.966351,
+    "lng": 36.39298,
+    "type": "city"
+  },
+  {
+    "id": "rpc-751",
+    "name": "Raphia",
+    "lat": 31.297428,
+    "lng": 34.225777,
+    "type": "city"
+  },
+  {
+    "id": "rpc-753",
+    "name": "Rhodes",
+    "lat": 36.433333,
+    "lng": 28.216667,
+    "type": "city"
+  },
+  {
+    "id": "rpc-754",
+    "name": "Rhosus",
+    "lat": 36.411822,
+    "lng": 35.892815,
+    "type": "city"
+  },
+  {
+    "id": "rpc-761",
+    "name": "Samosata",
+    "lat": 37.564519,
+    "lng": 38.471342,
+    "type": "city"
+  },
+  {
+    "id": "rpc-764",
+    "name": "Savatra",
+    "lat": 37.959034,
+    "lng": 33.134068,
+    "type": "city"
+  },
+  {
+    "id": "rpc-767",
+    "name": "Sebaste",
+    "lat": 32.276172,
+    "lng": 35.195158,
+    "type": "city"
+  },
+  {
+    "id": "rpc-769",
+    "name": "Sebastopolis",
+    "lat": 40.0,
+    "lng": 36.1,
+    "type": "city"
+  },
+  {
+    "id": "rpc-770",
+    "name": "Sebastopolis",
+    "lat": 37.504493,
+    "lng": 29.173649,
+    "type": "city"
+  },
+  {
+    "id": "rpc-773",
+    "name": "Seleucia",
+    "lat": 36.124449,
+    "lng": 35.921192,
+    "type": "city"
+  },
+  {
+    "id": "rpc-781",
+    "name": "Sepphoris Diocaesarea",
+    "lat": 32.75411,
+    "lng": 35.283791,
+    "type": "city"
+  },
+  {
+    "id": "rpc-782",
+    "name": "Serdica",
+    "lat": 42.7,
+    "lng": 23.333333,
+    "type": "city"
+  },
+  {
+    "id": "rpc-783",
+    "name": "Sestus",
+    "lat": 40.228356,
+    "lng": 26.417225,
+    "type": "city"
+  },
+  {
+    "id": "rpc-785",
+    "name": "Sibidunda",
+    "lat": 37.213828,
+    "lng": 30.277986,
+    "type": "city"
+  },
+  {
+    "id": "rpc-787",
+    "name": "Sidon",
+    "lat": 33.560413,
+    "lng": 35.375272,
+    "type": "city"
+  },
+  {
+    "id": "rpc-788",
+    "name": "Silandus",
+    "lat": 38.749406,
+    "lng": 28.828786,
+    "type": "city"
+  },
+  {
+    "id": "rpc-797",
+    "name": "Stectorium",
+    "lat": 38.331247,
+    "lng": 30.148528,
+    "type": "city"
+  },
+  {
+    "id": "rpc-799",
+    "name": "Stobi",
+    "lat": 41.531391,
+    "lng": 21.977716,
+    "type": "city"
+  },
+  {
+    "id": "rpc-800",
+    "name": "Stratonicea",
+    "lat": 37.313829,
+    "lng": 28.059198,
+    "type": "city"
+  },
+  {
+    "id": "rpc-808",
+    "name": "Syros",
+    "lat": 37.45,
+    "lng": 24.9,
+    "type": "city"
+  },
+  {
+    "id": "rpc-809",
+    "name": "Tabae",
+    "lat": 37.439167,
+    "lng": 28.845278,
+    "type": "city"
+  },
+  {
+    "id": "rpc-813",
+    "name": "Tanagra",
+    "lat": 38.316667,
+    "lng": 23.533333,
+    "type": "city"
+  },
+  {
+    "id": "rpc-816",
+    "name": "Tavium",
+    "lat": 39.858454,
+    "lng": 34.516565,
+    "type": "city"
+  },
+  {
+    "id": "rpc-821",
+    "name": "Tenus",
+    "lat": 37.533333,
+    "lng": 25.166667,
+    "type": "city"
+  },
+  {
+    "id": "rpc-823",
+    "name": "Termessus Major",
+    "lat": 36.982469,
+    "lng": 30.464189,
+    "type": "city"
+  },
+  {
+    "id": "rpc-824",
+    "name": "Thasos",
+    "lat": 40.777626,
+    "lng": 24.703702,
+    "type": "city"
+  },
+  {
+    "id": "rpc-826",
+    "name": "Thera",
+    "lat": 36.363374,
+    "lng": 25.477816,
+    "type": "city"
+  },
+  {
+    "id": "rpc-833",
+    "name": "Timbriada",
+    "lat": 37.806247,
+    "lng": 31.063086,
+    "type": "city"
+  },
+  {
+    "id": "rpc-834",
+    "name": "Titiopolis",
+    "lat": 36.0929922,
+    "lng": 32.8106421,
+    "type": "city"
+  },
+  {
+    "id": "rpc-839",
+    "name": "Tmolus",
+    "lat": 38.476241,
+    "lng": 27.877777,
+    "type": "city"
+  },
+  {
+    "id": "rpc-840",
+    "name": "Tomara",
+    "lat": 38.881219,
+    "lng": 28.066301,
+    "type": "city"
+  },
+  {
+    "id": "rpc-842",
+    "name": "Tomis",
+    "lat": 44.173224,
+    "lng": 28.638299,
+    "type": "city"
+  },
+  {
+    "id": "rpc-844",
+    "name": "Topirus",
+    "lat": 41.079556,
+    "lng": 24.773105,
+    "type": "city"
+  },
+  {
+    "id": "rpc-845",
+    "name": "Traianopolis",
+    "lat": 40.867584,
+    "lng": 26.117731,
+    "type": "city"
+  },
+  {
+    "id": "rpc-849",
+    "name": "Trapezopolis",
+    "lat": 37.859589,
+    "lng": 28.94395,
+    "type": "city"
+  },
+  {
+    "id": "rpc-850",
+    "name": "Trapezus",
+    "lat": 41.002662,
+    "lng": 39.718172,
+    "type": "city"
+  },
+  {
+    "id": "rpc-854",
+    "name": "Tripolis",
+    "lat": 34.4290008,
+    "lng": 35.8387756,
+    "type": "city"
+  },
+  {
+    "id": "rpc-856",
+    "name": "Troezen",
+    "lat": 37.496395,
+    "lng": 23.362444,
+    "type": "city"
+  },
+  {
+    "id": "rpc-857",
+    "name": "Tyana",
+    "lat": 37.893752,
+    "lng": 34.560186,
+    "type": "city"
+  },
+  {
+    "id": "rpc-859",
+    "name": "Tyra",
+    "lat": 46.200948,
+    "lng": 30.350539,
+    "type": "city"
+  },
+  {
+    "id": "rpc-864",
+    "name": "Verbe",
+    "lat": 37.239357,
+    "lng": 30.266414,
+    "type": "city"
+  },
+  {
+    "id": "rpc-867",
+    "name": "Zacynthus",
+    "lat": 37.783333,
+    "lng": 20.9,
+    "type": "city"
+  },
+  {
+    "id": "rpc-868",
+    "name": "Zela",
+    "lat": 40.309234,
+    "lng": 35.899707,
+    "type": "city"
+  },
+  {
+    "id": "rpc-869",
+    "name": "Zephyrium",
+    "lat": 36.808642,
+    "lng": 34.638066,
+    "type": "city"
+  },
+  {
+    "id": "rpc-870",
+    "name": "Zeugma",
+    "lat": 37.058156,
+    "lng": 37.86983,
+    "type": "city"
+  },
+  {
+    "id": "rpc-874",
+    "name": "Hyde",
+    "lat": 37.440842,
+    "lng": 33.517464,
+    "type": "city"
+  },
+  {
+    "id": "rpc-876",
+    "name": "Ilistra",
+    "lat": 37.197222,
+    "lng": 33.024844,
+    "type": "city"
+  },
+  {
+    "id": "rpc-893",
+    "name": "Philippopolis",
+    "lat": 32.854167,
+    "lng": 36.629167,
+    "type": "city"
+  },
+  {
+    "id": "rpc-895",
+    "name": "Singara",
+    "lat": 36.323599,
+    "lng": 41.864403,
+    "type": "city"
+  },
+  {
+    "id": "rpc-896",
+    "name": "Heliopolis",
+    "lat": 34.015363,
+    "lng": 36.200556,
+    "type": "city"
+  },
+  {
+    "id": "rpc-902",
+    "name": "Laodicea Catacecaumene",
+    "lat": 38.192186,
+    "lng": 32.374024,
+    "type": "city"
+  },
+  {
+    "id": "rpc-905",
+    "name": "Tiberias",
+    "lat": 32.775458,
+    "lng": 35.542011,
+    "type": "city"
+  },
+  {
+    "id": "rpc-909",
+    "name": "Emerita",
+    "lat": 38.916159,
+    "lng": -6.34567,
+    "type": "city"
+  },
+  {
+    "id": "rpc-910",
+    "name": "Ebora",
+    "lat": 38.570846,
+    "lng": -7.909615,
+    "type": "city"
+  },
+  {
+    "id": "rpc-911",
+    "name": "Pax Iulia",
+    "lat": 38.015604,
+    "lng": -7.865225,
+    "type": "city"
+  },
+  {
+    "id": "rpc-912",
+    "name": "Laelia",
+    "lat": 37.427015,
+    "lng": -6.165904,
+    "type": "city"
+  },
+  {
+    "id": "rpc-913",
+    "name": "Irippo",
+    "lat": 37.001163,
+    "lng": -5.391451,
+    "type": "city"
+  },
+  {
+    "id": "rpc-914",
+    "name": "Osset",
+    "lat": 37.358375,
+    "lng": -6.035436,
+    "type": "city"
+  },
+  {
+    "id": "rpc-915",
+    "name": "Italica",
+    "lat": 37.443901,
+    "lng": -6.046795,
+    "type": "city"
+  },
+  {
+    "id": "rpc-916",
+    "name": "Romula",
+    "lat": 37.382668,
+    "lng": -5.996293,
+    "type": "city"
+  },
+  {
+    "id": "rpc-917",
+    "name": "Gades",
+    "lat": 36.533333,
+    "lng": -6.29,
+    "type": "city"
+  },
+  {
+    "id": "rpc-918",
+    "name": "Iulia Traducta",
+    "lat": 36.129768,
+    "lng": -5.447744,
+    "type": "city"
+  },
+  {
+    "id": "rpc-919",
+    "name": "Carteia",
+    "lat": 36.183163,
+    "lng": -5.410359,
+    "type": "city"
+  },
+  {
+    "id": "rpc-920",
+    "name": "Abdera",
+    "lat": 36.733333,
+    "lng": -3.016667,
+    "type": "city"
+  },
+  {
+    "id": "rpc-921",
+    "name": "Patricia",
+    "lat": 37.884683,
+    "lng": -4.779171,
+    "type": "city"
+  },
+  {
+    "id": "rpc-923",
+    "name": "Acci",
+    "lat": 37.300309,
+    "lng": -3.134636,
+    "type": "city"
+  },
+  {
+    "id": "rpc-924",
+    "name": "Carthago Nova",
+    "lat": 37.605678,
+    "lng": -0.991387,
+    "type": "city"
+  },
+  {
+    "id": "rpc-925",
+    "name": "Ilici",
+    "lat": 38.2396,
+    "lng": -0.6953,
+    "type": "city"
+  },
+  {
+    "id": "rpc-926",
+    "name": "Saguntum",
+    "lat": 39.680031,
+    "lng": -0.278608,
+    "type": "city"
+  },
+  {
+    "id": "rpc-927",
+    "name": "Ilercavonia-Dertosa",
+    "lat": 40.811004,
+    "lng": 0.520955,
+    "type": "city"
+  },
+  {
+    "id": "rpc-928",
+    "name": "Tarraco",
+    "lat": 41.115697,
+    "lng": 1.249594,
+    "type": "city"
+  },
+  {
+    "id": "rpc-929",
+    "name": "Emporiae",
+    "lat": 42.132111,
+    "lng": 3.108503,
+    "type": "city"
+  },
+  {
+    "id": "rpc-930",
+    "name": "Ilerda",
+    "lat": 41.614118,
+    "lng": 0.62579,
+    "type": "city"
+  },
+  {
+    "id": "rpc-931",
+    "name": "Lepida-Celsa",
+    "lat": 41.374996,
+    "lng": -0.437853,
+    "type": "city"
+  },
+  {
+    "id": "rpc-932",
+    "name": "Osca",
+    "lat": 42.140011,
+    "lng": -0.408948,
+    "type": "city"
+  },
+  {
+    "id": "rpc-933",
+    "name": "Caesaraugusta",
+    "lat": 41.657,
+    "lng": -0.876,
+    "type": "city"
+  },
+  {
+    "id": "rpc-934",
+    "name": "Bilbilis",
+    "lat": 41.38201,
+    "lng": -1.603219,
+    "type": "city"
+  },
+  {
+    "id": "rpc-935",
+    "name": "Turiaso",
+    "lat": 41.902823,
+    "lng": -1.725329,
+    "type": "city"
+  },
+  {
+    "id": "rpc-936",
+    "name": "Cascantum",
+    "lat": 41.998968,
+    "lng": -1.679195,
+    "type": "city"
+  },
+  {
+    "id": "rpc-937",
+    "name": "Graccurris",
+    "lat": 42.178586,
+    "lng": -1.749327,
+    "type": "city"
+  },
+  {
+    "id": "rpc-938",
+    "name": "Calagurris",
+    "lat": 42.303705,
+    "lng": -1.965033,
+    "type": "city"
+  },
+  {
+    "id": "rpc-939",
+    "name": "Clunia",
+    "lat": 41.783929,
+    "lng": -3.36515,
+    "type": "city"
+  },
+  {
+    "id": "rpc-940",
+    "name": "Ercavica",
+    "lat": 40.431836,
+    "lng": -2.669233,
+    "type": "city"
+  },
+  {
+    "id": "rpc-941",
+    "name": "Osicerda",
+    "lat": 41.216667,
+    "lng": -0.433333,
+    "type": "city"
+  },
+  {
+    "id": "rpc-942",
+    "name": "Segobriga",
+    "lat": 39.885321,
+    "lng": -2.81302,
+    "type": "city"
+  },
+  {
+    "id": "rpc-943",
+    "name": "Segovia",
+    "lat": 40.949191,
+    "lng": -4.119338,
+    "type": "city"
+  },
+  {
+    "id": "rpc-944",
+    "name": "Ebusus",
+    "lat": 38.908393,
+    "lng": 1.432146,
+    "type": "city"
+  },
+  {
+    "id": "rpc-950",
+    "name": "Siphnus",
+    "lat": 36.983333,
+    "lng": 24.666667,
+    "type": "city"
+  },
+  {
+    "id": "rpc-951",
+    "name": "Phellus",
+    "lat": 36.241748,
+    "lng": 29.66928,
+    "type": "city"
+  },
+  {
+    "id": "rpc-952",
+    "name": "Patara",
+    "lat": 36.260565,
+    "lng": 29.313364,
+    "type": "city"
+  },
+  {
+    "id": "rpc-953",
+    "name": "Candyba",
+    "lat": 36.3083626,
+    "lng": 29.6664914,
+    "type": "city"
+  },
+  {
+    "id": "rpc-954",
+    "name": "Corydalla",
+    "lat": 36.376674,
+    "lng": 30.273281,
+    "type": "city"
+  },
+  {
+    "id": "rpc-955",
+    "name": "Olympus",
+    "lat": 36.39685,
+    "lng": 30.474637,
+    "type": "city"
+  },
+  {
+    "id": "rpc-956",
+    "name": "Antiphellus",
+    "lat": 36.2,
+    "lng": 29.633333,
+    "type": "city"
+  },
+  {
+    "id": "rpc-957",
+    "name": "Arycanda",
+    "lat": 36.513517,
+    "lng": 30.059917,
+    "type": "city"
+  },
+  {
+    "id": "rpc-958",
+    "name": "Trebenna",
+    "lat": 36.875591,
+    "lng": 30.457546,
+    "type": "city"
+  },
+  {
+    "id": "rpc-959",
+    "name": "Podalia",
+    "lat": 36.685847,
+    "lng": 30.052253,
+    "type": "city"
+  },
+  {
+    "id": "rpc-960",
+    "name": "Acalissus",
+    "lat": 36.538904,
+    "lng": 30.232071,
+    "type": "city"
+  },
+  {
+    "id": "rpc-961",
+    "name": "Tlos",
+    "lat": 36.553889,
+    "lng": 29.420789,
+    "type": "city"
+  },
+  {
+    "id": "rpc-962",
+    "name": "Rhodiapolis",
+    "lat": 36.3871996,
+    "lng": 30.268085,
+    "type": "city"
+  },
+  {
+    "id": "rpc-963",
+    "name": "Gagae",
+    "lat": 36.288784,
+    "lng": 30.3475,
+    "type": "city"
+  },
+  {
+    "id": "rpc-964",
+    "name": "Myra",
+    "lat": 36.250801,
+    "lng": 29.993638,
+    "type": "city"
+  },
+  {
+    "id": "rpc-965",
+    "name": "Limyra",
+    "lat": 36.341965,
+    "lng": 30.170238,
+    "type": "city"
+  },
+  {
+    "id": "rpc-966",
+    "name": "Choma",
+    "lat": 36.6315,
+    "lng": 29.824,
+    "type": "city"
+  },
+  {
+    "id": "rpc-967",
+    "name": "Arneae",
+    "lat": 36.42481875,
+    "lng": 29.8592455,
+    "type": "city"
+  },
+  {
+    "id": "rpc-968",
+    "name": "Cyaneae",
+    "lat": 36.246592,
+    "lng": 29.815759,
+    "type": "city"
+  },
+  {
+    "id": "rpc-969",
+    "name": "Phaselis",
+    "lat": 36.529406,
+    "lng": 30.553543,
+    "type": "city"
+  },
+  {
+    "id": "rpc-970",
+    "name": "Aperlae",
+    "lat": 36.159391,
+    "lng": 29.78329,
+    "type": "city"
+  },
+  {
+    "id": "rpc-971",
+    "name": "Jerusalem",
+    "lat": 31.776679,
+    "lng": 35.234156,
+    "type": "city"
+  },
+  {
+    "id": "rpc-973",
+    "name": "Paestum",
+    "lat": 40.422631,
+    "lng": 15.005569,
+    "type": "city"
+  },
+  {
+    "id": "rpc-976",
+    "name": "Turris Libisonis",
+    "lat": 40.833333,
+    "lng": 8.4,
+    "type": "city"
+  },
+  {
+    "id": "rpc-977",
+    "name": "Caralis",
+    "lat": 39.214886,
+    "lng": 9.109522,
+    "type": "city"
+  },
+  {
+    "id": "rpc-978",
+    "name": "Uselis",
+    "lat": 39.8,
+    "lng": 8.85,
+    "type": "city"
+  },
+  {
+    "id": "rpc-979",
+    "name": "Lipara",
+    "lat": 38.467419,
+    "lng": 14.953897,
+    "type": "city"
+  },
+  {
+    "id": "rpc-980",
+    "name": "Tyndaris",
+    "lat": 38.14375,
+    "lng": 15.044148,
+    "type": "city"
+  },
+  {
+    "id": "rpc-981",
+    "name": "Halaesa",
+    "lat": 37.99808,
+    "lng": 14.262968,
+    "type": "city"
+  },
+  {
+    "id": "rpc-982",
+    "name": "Cephaloedium",
+    "lat": 38.038251,
+    "lng": 14.026402,
+    "type": "city"
+  },
+  {
+    "id": "rpc-983",
+    "name": "Panormus",
+    "lat": 38.116667,
+    "lng": 13.366667,
+    "type": "city"
+  },
+  {
+    "id": "rpc-984",
+    "name": "Iaiton",
+    "lat": 37.967325,
+    "lng": 13.197999,
+    "type": "city"
+  },
+  {
+    "id": "rpc-985",
+    "name": "Segesta",
+    "lat": 37.941433,
+    "lng": 12.83249,
+    "type": "city"
+  },
+  {
+    "id": "rpc-986",
+    "name": "Entella",
+    "lat": 37.728871,
+    "lng": 13.184128,
+    "type": "city"
+  },
+  {
+    "id": "rpc-987",
+    "name": "Lilybaeum",
+    "lat": 37.798405,
+    "lng": 12.437452,
+    "type": "city"
+  },
+  {
+    "id": "rpc-988",
+    "name": "Agrigentum",
+    "lat": 37.316667,
+    "lng": 13.583333,
+    "type": "city"
+  },
+  {
+    "id": "rpc-989",
+    "name": "Henna",
+    "lat": 37.567652,
+    "lng": 14.279558,
+    "type": "city"
+  },
+  {
+    "id": "rpc-990",
+    "name": "Assorus",
+    "lat": 37.628434,
+    "lng": 14.423874,
+    "type": "city"
+  },
+  {
+    "id": "rpc-991",
+    "name": "Centuripae",
+    "lat": 37.624073,
+    "lng": 14.740017,
+    "type": "city"
+  },
+  {
+    "id": "rpc-993",
+    "name": "Melita",
+    "lat": 35.885833,
+    "lng": 14.403056,
+    "type": "city"
+  },
+  {
+    "id": "rpc-994",
+    "name": "Cossura",
+    "lat": 36.833333,
+    "lng": 11.95,
+    "type": "city"
+  },
+  {
+    "id": "rpc-995",
+    "name": "Cirta",
+    "lat": 36.3675,
+    "lng": 6.611944,
+    "type": "city"
+  },
+  {
+    "id": "rpc-996",
+    "name": "Sicca",
+    "lat": 36.3681146667,
+    "lng": 6.61330266667,
+    "type": "city"
+  },
+  {
+    "id": "rpc-997",
+    "name": "Hippo Regius",
+    "lat": 36.883651,
+    "lng": 7.755129,
+    "type": "city"
+  },
+  {
+    "id": "rpc-998",
+    "name": "Utica",
+    "lat": 37.054967,
+    "lng": 10.061128,
+    "type": "city"
+  },
+  {
+    "id": "rpc-999",
+    "name": "Carthage",
+    "lat": 36.847009,
+    "lng": 10.312944,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1000",
+    "name": "Paterna",
+    "lat": 36.65,
+    "lng": 10.73,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1001",
+    "name": "Hadrumetum",
+    "lat": 35.825866,
+    "lng": 10.63878,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1002",
+    "name": "Lepti Minus",
+    "lat": 35.675278,
+    "lng": 10.880556,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1003",
+    "name": "Thapsus",
+    "lat": 35.622554,
+    "lng": 11.042848,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1004",
+    "name": "Achulla",
+    "lat": 35.129754,
+    "lng": 11.03359,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1005",
+    "name": "Cercina",
+    "lat": 34.7,
+    "lng": 11.183333,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1006",
+    "name": "Thaena",
+    "lat": 34.655157,
+    "lng": 10.668197,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1007",
+    "name": "Sabratha",
+    "lat": 32.805896,
+    "lng": 12.484959,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1008",
+    "name": "Oea",
+    "lat": 32.897586,
+    "lng": 13.175266,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1010",
+    "name": "Leptis Magna",
+    "lat": 32.636748,
+    "lng": 14.2922,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1012",
+    "name": "Tingi",
+    "lat": 35.787924,
+    "lng": -5.810048,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1013",
+    "name": "Zilil",
+    "lat": 35.521389,
+    "lng": -5.915833,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1014",
+    "name": "Babba",
+    "lat": 34.335111,
+    "lng": -6.490176,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1017",
+    "name": "Iol",
+    "lat": 36.606832,
+    "lng": 2.196871,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1018",
+    "name": "Cartenna",
+    "lat": 36.5167,
+    "lng": 1.3167,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1020",
+    "name": "Gortyn",
+    "lat": 35.063333,
+    "lng": 24.946944,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1022",
+    "name": "Cnossus",
+    "lat": 35.297961,
+    "lng": 25.163156,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1023",
+    "name": "Cyrene",
+    "lat": 32.823041,
+    "lng": 21.85727,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1024",
+    "name": "Ptolemais",
+    "lat": 32.7,
+    "lng": 20.95,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1025",
+    "name": "Treveri",
+    "lat": 49.5375,
+    "lng": 5.8625,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1027",
+    "name": "Ruteni",
+    "lat": 43.805713,
+    "lng": 2.092178,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1032",
+    "name": "Lugdunum",
+    "lat": 45.759722,
+    "lng": 4.819444,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1033",
+    "name": "Vienne",
+    "lat": 45.5242,
+    "lng": 4.8781,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1034",
+    "name": "Narbo",
+    "lat": 43.1836,
+    "lng": 3.0042,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1035",
+    "name": "Nemausus",
+    "lat": 43.838,
+    "lng": 4.361,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1036",
+    "name": "Cabellio",
+    "lat": 43.8375,
+    "lng": 5.0381,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1037",
+    "name": "Antipolis",
+    "lat": 43.5808,
+    "lng": 7.1239,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1038",
+    "name": "Arausio",
+    "lat": 44.1383,
+    "lng": 4.8097,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1039",
+    "name": "Forum Iulii",
+    "lat": 43.433,
+    "lng": 6.737,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1041",
+    "name": "Axos",
+    "lat": 35.3080511,
+    "lng": 24.8420191,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1042",
+    "name": "Eleutherna",
+    "lat": 35.328097,
+    "lng": 24.684822,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1043",
+    "name": "Hierapytna",
+    "lat": 35.010026,
+    "lng": 25.740363,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1044",
+    "name": "Polyrhenium",
+    "lat": 35.466785,
+    "lng": 23.657098,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1046",
+    "name": "Lato",
+    "lat": 35.190776,
+    "lng": 25.71726,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1047",
+    "name": "Lyttos",
+    "lat": 35.212883,
+    "lng": 25.37034,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1048",
+    "name": "Matavonium",
+    "lat": 43.427946,
+    "lng": 6.225647,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1049",
+    "name": "Sicyon",
+    "lat": 37.980475,
+    "lng": 22.722718,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1050",
+    "name": "Dyme",
+    "lat": 38.144625,
+    "lng": 21.551425,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1051",
+    "name": "Myconos",
+    "lat": 37.445959,
+    "lng": 25.328619,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1052",
+    "name": "Aegina",
+    "lat": 37.75,
+    "lng": 23.433333,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1053",
+    "name": "Thebes",
+    "lat": 38.319236,
+    "lng": 23.317355,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1054",
+    "name": "Hermione",
+    "lat": 37.385218,
+    "lng": 23.243591,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1056",
+    "name": "Locri",
+    "lat": 38.652,
+    "lng": 22.992,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1057",
+    "name": "Cephallenia",
+    "lat": 38.25,
+    "lng": 20.5,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1058",
+    "name": "Germa",
+    "lat": 39.53262,
+    "lng": 31.62822,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1059",
+    "name": "Buthrotum",
+    "lat": 39.757066,
+    "lng": 20.016628,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1060",
+    "name": "Peparethus",
+    "lat": 39.116667,
+    "lng": 23.716667,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1068",
+    "name": "Rabbath-Moba",
+    "lat": 31.272021,
+    "lng": 35.736,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1069",
+    "name": "Medaba",
+    "lat": 31.71765,
+    "lng": 35.7942,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1071",
+    "name": "Laodicea ad Libanum",
+    "lat": 34.572648,
+    "lng": 36.54147,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1072",
+    "name": "Joppa",
+    "lat": 32.052436,
+    "lng": 34.74774,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1073",
+    "name": "Esbus",
+    "lat": 31.786736,
+    "lng": 35.801042,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1074",
+    "name": "Eleutheropolis",
+    "lat": 31.62077,
+    "lng": 34.887973,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1075",
+    "name": "Charachmoba",
+    "lat": 31.1831575,
+    "lng": 35.703277,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1076",
+    "name": "Antipatris",
+    "lat": 32.116466,
+    "lng": 34.934048,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1079",
+    "name": "Imbrus",
+    "lat": 40.233058,
+    "lng": 25.903047,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1093",
+    "name": "Agrippia",
+    "lat": 45.189,
+    "lng": 36.825,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1094",
+    "name": "Caesarea",
+    "lat": 45.338611,
+    "lng": 36.468056,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1095",
+    "name": "Apamea",
+    "lat": 35.4207407,
+    "lng": 36.4002371,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1097",
+    "name": "Salacia",
+    "lat": 38.371152,
+    "lng": -8.519503,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1098",
+    "name": "Baesuri",
+    "lat": 37.217562,
+    "lng": -7.445494,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1099",
+    "name": "Sexi",
+    "lat": 36.734589,
+    "lng": -3.690755,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1100",
+    "name": "Messene",
+    "lat": 37.05,
+    "lng": 22.0,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1101",
+    "name": "Ceos",
+    "lat": 37.616667,
+    "lng": 24.333,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1106",
+    "name": "Elatea",
+    "lat": 38.6456333129,
+    "lng": 22.7799868711,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1108",
+    "name": "Tenedus",
+    "lat": 39.8339,
+    "lng": 26.069085,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1111",
+    "name": "Aegiale",
+    "lat": 36.90637,
+    "lng": 25.998408,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1113",
+    "name": "Beroea",
+    "lat": 40.516667,
+    "lng": 22.2,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1114",
+    "name": "Astypalaea",
+    "lat": 36.55,
+    "lng": 26.35,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1116",
+    "name": "Bubon",
+    "lat": 36.974003333333,
+    "lng": 29.415216666667,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1117",
+    "name": "Balbura",
+    "lat": 36.96016,
+    "lng": 29.561145,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1118",
+    "name": "Termessus by Oenoanda",
+    "lat": 36.813153,
+    "lng": 29.560692,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1125",
+    "name": "Artaxata",
+    "lat": 39.885,
+    "lng": 44.576389,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1127",
+    "name": "Lacanatis",
+    "lat": 37.25,
+    "lng": 36.25,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1131",
+    "name": "Diospolis",
+    "lat": 31.965599,
+    "lng": 34.891688,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1133",
+    "name": "Lysinia",
+    "lat": 37.7156875,
+    "lng": 30.090785,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1134",
+    "name": "Anthemusia",
+    "lat": 36.976075,
+    "lng": 38.424238,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1136",
+    "name": "Hephaestia",
+    "lat": 39.96314,
+    "lng": 25.31712,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1137",
+    "name": "Pheneus",
+    "lat": 37.919454,
+    "lng": 22.295238,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1139",
+    "name": "Cyparissia",
+    "lat": 37.248527,
+    "lng": 21.681159,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1142",
+    "name": "Gythium",
+    "lat": 36.756482,
+    "lng": 22.56286,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1144",
+    "name": "Phigalia",
+    "lat": 37.395872,
+    "lng": 21.844786,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1145",
+    "name": "Orchomenus",
+    "lat": 37.725676,
+    "lng": 22.314403,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1147",
+    "name": "Caphya",
+    "lat": 37.766264,
+    "lng": 22.262624,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1148",
+    "name": "Thelpusa",
+    "lat": 37.710489,
+    "lng": 21.87884,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1149",
+    "name": "Psophis",
+    "lat": 37.871725,
+    "lng": 21.892903,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1150",
+    "name": "Mothone",
+    "lat": 36.81801,
+    "lng": 21.707315,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1151",
+    "name": "Thuria",
+    "lat": 37.108636,
+    "lng": 22.044664,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1152",
+    "name": "Pylus",
+    "lat": 36.952627,
+    "lng": 21.661236,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1153",
+    "name": "Consabrum",
+    "lat": 39.460299,
+    "lng": -3.606772,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1154",
+    "name": "Colone",
+    "lat": 37.1,
+    "lng": 21.95,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1155",
+    "name": "Asopus",
+    "lat": 36.73044,
+    "lng": 22.854554,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1156",
+    "name": "Mantinea",
+    "lat": 37.616619,
+    "lng": 22.391896,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1157",
+    "name": "Las",
+    "lat": 36.725537,
+    "lng": 22.498245,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1158",
+    "name": "Asine",
+    "lat": 36.783333,
+    "lng": 21.95,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1159",
+    "name": "Tenea",
+    "lat": 37.798572,
+    "lng": 22.834379,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1160",
+    "name": "Pellene",
+    "lat": 38.043207,
+    "lng": 22.548344,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1161",
+    "name": "Heraea",
+    "lat": 37.605985,
+    "lng": 21.85941,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1163",
+    "name": "Tegea",
+    "lat": 37.455333,
+    "lng": 22.4205,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1164",
+    "name": "Bura",
+    "lat": 38.153,
+    "lng": 22.141,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1165",
+    "name": "Boeae",
+    "lat": 36.5,
+    "lng": 23.066667,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1167",
+    "name": "Megalopolis",
+    "lat": 37.410579,
+    "lng": 22.128459,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1168",
+    "name": "Hadrianopolis",
+    "lat": 40.9259818,
+    "lng": 32.4913727,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1169",
+    "name": "Aegira",
+    "lat": 38.131035,
+    "lng": 22.377574,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1170",
+    "name": "Taenarum",
+    "lat": 36.4013585697,
+    "lng": 22.486503682,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1172",
+    "name": "Palmyra",
+    "lat": 34.56,
+    "lng": 38.267222,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1182",
+    "name": "Methana",
+    "lat": 37.586689,
+    "lng": 23.349005,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1198",
+    "name": "Carnuntum",
+    "lat": 48.113346,
+    "lng": 16.867891,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1199",
+    "name": "Cleonae",
+    "lat": 37.824444,
+    "lng": 22.775833,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1200",
+    "name": "Cleitor",
+    "lat": 37.893544,
+    "lng": 22.123335,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1201",
+    "name": "Phlius",
+    "lat": 37.831664,
+    "lng": 22.641069,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1202",
+    "name": "Cynaetha",
+    "lat": 38.030556,
+    "lng": 22.111538,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1204",
+    "name": "Lemnus",
+    "lat": 39.916667,
+    "lng": 25.25,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1205",
+    "name": "Aegosthena",
+    "lat": 38.1475657672,
+    "lng": 23.2273216433,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1206",
+    "name": "Lalassis",
+    "lat": 36.6929124576,
+    "lng": 33.2734011106,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1208",
+    "name": "Sarmizegetusa Regia",
+    "lat": 45.6219,
+    "lng": 23.3093,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1211",
+    "name": "Satala",
+    "lat": 40.02789515,
+    "lng": 39.59791835,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1213",
+    "name": "Iuliosebaste",
+    "lat": 36.189979,
+    "lng": 32.41035,
+    "type": "city"
+  },
+  {
+    "id": "rpc-1215",
+    "name": "Chalcis sub Libano",
+    "lat": 33.95773,
+    "lng": 36.241643,
+    "type": "city"
+  },
+  {
+    "id": "imp-ambianum",
+    "name": "Ambianum",
+    "lat": 49.8941,
+    "lng": 2.2958,
+    "type": "imperial_city"
+  },
+  {
+    "id": "imp-aquileia",
+    "name": "Aquileia",
+    "lat": 45.7696,
+    "lng": 13.3675,
+    "type": "imperial_city"
+  },
+  {
+    "id": "imp-arelate",
+    "name": "Arelate",
+    "lat": 43.6776,
+    "lng": 4.6308,
+    "type": "imperial_city"
+  },
+  {
+    "id": "imp-barcino",
+    "name": "Barcino",
+    "lat": 41.3874,
+    "lng": 2.1686,
+    "type": "imperial_city"
+  },
+  {
+    "id": "imp-camulodunum",
+    "name": "Camulodunum",
+    "lat": 51.889,
+    "lng": 0.903,
+    "type": "imperial_city"
+  },
+  {
+    "id": "imp-cologne",
+    "name": "Cologne",
+    "lat": 50.95,
+    "lng": 6.9667,
+    "type": "imperial_city"
+  },
+  {
+    "id": "imp-londinium",
+    "name": "Londinium",
+    "lat": 51.5074,
+    "lng": -0.1278,
+    "type": "imperial_city"
+  },
+  {
+    "id": "imp-mainz",
+    "name": "Mainz",
+    "lat": 50.0,
+    "lng": 8.2711,
+    "type": "imperial_city"
+  },
+  {
+    "id": "imp-mediolanum",
+    "name": "Mediolanum",
+    "lat": 45.4642,
+    "lng": 9.19,
+    "type": "imperial_city"
+  },
+  {
+    "id": "imp-nicaea-gallia",
+    "name": "Nicaea (Gallia)",
+    "lat": 43.7,
+    "lng": 7.2667,
+    "type": "imperial_city"
+  },
+  {
+    "id": "imp-ostia",
+    "name": "Ostia",
+    "lat": 41.7558,
+    "lng": 12.2917,
+    "type": "imperial_city"
+  },
+  {
+    "id": "imp-ravenna",
+    "name": "Ravenna",
+    "lat": 44.4184,
+    "lng": 12.2035,
+    "type": "imperial_city"
+  },
+  {
+    "id": "imp-rome",
+    "name": "Rome",
+    "lat": 41.9028,
+    "lng": 12.4964,
+    "type": "imperial_city"
+  },
+  {
+    "id": "imp-rotomagus",
+    "name": "Rotomagus",
+    "lat": 49.4432,
+    "lng": 1.0993,
+    "type": "imperial_city"
+  },
+  {
+    "id": "imp-sirmium",
+    "name": "Sirmium",
+    "lat": 44.9667,
+    "lng": 19.6167,
+    "type": "imperial_city"
+  },
+  {
+    "id": "imp-siscia",
+    "name": "Siscia",
+    "lat": 45.4833,
+    "lng": 16.3667,
+    "type": "imperial_city"
+  },
+  {
+    "id": "imp-ticinum",
+    "name": "Ticinum",
+    "lat": 45.1847,
+    "lng": 9.1582,
+    "type": "imperial_city"
+  },
+  {
+    "id": "imp-trier",
+    "name": "Trier",
+    "lat": 49.75,
+    "lng": 6.6333,
+    "type": "imperial_city"
+  }
+]
