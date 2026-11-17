@@ -160,23 +160,37 @@ function initReferenceAutocomplete() {
     }
 
     if (mint) {
-      var geo = resolveGeography(mint, period);
-
       if (period === 'imp') {
-        addChip('pk-imp-cities', mint);
-        if (geo.subregion) addChip('pk-imp-subs', geo.subregion);
-        if (geo.region) addChip('pk-imp-regions', geo.region);
-        
+        if (typeof impGeoAdd === 'function') {
+          impGeoAdd('cities', mint);
+          if (typeof pkAfterChange === 'function') pkAfterChange('impcities');
+        } else {
+          addChip('pk-imp-cities', mint);
+          var geoImp = resolveGeography(mint, period);
+          if (geoImp.subregion) addChip('pk-imp-subs', geoImp.subregion);
+          if (geoImp.region) addChip('pk-imp-regions', geoImp.region);
+        }
       } else if (period === 'rep') {
-        addChip('pk-rep-cities', mint);
-        if (geo.subregion) addChip('pk-rep-subs', geo.subregion);
-        if (geo.region) addChip('pk-rep-regions', geo.region);
-        
+        if (typeof repGeoAdd === 'function') {
+          repGeoAdd('cities', mint);
+          if (typeof pkAfterChange === 'function') pkAfterChange('repcities');
+        } else {
+          addChip('pk-rep-cities', mint);
+          var geoRep = resolveGeography(mint, period);
+          if (geoRep.subregion) addChip('pk-rep-subs', geoRep.subregion);
+          if (geoRep.region) addChip('pk-rep-regions', geoRep.region);
+        }
       } else if (period === 'prov') {
-        addChip('pk-cities', mint);
-        if (geo.province) addChip('pk-provs', geo.province);
-        if (geo.subregion) addChip('pk-subs', geo.subregion);
-        if (geo.region) addChip('pk-regions', geo.region);
+        if (typeof provGeoAdd === 'function') {
+          provGeoAdd('cities', mint);
+          if (typeof pkAfterChange === 'function') pkAfterChange('cities');
+        } else {
+          addChip('pk-cities', mint);
+          var geoProv = resolveGeography(mint, period);
+          if (geoProv.province) addChip('pk-provs', geoProv.province);
+          if (geoProv.subregion) addChip('pk-subs', geoProv.subregion);
+          if (geoProv.region) addChip('pk-regions', geoProv.region);
+        }
       }
     }
 
