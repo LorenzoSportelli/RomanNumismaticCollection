@@ -533,9 +533,30 @@
 <script>
   var coins = [];
   var nextId = 1;
+  var filterMode = 'all'; 
 
   function emptyGeo() {
     return { provs: [], regions: [], subs: [], subsubs: [], cities: [], provExclusions: [] };
+  }
+
+  function persistLocal() {
+    try {
+      localStorage.setItem('numismatica_v2', JSON.stringify(coins));
+    } catch(e) {
+      console.warn('Impossibile salvare localmente:', e);
+    }
+  }
+
+  function normGeo(g) {
+    if (!g) return emptyGeo();
+    return {
+      provs: g.provs || [],
+      regions: g.regions || [],
+      subs: g.subs || [],
+      subsubs: g.subsubs || [],
+      cities: g.cities || [],
+      provExclusions: g.provExclusions || []
+    };
   }
 </script>
 
