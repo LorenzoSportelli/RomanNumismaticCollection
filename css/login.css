@@ -236,10 +236,12 @@ body {
 }
 
 .login-footer {
-  margin-top: 3rem;
+  position: relative;
+  z-index: 2;
+  margin-top: 2rem;
   text-align: left;
   font-size: 0.75rem;
-  color: #555;
+  color: #aaa;
   line-height: 1.5;
 }
 
@@ -248,7 +250,7 @@ body {
 }
 
 .legal-links a {
-  color: #777;
+  color: #ccc;
   text-decoration: none;
 }
 
