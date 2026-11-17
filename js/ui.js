@@ -995,14 +995,14 @@ function openPanel(){
   var p = document.getElementById('panel');
   p.classList.add('open');
   p.setAttribute('aria-hidden', 'false');
-  setTimeout(function(){ map.invalidateSize(); }, 320);
+  setTimeout(function(){ if (typeof map !== 'undefined' && map !== null) map.invalidateSize(); }, 320);
 }
 function closePanel(){
   if(!isMobile()) return;
   var p = document.getElementById('panel');
   p.classList.remove('open');
   p.setAttribute('aria-hidden', 'true');
-  setTimeout(function(){ map.invalidateSize(); }, 320);
+  setTimeout(function(){ if (typeof map !== 'undefined' && map !== null) map.invalidateSize(); }, 320);
 }
 function togglePanel(){
   var p = document.getElementById('panel');
@@ -1048,7 +1048,7 @@ function togglePanel(){
     } else {
       if(!panel.classList.contains('open')) panel.setAttribute('aria-hidden', 'true');
     }
-    map.invalidateSize();
+    if (typeof map !== 'undefined' && map !== null) map.invalidateSize();
   });
 })();
 function makeDraggable(windowElement, handleElement) {
@@ -1087,7 +1087,7 @@ if(!isMobile()){
   makeDraggable(document.getElementById('detail-box'), document.getElementById('detail-head'));
 }
 window.addEventListener('orientationchange', function(){
-  setTimeout(function(){ map.invalidateSize(); }, 300);
+  setTimeout(function(){ if (typeof map !== 'undefined' && map !== null) map.invalidateSize(); }, 300);
 });
 (function(){
   var dirty=false;
@@ -1114,7 +1114,11 @@ window.addEventListener('orientationchange', function(){
   initTagMenu();
   initClistTouch();
   renderList();
-  setTimeout(function(){ map.invalidateSize(); }, 500);
+  setTimeout(function(){ 
+    if (typeof map !== 'undefined' && map !== null) {
+      map.invalidateSize(); 
+    }
+  }, 500);
   
   var defF = safeGet('numismatica_set_defFilter');
   if (defF) setFilter(defF);
