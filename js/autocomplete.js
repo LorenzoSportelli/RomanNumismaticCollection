@@ -161,36 +161,11 @@ function initReferenceAutocomplete() {
 
     if (mint) {
       if (period === 'imp') {
-        if (typeof impGeoAdd === 'function') {
-          impGeoAdd('cities', mint);
-          if (typeof pkAfterChange === 'function') pkAfterChange('impcities');
-        } else {
-          addChip('pk-imp-cities', mint);
-          var geoImp = resolveGeography(mint, period);
-          if (geoImp.subregion) addChip('pk-imp-subs', geoImp.subregion);
-          if (geoImp.region) addChip('pk-imp-regions', geoImp.region);
-        }
+        pkAdd('impcities', mint);
       } else if (period === 'rep') {
-        if (typeof repGeoAdd === 'function') {
-          repGeoAdd('cities', mint);
-          if (typeof pkAfterChange === 'function') pkAfterChange('repcities');
-        } else {
-          addChip('pk-rep-cities', mint);
-          var geoRep = resolveGeography(mint, period);
-          if (geoRep.subregion) addChip('pk-rep-subs', geoRep.subregion);
-          if (geoRep.region) addChip('pk-rep-regions', geoRep.region);
-        }
+        pkAdd('repcities', mint);
       } else if (period === 'prov') {
-        if (typeof provGeoAdd === 'function') {
-          provGeoAdd('cities', mint);
-          if (typeof pkAfterChange === 'function') pkAfterChange('cities');
-        } else {
-          addChip('pk-cities', mint);
-          var geoProv = resolveGeography(mint, period);
-          if (geoProv.province) addChip('pk-provs', geoProv.province);
-          if (geoProv.subregion) addChip('pk-subs', geoProv.subregion);
-          if (geoProv.region) addChip('pk-regions', geoProv.region);
-        }
+        pkAdd('cities', mint);
       }
     }
 
