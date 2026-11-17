@@ -562,6 +562,45 @@
   }
   
   window._mapReady = false; 
+
+  function provinceOfMint(mintName) {
+    if (!mintName) return null;
+    if (typeof IMP_CITY_TO_SUBSUB !== 'undefined' && IMP_CITY_TO_SUBSUB[mintName]) {
+      var sub = IMP_CITY_TO_SUBSUB[mintName];
+      if (typeof IMP_MAP_TO_PROVS !== 'undefined' && IMP_MAP_TO_PROVS[sub]) {
+        return IMP_MAP_TO_PROVS[sub][0]; 
+      }
+    }
+    if (typeof PDB !== 'undefined' && PDB.cityByName) {
+      var list = PDB.cityByName[norm(mintName)];
+      if (list && list.length > 0) {
+        return provsForRegion(list[0].region)[0] || null;
+      }
+    }
+    return null;
+  }
+
+  function provsForCity(id) {
+    if (typeof PDB !== 'undefined' && PDB.cityById && PDB.cityById[id]) {
+      var c = PDB.cityById[id];
+      return provsForRegion(c.region);
+    }
+    return [];
+  }
+
+  function provsForRegion(regionName) {
+    if (!regionName) return [];
+    if (typeof REGION_PROVINCES !== 'undefined' && REGION_PROVINCES[regionName]) {
+      return REGION_PROVINCES[regionName];
+    }
+    if (typeof IMP_MAP_TO_PROVS !== 'undefined' && IMP_MAP_TO_PROVS[regionName]) {
+      return IMP_MAP_TO_PROVS[regionName];
+    }
+    if (typeof REP_MAP_TO_PROVS !== 'undefined' && REP_MAP_TO_PROVS[regionName]) {
+      return REP_MAP_TO_PROVS[regionName];
+    }
+    return [];
+  }
 </script>
 
 <script src="js/data.js"></script>
