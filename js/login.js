@@ -131,3 +131,8 @@ window.handleForgotPassword = async function() {
     showPopup("Error", humanizeAuthError(e));
   }
 };
+
+document.getElementById('auth-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  window.handleAuthSubmit();
+});
