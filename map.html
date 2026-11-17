@@ -36,7 +36,7 @@
     </svg>
   </button>
   <div id="hdr-left">
-    <a href="home.html" class="hdr-home-link">← Home</a>
+    <a href="index.html" class="hdr-home-link">← Home</a>
     <div id="hdr-title"><span class="t-long">MAPPED ROMAN NUMISMATIC COLLECTION</span><span class="t-short">ROMAN NUMISMATICS</span><span class="t-mob">MRNC</span></div>
     <div id="hdr-sub">Provinces at AD 117</div>
   </div>
@@ -739,7 +739,7 @@
       if (window.checkAppReady) window.checkAppReady();
 
     } else {
-      window.location.href = 'index.html';
+      window.location.href = 'login.html';
     }
   });
 
@@ -905,7 +905,7 @@
       showPopup('ERROR', 'Could not update username. Try again.');
     }
   };
-  
+
   window.renderLabels = function() {
     var sheet = document.getElementById('labels-sheet');
     var format = document.getElementById('label-format').value;
