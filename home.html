@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#efe9da">
+<title>NarratioNummi — The Art of Ancient Coinage</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/home.css">
+</head>
+<body class="home-page">
+
+<header class="home-nav" id="home-nav">
+  <a href="home.html" class="home-brand">
+    <img src="imgs/logo.png" alt="NarratioNummi" class="home-logo"
+         onerror="this.style.display='none';document.getElementById('home-brand-fb').style.display='inline';">
+    <span id="home-brand-fb" style="display:none;">NARRATIO<span>NVMMI</span></span>
+  </a>
+  <nav class="home-nav-links">
+    <a href="#features">Features</a>
+    <a href="#map-preview">Map</a>
+    <a href="#phases">Roadmap</a>
+    <a href="index.html" class="home-nav-cta">Sign In</a>
+  </nav>
+  <button class="home-burger" id="home-burger" aria-label="Menu"
+          onclick="document.getElementById('home-nav').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<section class="home-hero">
+  <div class="home-hero-inner">
+    <div class="home-hero-text">
+      <div class="home-eyebrow">Ancient Coinage · Organized</div>
+      <h1>Every coin tells a story.<br>Keep yours <em>intact</em>.</h1>
+      <p class="home-hero-lead">
+        NarratioNummi is the workspace for the modern numismatist.
+        Catalog your collection, trace provenances and explore the ancient world — one coin at a time.
+      </p>
+      <div class="home-hero-cta">
+        <a href="index.html" class="home-btn home-btn-gold">Start Your Collection</a>
+        <a href="#features" class="home-btn home-btn-ghost">Explore Features</a>
+      </div>
+      <div class="home-hero-meta">
+        <span>Map of the Roman Empire at AD 117</span>
+        <span class="dot">·</span>
+        <span>Provincial · Imperial · Republican</span>
+      </div>
+    </div>
+    <div class="home-hero-visual">
+      <div class="home-coin-frame">
+        <img src="imgs/hero-coin.jpg" alt="Roman coin"
+             onerror="this.style.display='none';this.parentElement.classList.add('empty');">
+        <div class="home-coin-caption">Denarius · Roma · c. 211 BC</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="home-section home-philosophy">
+  <div class="home-container">
+    <div class="home-section-head">
+      <span class="home-kicker">The Problem</span>
+      <h2>Beyond the spreadsheet</h2>
+    </div>
+    <p class="home-lead">
+      Managing a collection shouldn't mean juggling messy CSV files, scattered photos
+      and half-remembered provenances. We built a dedicated space where your coins,
+      their history and their value live together — beautifully, and securely.
+    </p>
+  </div>
+</section>
+
+<section class="home-section home-features" id="features">
+  <div class="home-container">
+    <div class="home-section-head">
+      <span class="home-kicker">What you get</span>
+      <h2>Everything you need</h2>
+    </div>
+
+    <div class="home-feature">
+      <div class="home-feature-text">
+        <span class="home-feature-tag">01 · Cataloging</span>
+        <h3>Effortless data entry</h3>
+        <p>Upload your coin photos and let smart autocomplete fill in the details.
+           Reference mints, issuers and magistrates from the built-in database —
+           no more typing the same province twice.</p>
+      </div>
+      <div class="home-feature-visual">
+        <img src="imgs/feature-upload.jpg" alt="Upload interface"
+             onerror="this.style.display='none';this.parentElement.classList.add('empty');">
+        <span class="home-feature-fallback">Upload &amp; Autocomplete</span>
+      </div>
+    </div>
+
+    <div class="home-feature reverse">
+      <div class="home-feature-text">
+        <span class="home-feature-tag">02 · Presentation</span>
+        <h3>Catalogs &amp; photo studio</h3>
+        <p>Generate professional PDF catalogs of your collection.
+           Use the integrated photo studio to clean backgrounds and make your coins
+           look like they belong in a museum.</p>
+      </div>
+      <div class="home-feature-visual">
+        <img src="imgs/feature-studio.jpg" alt="Photo studio"
+             onerror="this.style.display='none';this.parentElement.classList.add('empty');">
+        <span class="home-feature-fallback">Catalogs &amp; Photo Studio</span>
+      </div>
+    </div>
+
+    <div class="home-feature">
+      <div class="home-feature-text">
+        <span class="home-feature-tag">03 · History</span>
+        <h3>Provenance &amp; gallery</h3>
+        <p>Trace the journey of your coins. Build a visual timeline of ownership
+           and add in-hand videos to your gallery to capture every detail
+           a static photo misses.</p>
+      </div>
+      <div class="home-feature-visual">
+        <img src="imgs/feature-timeline.jpg" alt="Provenance timeline"
+             onerror="this.style.display='none';this.parentElement.classList.add('empty');">
+        <span class="home-feature-fallback">Provenance &amp; Gallery</span>
+      </div>
+    </div>
+
+    <div class="home-feature reverse">
+      <div class="home-feature-text">
+        <span class="home-feature-tag">04 · Intelligence</span>
+        <h3>Market prices &amp; AI identification</h3>
+        <p>Keep track of market values with real-time currency conversion.
+           Not sure what you have? AI image identification helps you recognize
+           your coins before you even open the catalog.</p>
+      </div>
+      <div class="home-feature-visual">
+        <img src="imgs/feature-ai.jpg" alt="AI identification"
+             onerror="this.style.display='none';this.parentElement.classList.add('empty');">
+        <span class="home-feature-fallback">Prices &amp; AI</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="home-section home-map" id="map-preview">
+  <div class="home-container">
+    <div class="home-section-head center">
+      <span class="home-kicker">The centerpiece</span>
+      <h2>Explore the Empire</h2>
+    </div>
+    <p class="home-lead center">
+      Visualize your collection geographically. See where your coins were minted and
+      how they travelled across the ancient world — from the provinces of Britannia
+      to the mints of the East.
+    </p>
+    <div class="home-map-frame">
+      <img src="imgs/map-preview.jpg" alt="Map preview"
+           onerror="this.style.display='none';this.parentElement.classList.add('empty');">
+      <span class="home-feature-fallback">Map of the Roman Empire</span>
+      <a href="map.html" class="home-map-link">View live map →</a>
+    </div>
+  </div>
+</section>
+
+<section class="home-section home-roadmap" id="phases">
+  <div class="home-container">
+    <div class="home-section-head">
+      <span class="home-kicker">Where we're going</span>
+      <h2>Roadmap</h2>
+    </div>
+    <div class="home-roadmap-grid">
+      <div class="home-phase">
+        <span class="home-phase-num">Phase 1</span>
+        <h3>Upload &amp; Autocomplete</h3>
+        <p>Coin photo upload and smart reference autocomplete.</p>
+      </div>
+      <div class="home-phase">
+        <span class="home-phase-num">Phase 2</span>
+        <h3>Catalogs &amp; Photo Studio</h3>
+        <p>PDF catalogs, folios and clean-background photo studio.</p>
+      </div>
+      <div class="home-phase">
+        <span class="home-phase-num">Phase 3</span>
+        <h3>Provenance &amp; Gallery</h3>
+        <p>Provenance timeline and in-hand photo/video gallery.</p>
+      </div>
+      <div class="home-phase">
+        <span class="home-phase-num">Phase 4</span>
+        <h3>Prices &amp; AI</h3>
+        <p>Market price module, currency conversion, AI identification.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="home-cta">
+  <div class="home-container center">
+    <h2>Ready to organize your legacy?</h2>
+    <p class="home-lead center">Create your account and start cataloging in minutes.</p>
+    <a href="index.html" class="home-btn home-btn-gold">Create Your Account</a>
+  </div>
+</section>
+
+<footer class="home-footer">
+  <div class="home-container">
+    <div class="home-footer-brand">NARRATIO<span>NVMMI</span></div>
+    <div class="home-footer-links">
+      <a href="index.html">Sign In</a>
+      <a href="map.html">Map</a>
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+    </div>
+    <p class="home-footer-copy">&copy; 2026 NarratioNummi. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var nav = document.getElementById('home-nav');
+    if(!nav) return;
+    window.addEventListener('scroll', function(){
+      nav.classList.toggle('scrolled', window.scrollY > 12);
+    }, {passive:true});
+    document.querySelectorAll('.home-nav-links a').forEach(function(a){
+      a.addEventListener('click', function(){ nav.classList.remove('open'); });
+    });
+  })();
+</script>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+  const app = initializeApp({
+    apiKey: "AIzaSyCNUZOPwefVZFTsD66qvVgELWtkUoWJIJE",
+    authDomain: "rncm-84799.firebaseapp.com",
+    projectId: "rncm-84799",
+    storageBucket: "rncm-84799.firebasestorage.app",
+    messagingSenderId: "48204932245",
+    appId: "1:48204932245:web:e066f8251d4d5f49b8a79c"
+  });
+  onAuthStateChanged(getAuth(app), function(user){
+    if (user && user.emailVerified) {
+      window.location.replace('map.html');
+    }
+  });
+</script>
+
+</body>
+</html>

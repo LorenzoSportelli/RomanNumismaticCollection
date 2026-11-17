@@ -303,6 +303,21 @@ body {
   line-height: 1.5;
 }
 
+.home-return {
+  margin-top: 1.5rem;
+  text-align: left;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+}
+.home-return a {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.home-return a:hover {
+  color: var(--gold);
+}
+
 @media (max-width: 900px) {
   .login-container {
     flex-direction: column;

@@ -876,6 +876,21 @@ body.ready{visibility:visible}
 }
 #mobile-gate-box button:hover{background:#3d3020}
 
+.hdr-home-link {
+  font-family: 'Inter', sans-serif;
+  font-size: .58rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  text-decoration: none;
+  margin-bottom: 3px;
+  display: inline-block;
+  transition: color .12s;
+}
+.hdr-home-link:hover {
+  color: var(--ink);
+}
+
 #settings-modal .box-custom{max-width:480px;padding:0;}
 #settings-modal .settings-head{padding:16px 20px;border-bottom:1px solid var(--rule);display:flex;justify-content:space-between;align-items:center;background:var(--paper);}
 #settings-modal .settings-head h3{font-family:'Inter',sans-serif;font-size:.68rem;letter-spacing:.22em;font-weight:600;text-transform:uppercase;margin:0;}
