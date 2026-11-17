@@ -6,9 +6,9 @@ function loadReferences() {
   _refFetchStarted = true;
 
   var files = [
-    { period: 'rep', url: 'json/references_rep.json' },
-    { period: 'imp', url: 'json/references_imp.json' },
-    { period: 'prov', url: 'json/references_prov.json' }
+    { period: 'rep', url: 'json/NEWreferences_rep.json' },
+    { period: 'imp', url: 'json/NEWreferences_imp.json' },
+    { period: 'prov', url: 'json/NEWreferences_prov.json' }
   ];
 
   Promise.all(files.map(function(f) {
