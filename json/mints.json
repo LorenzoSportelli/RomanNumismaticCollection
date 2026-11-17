@@ -4489,7 +4489,7 @@
   {
     "id": "imp-rome",
     "name": "Rome",
-    "lat": 41.9028,
+    "lat": 41.80, 
     "lng": 12.4964,
     "type": "imperial_city"
   },

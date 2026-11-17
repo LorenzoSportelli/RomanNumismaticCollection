@@ -166,7 +166,6 @@ window.initMap = function() {
     if (window.checkAppReady) window.checkAppReady();
   }, 15000);
 
-  // Carica i mints
   fetch('json/mints.json')
     .then(function(r){ return r.json(); })
     .then(function(data){
@@ -179,7 +178,6 @@ window.initMap = function() {
     .catch(function(err){ console.error("Errore caricamento mints.json:", err); });
 };
 
-// --- TUTTE LE ALTRE FUNZIONI (invariate) ---
 function provinceOfMint(mintName){
   if(!mintName) return null;
   var canon = canonicalMint(mintName);
