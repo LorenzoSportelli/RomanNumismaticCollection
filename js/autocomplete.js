@@ -50,15 +50,30 @@ function resolveGeography(mint, period) {
   var out = { region: '', subregion: '', province: '' };
   if (!mint) return out;
 
-  if (period === 'imp' && typeof IMP_CITY_TO_SUBSUB !== 'undefined') {
-    out.subregion = IMP_CITY_TO_SUBSUB[mint] || '';
-    if (typeof IMP_CITY_TO_SUB !== 'undefined') {
+  if (period === 'imp') {
+    if (typeof provinceOfMint === 'function') {
+      var prov = provinceOfMint(mint);
+      if (prov) out.province = prov;
+    }
+    if (typeof IDB !== 'undefined' && IDB.cityToSub) {
+      var sub = IDB.cityToSub[mint];
+      if (sub) {
+        out.subregion = sub;
+        for (var r in IDB.tree) {
+          if (IDB.tree[r][sub]) {
+            out.region = r;
+            break;
+          }
+        }
+      }
+    }
+    if (!out.region && typeof IMP_CITY_TO_SUB !== 'undefined') {
       out.region = IMP_CITY_TO_SUB[mint] || '';
     }
-    if (out.subregion && typeof IMP_MAP_TO_PROVS !== 'undefined') {
-      var provs = IMP_MAP_TO_PROVS[out.subregion];
-      if (provs && provs.length) out.province = provs[0];
+    if (!out.subregion && typeof IMP_CITY_TO_SUBSUB !== 'undefined') {
+      out.subregion = IMP_CITY_TO_SUBSUB[mint] || '';
     }
+    return out;
   }
 
   if (period === 'prov' && typeof PDB !== 'undefined' && PDB.cityByName) {
