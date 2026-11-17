@@ -315,9 +315,9 @@ function applyProvDB(){
 function setProvHint(t){ document.getElementById('prov-hint').textContent=t; }
 setProvHint('Loading CSV data…');
 Promise.all([
-  fetchFirst(['magistrati.csv','magistrates.csv']).catch(function(e){ console.error('magistrati:', e); return ''; }),
-  fetchFirst(['città.csv','citta.csv','cities.csv']).catch(function(e){ console.error('città:', e); return ''; }),
-  fetchFirst(['reigns.csv']).catch(function(e){ console.error('reigns:', e); return ''; })
+  fetchFirst(['csv/magistrati.csv','csv/magistrates.csv']).catch(function(e){ console.error('magistrati:', e); return ''; }),
+  fetchFirst(['csv/città.csv','csv/citta.csv','csv/cities.csv']).catch(function(e){ console.error('città:', e); return ''; }),
+  fetchFirst(['csv/reigns.csv']).catch(function(e){ console.error('reigns:', e); return ''; })
 ]).then(function(res){
   var start = function(){
     buildReignDB(parseCSV(res[2]));
@@ -401,7 +401,7 @@ var REP_MAP_TO_PROVS = {
 };
 var REP_ISSUERS = [];
 var RDB = { ready: true, issuers: [], cities: REP_CITIES, tree: REP_GEO_TREE, cityToSub: REP_CITY_TO_SUB, cityToSubsub: REP_CITY_TO_SUBSUB, tuples: [] };
-fetchFirst(['issuer.csv'])
+fetchFirst(['csv/issuer.csv'])
   .then(function(text){
     var rows = parseCSV(text);
     if(rows.length){

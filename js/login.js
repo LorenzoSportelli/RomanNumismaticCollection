@@ -108,7 +108,7 @@ window.handleAuthSubmit = async function() {
         return;
       }
       
-      window.location.href = "index.html";
+      window.location.href = "map.html";
     }
   } catch (e) {
     showError(humanizeAuthError(e));
