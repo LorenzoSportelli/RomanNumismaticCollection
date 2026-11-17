@@ -896,22 +896,42 @@ body.ready{visibility:visible}
   border-color: var(--rule);
 }
 
-.btn-small {
-  padding: 4px 10px;
-  font-size: 0.6rem;
-  letter-spacing: 0.05em;
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  color: var(--text2);
-  cursor: pointer;
-  font-family: inherit;
-  text-transform: uppercase;
-  margin-right: 4px;
+.segmented-control {
+  display: inline-flex;
+  border: 1px solid var(--rule);
+  margin-right: 6px;
+  height: 22px;
 }
-.btn-small.active {
-  background: var(--text);
-  color: var(--bg2);
-  border-color: var(--text);
+
+.seg-btn {
+  background: transparent;
+  border: none;
+  border-right: 1px solid var(--rule);
+  color: var(--ink-3);
+  font-family: 'Inter', sans-serif;
+  font-size: .58rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  padding: 0 8px;
+  cursor: pointer;
+  transition: all .12s;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.seg-btn:last-child {
+  border-right: none;
+}
+
+.seg-btn:hover:not(.active) {
+  background: var(--paper-3);
+  color: var(--ink);
+}
+
+.seg-btn.active {
+  background: var(--ink);
+  color: var(--paper-2);
 }
 
 #settings-modal .box-custom{max-width:480px;padding:0;}

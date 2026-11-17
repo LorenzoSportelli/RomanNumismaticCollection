@@ -83,8 +83,10 @@
       <div id="collection-heading">
         <h2>COLLECTION</h2>
         <div id="tags-wrap">
-          <button id="btn-italy-regio" type="button" class="btn-small active" onclick="setItalyMode('regio')" title="Show Italy divided by Regio">REGIO</button>
-          <button id="btn-italy-whole" type="button" class="btn-small" onclick="setItalyMode('whole')" title="Show Italy as a single block">ITALY</button>
+          <div class="segmented-control">
+            <button id="btn-italy-regio" type="button" class="seg-btn active" onclick="setItalyMode('regio')" title="Show Italy divided by Regio">REGIO</button>
+            <button id="btn-italy-whole" type="button" class="seg-btn" onclick="setItalyMode('whole')" title="Show Italy as a single block">ITALY</button>
+          </div>
           <button id="btn-tags" type="button" onclick="toggleTagsMenu(event)">TAGS &#9662;</button>
           <div id="tags-menu">
             <div class="tag-menu-title">VISIBLE TAGS</div>
