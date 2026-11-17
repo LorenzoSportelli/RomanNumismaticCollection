@@ -244,3 +244,14 @@
   .labels-sheet {box-shadow: none;padding:0;margin:0;max-width:none;min-height:auto;}
   .label-card {border:1px dashed #ccc !important; break-inside: avoid;}
 }
+
+@media (max-width: 900px) {
+  .hdr-home-link {
+    font-size: 0;
+    padding: 6px;
+    margin-right: 4px;
+  }
+  .hdr-home-link svg {
+    margin-right: 0;
+  }
+}

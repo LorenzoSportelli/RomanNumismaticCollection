@@ -16,14 +16,8 @@ function save(coin) {
   if (typeof window.persistLocal === 'function') {
     window.persistLocal();
   }
-  if (typeof window.currentUser !== 'undefined' && window.currentUser) {
-    try {
-      var db = firebase.firestore ? firebase.firestore() : null;
-      if (db) {
-        db.collection('coins').doc(String(coin.id)).set(Object.assign({}, coin, { userId: window.currentUser.uid }))
-          .catch(function(err) { console.error('Firestore save error:', err); });
-      }
-    } catch(e) { console.warn('Firestore not available', e); }
+  if (typeof window.currentUser !== 'undefined' && window.currentUser && typeof window.saveCoinToFirebase === 'function') {
+    window.saveCoinToFirebase(coin);
   }
 }
 
