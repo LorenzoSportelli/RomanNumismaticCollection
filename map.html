@@ -530,10 +530,19 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
 
+<script>
+  var coins = [];
+  var nextId = 1;
+
+  function emptyGeo() {
+    return { provs: [], regions: [], subs: [], subsubs: [], cities: [], provExclusions: [] };
+  }
+</script>
+
 <script src="js/data.js"></script>
-<script src="js/map.js"></script>
 <script src="js/ui.js"></script>
 <script src="js/autocomplete.js"></script>
+<script src="js/map.js"></script>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
