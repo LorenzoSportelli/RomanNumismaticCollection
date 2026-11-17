@@ -1,4 +1,4 @@
-var ALL_REFERENCES = { rep: [], imp: [], prov: [] };
+var REFERENCES = [];
 var _refFetchStarted = false;
 
 function loadReferences() {
@@ -6,39 +6,44 @@ function loadReferences() {
   _refFetchStarted = true;
 
   var files = [
-    { period: 'rep', url: 'json/NEWreferences_rep.json' },
-    { period: 'imp', url: 'json/NEWreferences_imp.json' },
-    { period: 'prov', url: 'json/NEWreferences_prov.json' }
+    'json/NEWreferences_rep.json',
+    'json/NEWreferences_imp.json',
+    'json/NEWreferences_prov.json'
   ];
 
-  Promise.all(files.map(function(f) {
-    return fetch(f.url)
+  Promise.all(files.map(function(url) {
+    return fetch(url)
       .then(function(r) {
         if (!r.ok) throw new Error('HTTP ' + r.status);
         return r.json();
       })
       .then(function(data) {
-        ALL_REFERENCES[f.period] = Array.isArray(data) ? data : [];
-        console.log('Caricati ' + ALL_REFERENCES[f.period].length + ' riferimenti per ' + f.period);
+        return Array.isArray(data) ? data : [];
       })
       .catch(function(e) {
-        console.warn('File non caricato: ' + f.url + ' (' + e.message + ')');
-        ALL_REFERENCES[f.period] = [];
+        console.warn('File non caricato: ' + url + ' (' + e.message + ')');
+        return [];
       });
-  })).then(function() {
-    console.log('Tutti i riferimenti caricati!');
+  })).then(function(results) {
+    REFERENCES = results[0].concat(results[1]).concat(results[2]);
+    console.log('References loaded:', REFERENCES.length);
   });
 }
 
-function getCurrentPeriod() {
-  if (typeof currentPeriod !== 'undefined' && currentPeriod) return currentPeriod;
-  var rProv = document.getElementById('r-prov');
-  var rImp = document.getElementById('r-imp');
-  var rRep = document.getElementById('r-rep');
-  if (rProv && rProv.classList.contains('on')) return 'prov';
-  if (rImp && rImp.classList.contains('on')) return 'imp';
-  if (rRep && rRep.classList.contains('on')) return 'rep';
-  return 'rep';
+function addChip(pickerId, value) {
+  if (!value) return;
+  var picker = document.getElementById(pickerId);
+  if (!picker) return;
+  var chips = picker.querySelector('.pk-chips');
+  if (!chips) return;
+  var existing = chips.querySelector('.pk-chip[data-value="' + value.replace(/"/g, '&quot;') + '"]');
+  if (existing) return;
+  var chip = document.createElement('div');
+  chip.className = 'pk-chip';
+  chip.setAttribute('data-value', value);
+  chip.innerHTML = '<span>' + value + '</span><button type="button" aria-label="Remove">&times;</button>';
+  chip.querySelector('button').addEventListener('click', function() { chip.remove(); });
+  chips.appendChild(chip);
 }
 
 function resolveGeography(mint, period) {
@@ -70,22 +75,6 @@ function resolveGeography(mint, period) {
   return out;
 }
 
-function setPickerValue(pickerId, value) {
-  if (!value) return;
-  var picker = document.getElementById(pickerId);
-  if (!picker) return;
-  var chips = picker.querySelector('.pk-chips');
-  if (!chips) return;
-  var existing = chips.querySelector('[data-value="' + CSS.escape(value) + '"]');
-  if (existing) return;
-  var chip = document.createElement('div');
-  chip.className = 'pk-chip';
-  chip.setAttribute('data-value', value);
-  chip.innerHTML = '<span>' + esc(value) + '</span><button type="button" aria-label="Remove">&times;</button>';
-  chip.querySelector('button').addEventListener('click', function() { chip.remove(); });
-  chips.appendChild(chip);
-}
-
 function initReferenceAutocomplete() {
   var input = document.getElementById('f-ref-search');
   var list = document.getElementById('ref-suggestions');
@@ -99,10 +88,13 @@ function initReferenceAutocomplete() {
       return;
     }
 
-    var period = getCurrentPeriod();
-    var refsToSearch = ALL_REFERENCES[period] || [];
+    var period = (typeof currentPeriod !== 'undefined' && currentPeriod) ? currentPeriod : null;
+    var pool = REFERENCES;
+    if (period) {
+      pool = REFERENCES.filter(function(r) { return r.period === period; });
+    }
 
-    var matches = refsToSearch.filter(function(r) {
+    var matches = pool.filter(function(r) {
       return (r.ref || '').toLowerCase().indexOf(q) >= 0;
     }).slice(0, 20);
 
@@ -128,12 +120,12 @@ function initReferenceAutocomplete() {
     if (!el) return;
 
     var ref = el.dataset.ref || '';
-    var authority = el.dataset.authority || '';
     var denom = el.dataset.denom || '';
     var metal = el.dataset.metal || '';
     var date = el.dataset.date || '';
+    var authority = el.dataset.authority || '';
     var mint = el.dataset.mint || '';
-    var period = getCurrentPeriod();
+    var period = (typeof currentPeriod !== 'undefined' && currentPeriod) ? currentPeriod : null;
 
     var fRef = document.getElementById('f-ref');
     if (fRef) fRef.value = ref;
@@ -155,11 +147,11 @@ function initReferenceAutocomplete() {
     if (fDate && date) fDate.value = date;
 
     if (authority) {
-      if (period === 'prov') {
+      if (period === 'imp') {
+        addChip('pk-authorities', authority);
+      } else if (period === 'prov') {
         var fProvImp = document.getElementById('f-prov-imp');
         if (fProvImp) fProvImp.value = authority;
-      } else if (period === 'imp') {
-        setPickerValue('pk-authorities', authority);
       } else if (period === 'rep') {
         var fRepAuth = document.getElementById('f-rep-auth');
         if (fRepAuth) fRepAuth.value = authority;
@@ -168,21 +160,21 @@ function initReferenceAutocomplete() {
 
     if (mint) {
       if (period === 'imp') {
-        setPickerValue('pk-imp-cities', mint);
+        addChip('pk-imp-cities', mint);
         var geo = resolveGeography(mint, period);
-        if (geo.subregion) setPickerValue('pk-imp-subs', geo.subregion);
-        if (geo.region) setPickerValue('pk-imp-regions', geo.region);
+        if (geo.subregion) addChip('pk-imp-subs', geo.subregion);
+        if (geo.region) addChip('pk-imp-regions', geo.region);
       } else if (period === 'rep') {
-        setPickerValue('pk-rep-cities', mint);
+        addChip('pk-rep-cities', mint);
         var geoRep = resolveGeography(mint, period);
-        if (geoRep.subregion) setPickerValue('pk-rep-subs', geoRep.subregion);
-        if (geoRep.region) setPickerValue('pk-rep-regions', geoRep.region);
+        if (geoRep.subregion) addChip('pk-rep-subs', geoRep.subregion);
+        if (geoRep.region) addChip('pk-rep-regions', geoRep.region);
       } else if (period === 'prov') {
-        setPickerValue('pk-cities', mint);
+        addChip('pk-cities', mint);
         var geoProv = resolveGeography(mint, period);
-        if (geoProv.province) setPickerValue('pk-provs', geoProv.province);
-        if (geoProv.subregion) setPickerValue('pk-subs', geoProv.subregion);
-        if (geoProv.region) setPickerValue('pk-regions', geoProv.region);
+        if (geoProv.province) addChip('pk-provs', geoProv.province);
+        if (geoProv.subregion) addChip('pk-subs', geoProv.subregion);
+        if (geoProv.region) addChip('pk-regions', geoProv.region);
       }
     }
 
