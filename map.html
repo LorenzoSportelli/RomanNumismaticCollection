@@ -534,16 +534,14 @@
   var coins = [];
   var nextId = 1;
   var filterMode = 'all';
-  var visibleTags = {}; 
+  var visibleTags = ['province', 'region', 'city', 'authority', 'magistrate', 'metal']; // Ora è un array!
 
   function emptyGeo() {
     return { provs: [], regions: [], subs: [], subsubs: [], cities: [], provExclusions: [] };
   }
 
   function persistLocal() {
-    try {
-      localStorage.setItem('numismatica_v2', JSON.stringify(coins));
-    } catch(e) {}
+    try { localStorage.setItem('numismatica_v2', JSON.stringify(coins)); } catch(e) {}
   }
 
   function normGeo(g) {
@@ -551,16 +549,15 @@
     return { provs: g.provs || [], regions: g.regions || [], subs: g.subs || [], subsubs: g.subsubs || [], cities: g.cities || [], provExclusions: g.provExclusions || [] };
   }
 
-  function initTagMenu() {
-    console.warn("initTagMenu: funzione non definita, salto l'inizializzazione.");
-  }
+  function initTagMenu() { console.warn("initTagMenu: fallback."); }
 
   function cityById(id) {
-    if (typeof PDB !== 'undefined' && PDB.cities) {
-      return PDB.cities.find(function(c) { return c.id === id; }) || null;
-    }
+    if (typeof PDB !== 'undefined' && PDB.cities) return PDB.cities.find(function(c) { return c.id === id; }) || null;
     return null;
   }
+  function provinceOfMint(mint) { return null; }
+  function provsForCity(id) { return []; }
+  function provsForRegion(r) { return []; }
 </script>
 
 <script src="js/data.js"></script>
