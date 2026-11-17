@@ -32,7 +32,6 @@ function loadReferences() {
 
 function getCurrentPeriod() {
   if (typeof currentPeriod !== 'undefined' && currentPeriod) return currentPeriod;
-  
   var rProv = document.getElementById('r-prov');
   var rImp = document.getElementById('r-imp');
   var rRep = document.getElementById('r-rep');
@@ -40,6 +39,51 @@ function getCurrentPeriod() {
   if (rImp && rImp.classList.contains('on')) return 'imp';
   if (rRep && rRep.classList.contains('on')) return 'rep';
   return 'rep';
+}
+
+function resolveGeography(mint, period) {
+  var out = { region: '', subregion: '', province: '' };
+  if (!mint) return out;
+
+  if (period === 'imp' && typeof IMP_CITY_TO_SUBSUB !== 'undefined') {
+    out.subregion = IMP_CITY_TO_SUBSUB[mint] || '';
+    if (typeof IMP_CITY_TO_SUB !== 'undefined') {
+      out.region = IMP_CITY_TO_SUB[mint] || '';
+    }
+    if (out.subregion && typeof IMP_MAP_TO_PROVS !== 'undefined') {
+      var provs = IMP_MAP_TO_PROVS[out.subregion];
+      if (provs && provs.length) out.province = provs[0];
+    }
+  }
+
+  if (period === 'prov' && typeof PDB !== 'undefined' && PDB.cityByName) {
+    var list = PDB.cityByName[mint.toLowerCase()];
+    if (list && list.length) {
+      var city = list[0];
+      out.subregion = city.region || '';
+      if (typeof REGION_PROVINCES !== 'undefined' && REGION_PROVINCES[out.subregion]) {
+        out.province = REGION_PROVINCES[out.subregion][0] || '';
+      }
+    }
+  }
+
+  return out;
+}
+
+function setPickerValue(pickerId, value) {
+  if (!value) return;
+  var picker = document.getElementById(pickerId);
+  if (!picker) return;
+  var chips = picker.querySelector('.pk-chips');
+  if (!chips) return;
+  var existing = chips.querySelector('[data-value="' + CSS.escape(value) + '"]');
+  if (existing) return;
+  var chip = document.createElement('div');
+  chip.className = 'pk-chip';
+  chip.setAttribute('data-value', value);
+  chip.innerHTML = '<span>' + esc(value) + '</span><button type="button" aria-label="Remove">&times;</button>';
+  chip.querySelector('button').addEventListener('click', function() { chip.remove(); });
+  chips.appendChild(chip);
 }
 
 function initReferenceAutocomplete() {
@@ -70,7 +114,7 @@ function initReferenceAutocomplete() {
 
     list.innerHTML = matches.map(function(r) {
       var meta = [r.authority, r.denom, r.metal, r.date].filter(Boolean).join(' · ');
-      return '<div class="ref-suggestion" data-ref="' + esc(r.ref) + '" data-authority="' + esc(r.authority || '') + '" data-denom="' + esc(r.denom || '') + '" data-metal="' + esc(r.metal || '') + '" data-date="' + esc(r.date || '') + '">' +
+      return '<div class="ref-suggestion" data-ref="' + esc(r.ref) + '" data-authority="' + esc(r.authority || '') + '" data-denom="' + esc(r.denom || '') + '" data-metal="' + esc(r.metal || '') + '" data-date="' + esc(r.date || '') + '" data-mint="' + esc(r.mint || '') + '">' +
         '<strong>' + esc(r.ref) + '</strong>' +
         (meta ? '<small>' + esc(meta) + '</small>' : '') +
         '</div>';
@@ -88,6 +132,7 @@ function initReferenceAutocomplete() {
     var denom = el.dataset.denom || '';
     var metal = el.dataset.metal || '';
     var date = el.dataset.date || '';
+    var mint = el.dataset.mint || '';
     var period = getCurrentPeriod();
 
     var fRef = document.getElementById('f-ref');
@@ -114,11 +159,30 @@ function initReferenceAutocomplete() {
         var fProvImp = document.getElementById('f-prov-imp');
         if (fProvImp) fProvImp.value = authority;
       } else if (period === 'imp') {
-        var fProvImp = document.getElementById('f-prov-imp');
-        if (fProvImp) fProvImp.value = authority;
+        setPickerValue('pk-authorities', authority);
       } else if (period === 'rep') {
         var fRepAuth = document.getElementById('f-rep-auth');
         if (fRepAuth) fRepAuth.value = authority;
+      }
+    }
+
+    if (mint) {
+      if (period === 'imp') {
+        setPickerValue('pk-imp-cities', mint);
+        var geo = resolveGeography(mint, period);
+        if (geo.subregion) setPickerValue('pk-imp-subs', geo.subregion);
+        if (geo.region) setPickerValue('pk-imp-regions', geo.region);
+      } else if (period === 'rep') {
+        setPickerValue('pk-rep-cities', mint);
+        var geoRep = resolveGeography(mint, period);
+        if (geoRep.subregion) setPickerValue('pk-rep-subs', geoRep.subregion);
+        if (geoRep.region) setPickerValue('pk-rep-regions', geoRep.region);
+      } else if (period === 'prov') {
+        setPickerValue('pk-cities', mint);
+        var geoProv = resolveGeography(mint, period);
+        if (geoProv.province) setPickerValue('pk-provs', geoProv.province);
+        if (geoProv.subregion) setPickerValue('pk-subs', geoProv.subregion);
+        if (geoProv.region) setPickerValue('pk-regions', geoProv.region);
       }
     }
 
