@@ -22,7 +22,6 @@ function geoToOur(geoName){
 var _mobileInit = isMobile();
 var _touchInit = isTouchDevice();
 var map; // Dichiarata ma NON inizializzata subito
-var italyMode = 'regio';
 var tt = document.getElementById("tt");
 var mw = document.getElementById("mapwrap");
 var geoLayer = null;
@@ -30,11 +29,6 @@ var mintsLayer;
 
 window.initMap = function() {
   if (map) return; 
-  try {
-    var savedMode = localStorage.getItem('numismatica_italyMode');
-    if (savedMode) setItalyMode(savedMode);
-  } catch(e){}
-
   map = L.map("map", {
     zoom: 5, minZoom: _touchInit ? 2 : 4.85, maxZoom: 8,
     zoomSnap: 0.1, zoomDelta: 0.5,
@@ -299,37 +293,11 @@ function setHighlight(list){
 function clearHighlight(){ setHighlight([]); }
 function isHighlighted(our){
   if(!our) return false;
-
-  if (italyMode === 'whole') {
-
-    var isItalian = (our === "Italia" || our.indexOf("Italia - Regio") === 0);
-    
-    if (!isItalian) return false;
-
-    for (var k in highlightSet) {
-      if (k === "Italia" || k.indexOf("Italia - Regio") === 0) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   if(highlightSet[our]) return true;
   if(our.indexOf("Italia")===0 && highlightSet["Italia"]) return true;
   if(our==="Italia"){ for(var k in highlightSet){ if(k.indexOf("Italia")===0) return true; } }
   return false;
 }
-window.setItalyMode = function(mode) {
-  italyMode = mode;
-  try { localStorage.setItem('numismatica_italyMode', mode); } catch(e){}
-  var bRegio = document.getElementById('btn-italy-regio');
-  var bWhole = document.getElementById('btn-italy-whole');
-  if (bRegio && bWhole) {
-    bRegio.classList.toggle('active', mode === 'regio');
-    bWhole.classList.toggle('active', mode === 'whole');
-  }
-  updateMap();
-};
 function updateMap(){
   if(!geoLayer)return;
   _provCountCache = {};
