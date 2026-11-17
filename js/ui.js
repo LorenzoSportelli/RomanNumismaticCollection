@@ -1,3 +1,32 @@
+var detailId = null;
+var deleteId = null;
+var editId = null;
+
+function subById(id) {
+  if (typeof PDB !== 'undefined' && PDB.subs) {
+    return PDB.subs.find(function(s) { return s.id === id; }) || null;
+  }
+  if (typeof SUBREGIONS !== 'undefined') {
+    return SUBREGIONS.find(function(s) { return s.id === id; }) || null;
+  }
+  return null;
+}
+
+function save(coin) {
+  if (typeof window.persistLocal === 'function') {
+    window.persistLocal();
+  }
+  if (typeof window.currentUser !== 'undefined' && window.currentUser) {
+    try {
+      var db = firebase.firestore ? firebase.firestore() : null;
+      if (db) {
+        db.collection('coins').doc(String(coin.id)).set(Object.assign({}, coin, { userId: window.currentUser.uid }))
+          .catch(function(err) { console.error('Firestore save error:', err); });
+      }
+    } catch(e) { console.warn('Firestore not available', e); }
+  }
+}
+
 function isProvMode(){ return currentPeriod==='prov' && PDB.ready; }
 function isImpMode(){ return currentPeriod==='imp' && IDB.ready; }
 function isRepMode(){ return currentPeriod==='rep' && RDB.ready; }
