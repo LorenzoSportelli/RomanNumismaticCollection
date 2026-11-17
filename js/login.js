@@ -90,6 +90,8 @@ window.handleAuthSubmit = async function() {
   btn.disabled = true;
 
   try {
+    await setPersistence(auth, browserLocalPersistence);
+
     if (isRegisterMode) {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       await sendEmailVerification(userCredential.user);
