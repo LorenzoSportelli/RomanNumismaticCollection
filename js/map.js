@@ -301,12 +301,14 @@ function isHighlighted(our){
   if(!our) return false;
 
   if (italyMode === 'whole') {
-    if (highlightSet["Italia"]) {
-      return our === "Italia" || our.indexOf("Italia") === 0;
-    }
+
+    var isItalian = (our === "Italia" || our.indexOf("Italia - Regio") === 0);
+    
+    if (!isItalian) return false;
+
     for (var k in highlightSet) {
-      if (k === "Italia" || k.indexOf("Italia") === 0) {
-        return our === "Italia" || our.indexOf("Italia") === 0;
+      if (k === "Italia" || k.indexOf("Italia - Regio") === 0) {
+        return true;
       }
     }
     return false;
