@@ -563,6 +563,14 @@
   
   window._mapReady = false; 
 
+  function setFilter(mode, btn) {
+    filterMode = mode;
+    if (typeof map !== 'undefined' && map !== null) {
+      if (typeof updateMap === 'function') updateMap();
+      if (typeof renderMints === 'function') renderMints();
+    }
+  }
+
   function provinceOfMint(mintName) {
     if (!mintName) return null;
     if (typeof IMP_CITY_TO_SUBSUB !== 'undefined' && IMP_CITY_TO_SUBSUB[mintName]) {
@@ -604,11 +612,12 @@
 </script>
 
 <script src="js/data.js"></script>
+<script src="js/map.js"></script>
 <script src="js/ui.js"></script>
 <script src="js/autocomplete.js"></script>
-<script src="js/map.js"></script>
-
 <script type="module">
+
+
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
   import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail, sendEmailVerification, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
   import { getFirestore, collection, doc, setDoc, getDocs, deleteDoc, query, where } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
