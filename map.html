@@ -534,7 +534,7 @@
   var coins = [];
   var nextId = 1;
   var filterMode = 'all';
-  var visibleTags = ['province', 'region', 'city', 'authority', 'magistrate', 'metal']; // Ora è un array!
+  var visibleTags = ['province', 'region', 'city', 'authority', 'magistrate', 'metal'];
 
   function emptyGeo() {
     return { provs: [], regions: [], subs: [], subsubs: [], cities: [], provExclusions: [] };
@@ -555,9 +555,13 @@
     if (typeof PDB !== 'undefined' && PDB.cities) return PDB.cities.find(function(c) { return c.id === id; }) || null;
     return null;
   }
-  function provinceOfMint(mint) { return null; }
-  function provsForCity(id) { return []; }
-  function provsForRegion(r) { return []; }
+  
+  function cityLabel(c) { 
+    if (!c) return ''; 
+    return c.name || c.id || ''; 
+  }
+  
+  window._mapReady = false; 
 </script>
 
 <script src="js/data.js"></script>
