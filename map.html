@@ -390,6 +390,14 @@
       
       <div class="settings-section">
         <h4>ACCOUNT</h4>
+
+        <div class="settings-row">
+          <div>
+            <div class="s-label">Username</div>
+            <div class="s-desc" id="settings-username-val">Loading...</div>
+          </div>
+          <button class="btn" onclick="changeUsernameFlow()">Edit</button>
+        </div>
         <div class="settings-row">
           <div>
             <div class="s-label">Email Address</div>
@@ -397,6 +405,7 @@
           </div>
           <button class="btn" onclick="showPopup('NOTICE', 'Email update flow will be implemented in the next phase.')">Edit</button>
         </div>
+
         <div class="settings-row">
           <div>
             <div class="s-label">Password</div>
@@ -655,9 +664,12 @@
       modal.classList.remove('open');
     } else {
       modal.classList.add('open');
+      
       if (auth.currentUser) {
         document.getElementById('settings-email-val').textContent = auth.currentUser.email;
+        document.getElementById('settings-username-val').textContent = auth.currentUser.displayName || 'Not set';
       }
+
       var currentF = safeGet('numismatica_set_defFilter') || 'all';
       var currentM = safeGet('numismatica_set_mapDef') || 'none';
       document.getElementById('settings-def-filter').value = currentF;
@@ -878,6 +890,22 @@
     renderLabels();
   };
 
+  window.changeUsernameFlow = async function() {
+    if (!auth.currentUser) return;
+    const newName = prompt("Enter new username:", auth.currentUser.displayName || "");
+    if (!newName || newName.trim() === "") return;
+    
+    try {
+      const { updateProfile } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js");
+      await updateProfile(auth.currentUser, { displayName: newName.trim() });
+      
+      document.getElementById('settings-username-val').textContent = newName.trim();
+      showPopup('SUCCESS', 'Username updated successfully!');
+    } catch (e) {
+      showPopup('ERROR', 'Could not update username. Try again.');
+    }
+  };
+  
   window.renderLabels = function() {
     var sheet = document.getElementById('labels-sheet');
     var format = document.getElementById('label-format').value;

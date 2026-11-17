@@ -21,8 +21,7 @@
   <nav class="home-nav-links">
     <a href="#features">Features</a>
     <a href="#map-preview">Map</a>
-    <a href="#phases">Roadmap</a>
-    <a href="index.html" class="home-nav-cta">Sign In</a>
+    <a href="index.html" class="home-nav-cta" id="nav-auth-btn">Sign In</a>
   </nav>
   <button class="home-burger" id="home-burger" aria-label="Menu"
           onclick="document.getElementById('home-nav').classList.toggle('open')">
@@ -40,7 +39,7 @@
         Catalog your collection, trace provenances and explore the ancient world — one coin at a time.
       </p>
       <div class="home-hero-cta">
-        <a href="index.html" class="home-btn home-btn-gold">Start Your Collection</a>
+        <a href="index.html" class="home-btn home-btn-gold" id="hero-main-btn">Start Your Collection</a>
         <a href="#features" class="home-btn home-btn-ghost">Explore Features</a>
       </div>
       <div class="home-hero-meta">
@@ -83,7 +82,7 @@
     <div class="home-feature">
       <div class="home-feature-text">
         <span class="home-feature-tag">01 · Cataloging</span>
-        <h3>Effortless data entry</h3>
+        <h3>Upload &amp; Autocomplete</h3>
         <p>Upload your coin photos and let smart autocomplete fill in the details.
            Reference mints, issuers and magistrates from the built-in database —
            no more typing the same province twice.</p>
@@ -97,46 +96,47 @@
 
     <div class="home-feature reverse">
       <div class="home-feature-text">
-        <span class="home-feature-tag">02 · Presentation</span>
-        <h3>Catalogs &amp; photo studio</h3>
-        <p>Generate professional PDF catalogs of your collection.
-           Use the integrated photo studio to clean backgrounds and make your coins
-           look like they belong in a museum.</p>
+        <span class="home-feature-tag">02 · Tools</span>
+        <h3>Catalogs, Photo Studio &amp; Prices</h3>
+        <p>Generate professional PDF catalogs and folios. Clean up your coin photos
+           with the integrated Photo Studio. Keep track of market values with real-time
+           currency conversion.</p>
       </div>
       <div class="home-feature-visual">
-        <img src="imgs/feature-studio.jpg" alt="Photo studio"
+        <img src="imgs/feature-studio.jpg" alt="Tools"
              onerror="this.style.display='none';this.parentElement.classList.add('empty');">
-        <span class="home-feature-fallback">Catalogs &amp; Photo Studio</span>
+        <span class="home-feature-fallback">Catalogs, Studio &amp; Prices</span>
       </div>
     </div>
 
     <div class="home-feature">
       <div class="home-feature-text">
-        <span class="home-feature-tag">03 · History</span>
-        <h3>Provenance &amp; gallery</h3>
-        <p>Trace the journey of your coins. Build a visual timeline of ownership
-           and add in-hand videos to your gallery to capture every detail
-           a static photo misses.</p>
+        <span class="home-feature-tag">03 · Explore</span>
+        <h3>The Interactive Map &amp; Gallery</h3>
+        <p>Visualize your collection geographically on an interactive map of the Roman Empire.
+           Dive into your gallery with high-resolution photos and in-hand videos that capture
+           every detail.</p>
       </div>
       <div class="home-feature-visual">
-        <img src="imgs/feature-timeline.jpg" alt="Provenance timeline"
+        <img src="imgs/feature-map.jpg" alt="Map & Gallery"
              onerror="this.style.display='none';this.parentElement.classList.add('empty');">
-        <span class="home-feature-fallback">Provenance &amp; Gallery</span>
+        <span class="home-feature-fallback">Map &amp; Gallery</span>
       </div>
     </div>
 
-    <div class="home-feature reverse">
+    <div class="home-feature reverse" style="opacity: 0.85;">
       <div class="home-feature-text">
-        <span class="home-feature-tag">04 · Intelligence</span>
-        <h3>Market prices &amp; AI identification</h3>
-        <p>Keep track of market values with real-time currency conversion.
-           Not sure what you have? AI image identification helps you recognize
-           your coins before you even open the catalog.</p>
+        <span class="home-feature-tag" style="background: var(--h-paper-3); padding: 2px 8px; border-radius: 4px;">
+          04 · Literature <span style="font-size: 0.8em; font-weight: normal; color: var(--h-ink-3);">(Coming Soon)</span>
+        </span>
+        <h3>A Library at Your Fingertips</h3>
+        <p>We are building a dedicated section to browse and reference the most important
+           numismatic literature, catalogs, and academic papers directly from your workspace.</p>
       </div>
       <div class="home-feature-visual">
-        <img src="imgs/feature-ai.jpg" alt="AI identification"
+        <img src="imgs/feature-literature.jpg" alt="Literature"
              onerror="this.style.display='none';this.parentElement.classList.add('empty');">
-        <span class="home-feature-fallback">Prices &amp; AI</span>
+        <span class="home-feature-fallback">Literature</span>
       </div>
     </div>
   </div>
@@ -158,37 +158,6 @@
            onerror="this.style.display='none';this.parentElement.classList.add('empty');">
       <span class="home-feature-fallback">Map of the Roman Empire</span>
       <a href="map.html" class="home-map-link">View live map →</a>
-    </div>
-  </div>
-</section>
-
-<section class="home-section home-roadmap" id="phases">
-  <div class="home-container">
-    <div class="home-section-head">
-      <span class="home-kicker">Where we're going</span>
-      <h2>Roadmap</h2>
-    </div>
-    <div class="home-roadmap-grid">
-      <div class="home-phase">
-        <span class="home-phase-num">Phase 1</span>
-        <h3>Upload &amp; Autocomplete</h3>
-        <p>Coin photo upload and smart reference autocomplete.</p>
-      </div>
-      <div class="home-phase">
-        <span class="home-phase-num">Phase 2</span>
-        <h3>Catalogs &amp; Photo Studio</h3>
-        <p>PDF catalogs, folios and clean-background photo studio.</p>
-      </div>
-      <div class="home-phase">
-        <span class="home-phase-num">Phase 3</span>
-        <h3>Provenance &amp; Gallery</h3>
-        <p>Provenance timeline and in-hand photo/video gallery.</p>
-      </div>
-      <div class="home-phase">
-        <span class="home-phase-num">Phase 4</span>
-        <h3>Prices &amp; AI</h3>
-        <p>Market price module, currency conversion, AI identification.</p>
-      </div>
     </div>
   </div>
 </section>
@@ -230,6 +199,7 @@
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
   import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+  
   const app = initializeApp({
     apiKey: "AIzaSyCNUZOPwefVZFTsD66qvVgELWtkUoWJIJE",
     authDomain: "rncm-84799.firebaseapp.com",
@@ -238,9 +208,28 @@
     messagingSenderId: "48204932245",
     appId: "1:48204932245:web:e066f8251d4d5f49b8a79c"
   });
-  onAuthStateChanged(getAuth(app), function(user){
+  
+  const auth = getAuth(app);
+  
+  const navAuthBtn = document.getElementById('nav-auth-btn');
+  const heroMainBtn = document.getElementById('hero-main-btn');
+
+  onAuthStateChanged(auth, function(user) {
     if (user && user.emailVerified) {
-      window.location.replace('map.html');
+      const displayName = user.displayName || user.email.split('@')[0];
+      
+      navAuthBtn.textContent = displayName;
+      navAuthBtn.href = "map.html";
+      
+      heroMainBtn.textContent = "Login";
+      heroMainBtn.href = "map.html";
+      
+    } else {
+      navAuthBtn.textContent = "Sign In";
+      navAuthBtn.href = "index.html";
+      
+      heroMainBtn.textContent = "Start Your Collection";
+      heroMainBtn.href = "index.html";
     }
   });
 </script>

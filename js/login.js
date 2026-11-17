@@ -58,6 +58,10 @@ function showError(msg) {
 window.toggleAuthMode = function() {
   isRegisterMode = !isRegisterMode;
   
+  const usernameGroup = document.getElementById('group-username');
+  if (usernameGroup) {
+    usernameGroup.style.display = isRegisterMode ? 'block' : 'none';
+  }
   const title = document.getElementById('auth-title');
   const subtitle = document.getElementById('auth-subtitle');
   const submitBtn = document.getElementById('auth-submit');
@@ -94,6 +98,13 @@ window.handleAuthSubmit = async function() {
 
     if (isRegisterMode) {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      
+      const username = document.getElementById('auth-username').value.trim();
+      if (username) {
+        const { updateProfile } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js");
+        await updateProfile(userCredential.user, { displayName: username });
+      }
+
       await sendEmailVerification(userCredential.user);
       
       isRegisterMode = false;
