@@ -1,5 +1,3 @@
-// map.js
-
 var STEPS = [
   [229,221,201], [210,192,157], [203,180,142], [194,166,124], 
   [184,152,96], [172,135,86], [160,118,76], [150,88,59], 
@@ -169,7 +167,7 @@ window.initMap = function() {
   }, 15000);
 
   // Carica i mints
-  fetch('mints.json')
+  fetch('json/mints.json')
     .then(function(r){ return r.json(); })
     .then(function(data){
       allMintsData = data;

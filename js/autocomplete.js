@@ -1,11 +1,10 @@
-// autocomplete.js
 var REFERENCES = [];
 var _refFetchStarted = false;
 
 function loadReferences() {
   if (_refFetchStarted) return;
   _refFetchStarted = true;
-  fetch('references.json')
+  fetch('json/references.json')
     .then(function(r) {
       if (!r.ok) throw new Error('HTTP ' + r.status);
       return r.json();

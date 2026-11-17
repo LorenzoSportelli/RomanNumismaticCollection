@@ -1,4 +1,3 @@
-// ui.js
 function isProvMode(){ return currentPeriod==='prov' && PDB.ready; }
 function isImpMode(){ return currentPeriod==='imp' && IDB.ready; }
 function isRepMode(){ return currentPeriod==='rep' && RDB.ready; }
