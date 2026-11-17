@@ -1,22 +1,45 @@
-var REFERENCES = [];
+var ALL_REFERENCES = { rep: [], imp: [], prov: [] };
 var _refFetchStarted = false;
 
 function loadReferences() {
   if (_refFetchStarted) return;
   _refFetchStarted = true;
-  fetch('json/references.json')
-    .then(function(r) {
-      if (!r.ok) throw new Error('HTTP ' + r.status);
-      return r.json();
-    })
-    .then(function(data) {
-      REFERENCES = Array.isArray(data) ? data : [];
-      console.log('References loaded:', REFERENCES.length);
-    })
-    .catch(function(e) {
-      console.warn('references.json not loaded:', e.message);
-      REFERENCES = [];
-    });
+
+  var files = [
+    { period: 'rep', url: 'json/references_rep.json' },
+    { period: 'imp', url: 'json/references_imp.json' },
+    { period: 'prov', url: 'json/references_prov.json' }
+  ];
+
+  Promise.all(files.map(function(f) {
+    return fetch(f.url)
+      .then(function(r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      })
+      .then(function(data) {
+        ALL_REFERENCES[f.period] = Array.isArray(data) ? data : [];
+        console.log('Caricati ' + ALL_REFERENCES[f.period].length + ' riferimenti per ' + f.period);
+      })
+      .catch(function(e) {
+        console.warn('File non caricato: ' + f.url + ' (' + e.message + ')');
+        ALL_REFERENCES[f.period] = [];
+      });
+  })).then(function() {
+    console.log('Tutti i riferimenti caricati!');
+  });
+}
+
+function getCurrentPeriod() {
+  if (typeof currentPeriod !== 'undefined' && currentPeriod) return currentPeriod;
+  
+  var rProv = document.getElementById('r-prov');
+  var rImp = document.getElementById('r-imp');
+  var rRep = document.getElementById('r-rep');
+  if (rProv && rProv.classList.contains('on')) return 'prov';
+  if (rImp && rImp.classList.contains('on')) return 'imp';
+  if (rRep && rRep.classList.contains('on')) return 'rep';
+  return 'rep';
 }
 
 function initReferenceAutocomplete() {
@@ -31,7 +54,11 @@ function initReferenceAutocomplete() {
       list.innerHTML = '';
       return;
     }
-    var matches = REFERENCES.filter(function(r) {
+
+    var period = getCurrentPeriod();
+    var refsToSearch = ALL_REFERENCES[period] || [];
+
+    var matches = refsToSearch.filter(function(r) {
       return (r.ref || '').toLowerCase().indexOf(q) >= 0;
     }).slice(0, 20);
 
@@ -61,6 +88,7 @@ function initReferenceAutocomplete() {
     var denom = el.dataset.denom || '';
     var metal = el.dataset.metal || '';
     var date = el.dataset.date || '';
+    var period = getCurrentPeriod();
 
     var fRef = document.getElementById('f-ref');
     if (fRef) fRef.value = ref;
@@ -82,10 +110,13 @@ function initReferenceAutocomplete() {
     if (fDate && date) fDate.value = date;
 
     if (authority) {
-      if (currentPeriod === 'prov') {
+      if (period === 'prov') {
         var fProvImp = document.getElementById('f-prov-imp');
         if (fProvImp) fProvImp.value = authority;
-      } else if (currentPeriod === 'rep') {
+      } else if (period === 'imp') {
+        var fProvImp = document.getElementById('f-prov-imp');
+        if (fProvImp) fProvImp.value = authority;
+      } else if (period === 'rep') {
         var fRepAuth = document.getElementById('f-rep-auth');
         if (fRepAuth) fRepAuth.value = authority;
       }
