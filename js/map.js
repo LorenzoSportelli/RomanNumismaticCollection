@@ -317,7 +317,7 @@ function isHighlighted(our){
   if(our==="Italia"){ for(var k in highlightSet){ if(k.indexOf("Italia")===0) return true; } }
   return false;
 }
-function setItalyMode(mode) {
+window.setItalyMode = function(mode) {
   italyMode = mode;
   try { localStorage.setItem('numismatica_italyMode', mode); } catch(e){}
   var bRegio = document.getElementById('btn-italy-regio');
@@ -327,7 +327,7 @@ function setItalyMode(mode) {
     bWhole.classList.toggle('active', mode === 'whole');
   }
   updateMap();
-}
+};
 function updateMap(){
   if(!geoLayer)return;
   _provCountCache = {};

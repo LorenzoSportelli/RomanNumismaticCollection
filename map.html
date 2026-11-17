@@ -591,28 +591,6 @@
     }
   }
 
-  function provinceOfMint(mintName) {
-    if (!mintName) return null;
-
-    if (mintName === 'Rome' || mintName === 'Roma') {
-      return 'Italia - Regio I - Latium et Campania';
-    }
-
-    if (typeof IMP_CITY_TO_SUBSUB !== 'undefined' && IMP_CITY_TO_SUBSUB[mintName]) {
-      var sub = IMP_CITY_TO_SUBSUB[mintName];
-      if (typeof IMP_MAP_TO_PROVS !== 'undefined' && IMP_MAP_TO_PROVS[sub]) {
-        return IMP_MAP_TO_PROVS[sub][0]; 
-      }
-    }
-    if (typeof PDB !== 'undefined' && PDB.cityByName) {
-      var list = PDB.cityByName[norm(mintName)];
-      if (list && list.length > 0) {
-        return provsForRegion(list[0].region)[0] || null;
-      }
-    }
-    return null;
-  }
-
   function provsForCity(id) {
     if (typeof PDB !== 'undefined' && PDB.cityById && PDB.cityById[id]) {
       var c = PDB.cityById[id];
